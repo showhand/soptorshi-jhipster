@@ -95,11 +95,12 @@
         <div style="float:right">
             <div class="btn-group">
                 <button class="btn btn-success float-right jh-create-entity create-attendance-excel-upload"
-                        [routerLink]="['/attendance-excel-upload/new']">
+                        [routerLink]="['/attendance-excel-upload/new']"
+                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
                     <fa-icon [icon]="'file-excel'"></fa-icon>
                     <span>Bulk Entry</span>
                 </button>
-                <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']" id="jh-create-entity"
+                <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']" id="jh-create-entity"
                         class="btn btn-primary float-right jh-create-entity create-attendance"
                         [routerLink]="['/attendance/new']">
                     <fa-icon [icon]="'plus'"></fa-icon>
@@ -141,6 +142,7 @@
                     </th>
                     <th>
                         <button type="button" style="float: right"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']"
                                 class="btn btn-info btn-sm"
                                 (click)="generateReport()">
                             <fa-icon [icon]="'download'"></fa-icon>
@@ -170,24 +172,26 @@
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/attendance', attendance.id, 'view' ]"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
-                            <button type="submit" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']"
+                            <button type="submit" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']"
                                     [routerLink]="['/attendance', attendance.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
-                            <!--<button type="submit"
+                            <button type="submit"
                                     [routerLink]="['/', 'attendance', { outlets: { popup: attendance.id + '/delete'} }]"
                                     replaceUrl="true"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                            </button>
                         </div>
                     </td>
                 </tr>

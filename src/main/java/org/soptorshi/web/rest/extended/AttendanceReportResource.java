@@ -34,6 +34,7 @@ public class AttendanceReportResource {
     @GetMapping(value = "/attendances/report/fromDate/{fromDate}/toDate/{toDate}/employeeId/{employeeId}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getAttendances(@PathVariable LocalDate fromDate, @PathVariable LocalDate toDate, @PathVariable String employeeId) throws Exception, DocumentException {
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", "Attendances", "invalidaccess");
         }
@@ -50,6 +51,7 @@ public class AttendanceReportResource {
     @GetMapping(value = "/attendances/report/fromDate/{fromDate}/toDate/{toDate}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getAttendances(@PathVariable LocalDate fromDate, @PathVariable LocalDate toDate) throws Exception, DocumentException {
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", "Attendances", "invalidaccess");
         }
@@ -66,6 +68,7 @@ public class AttendanceReportResource {
     @GetMapping(value = "/attendances/report/employeeId/{employeeId}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getAttendances(@PathVariable String employeeId) throws Exception, DocumentException {
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", "Attendances", "invalidaccess");
         }

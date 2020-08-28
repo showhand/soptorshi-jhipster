@@ -21,7 +21,7 @@ export const overTimeExtendedRoute: Routes = [
         path: '',
         component: OverTimeExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_ADMIN', 'ROLE_OVERTIME_MANAGER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -33,7 +33,7 @@ export const overTimeExtendedRoute: Routes = [
             overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_ADMIN', 'ROLE_OVERTIME_MANAGER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const overTimeExtendedRoute: Routes = [
             overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_ADMIN', 'ROLE_OVERTIME_MANAGER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const overTimeExtendedRoute: Routes = [
             overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_ADMIN', 'ROLE_OVERTIME_MANAGER', 'ROLE_USER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const overTimeExtendedRoute: Routes = [
             overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_ADMIN', 'ROLE_OVERTIME_MANAGER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const overTimePopupExtendedRoute: Routes = [
             overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_ADMIN'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService],

@@ -39,6 +39,7 @@ public class AttendanceExcelUploadExtendedResource extends AttendanceExcelUpload
     public ResponseEntity<AttendanceExcelUploadDTO> createAttendanceExcelUpload(@Valid @RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws URISyntaxException {
         log.debug("REST request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
@@ -54,12 +55,24 @@ public class AttendanceExcelUploadExtendedResource extends AttendanceExcelUpload
     @PutMapping("/attendance-excel-uploads")
     public ResponseEntity<AttendanceExcelUploadDTO> updateAttendanceExcelUpload(@Valid @RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws URISyntaxException {
         log.debug("REST request to update AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
-        throw new BadRequestAlertException("Update operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_ADMIN)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        AttendanceExcelUploadDTO result = attendanceExcelUploadExtendedService.save(attendanceExcelUploadDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, attendanceExcelUploadDTO.getId().toString()))
+            .body(result);
     }
 
     @DeleteMapping("/attendance-excel-uploads/{id}")
     public ResponseEntity<Void> deleteAttendanceExcelUpload(@PathVariable Long id) {
         log.debug("REST request to delete AttendanceExcelUpload : {}", id);
-        throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_ADMIN)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        attendanceExcelUploadExtendedService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

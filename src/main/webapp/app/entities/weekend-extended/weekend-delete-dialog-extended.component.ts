@@ -34,4 +34,26 @@ export class WeekendDeletePopupExtendedComponent extends WeekendDeletePopupCompo
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
     }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ weekend }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(WeekendDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.weekend = weekend;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/weekend', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/weekend', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
+    }
 }

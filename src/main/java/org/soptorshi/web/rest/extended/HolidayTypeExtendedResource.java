@@ -39,6 +39,7 @@ public class HolidayTypeExtendedResource extends HolidayTypeResource {
     public ResponseEntity<HolidayTypeDTO> createHolidayType(@Valid @RequestBody HolidayTypeDTO holidayTypeDTO) throws URISyntaxException {
         log.debug("REST request to save HolidayType : {}", holidayTypeDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
@@ -55,6 +56,7 @@ public class HolidayTypeExtendedResource extends HolidayTypeResource {
     public ResponseEntity<HolidayTypeDTO> updateHolidayType(@Valid @RequestBody HolidayTypeDTO holidayTypeDTO) throws URISyntaxException {
         log.debug("REST request to update HolidayType : {}", holidayTypeDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
@@ -70,6 +72,11 @@ public class HolidayTypeExtendedResource extends HolidayTypeResource {
     @DeleteMapping("/holiday-types/{id}")
     public ResponseEntity<Void> deleteHolidayType(@PathVariable Long id) {
         log.debug("REST request to delete HolidayType : {}", id);
-        throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN)) {
+            throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        }
+        holidayTypeExtendedService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

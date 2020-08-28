@@ -22,7 +22,7 @@ export const attendanceExtendedRoute: Routes = [
         path: '',
         component: AttendanceExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -34,7 +34,7 @@ export const attendanceExtendedRoute: Routes = [
             attendance: AttendanceExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -46,7 +46,7 @@ export const attendanceExtendedRoute: Routes = [
             attendance: AttendanceExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Employee Attendance'
         },
         canActivate: [UserRouteAccessService]
@@ -58,7 +58,7 @@ export const attendanceExtendedRoute: Routes = [
             attendance: AttendanceExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER'],
             pageTitle: 'Attendance'
         },
         canActivate: [UserRouteAccessService]
@@ -70,7 +70,7 @@ export const attendanceExtendedRoute: Routes = [
             attendance: AttendanceExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -85,7 +85,7 @@ export const attendancePopupExtendedRoute: Routes = [
             attendance: AttendanceExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService],

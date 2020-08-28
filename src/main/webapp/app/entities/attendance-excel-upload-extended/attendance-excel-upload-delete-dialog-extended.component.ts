@@ -31,4 +31,26 @@ export class AttendanceExcelUploadDeletePopupExtendedComponent extends Attendanc
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
     }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ attendanceExcelUpload }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(AttendanceExcelUploadDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.attendanceExcelUpload = attendanceExcelUpload;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/attendance-excel-upload', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/attendance-excel-upload', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
+    }
 }

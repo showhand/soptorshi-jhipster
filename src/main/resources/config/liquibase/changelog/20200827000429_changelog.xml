@@ -1,0 +1,73 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1598486714636-1">
+        <createTable tableName="depreciation_calculation">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="depreciation_calculationPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_on" type="TINYBLOB"/>
+            <column name="is_executed" type="BIT"/>
+            <column name="modified_by" type="VARCHAR(255)"/>
+            <column name="modified_on" type="TINYBLOB"/>
+            <column name="month_type" type="VARCHAR(255)"/>
+            <column name="financial_account_year_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-2">
+        <createTable tableName="depreciation_map">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="depreciation_mapPK"/>
+            </column>
+            <column name="account_id" type="BIGINT"/>
+            <column name="account_name" type="VARCHAR(255)"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_on" type="TINYBLOB"/>
+            <column name="depreciation_account_id" type="BIGINT"/>
+            <column name="depreciation_account_name" type="VARCHAR(255)"/>
+            <column name="modified_by" type="VARCHAR(255)"/>
+            <column name="modified_on" type="TINYBLOB"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-3">
+        <addColumn tableName="mst_account">
+            <column name="depreciation_rate" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-4">
+        <addColumn tableName="mst_account">
+            <column name="depreciation_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-5">
+        <addColumn tableName="attendance">
+            <column name="remarks" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-6">
+        <addForeignKeyConstraint baseColumnNames="financial_account_year_id" baseTableName="depreciation_calculation" constraintName="FKr1g9yf6bxoeqsm3sqmpi54uk6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-7">
+        <dropUniqueConstraint constraintName="unique_financial_year_month_type" tableName="period_close"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-8">
+        <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-9">
+        <addNotNullConstraint columnDataType="blob" columnName="attendance_date" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-10">
+        <addNotNullConstraint columnDataType="bigint" columnName="employee_id" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-11">
+        <addNotNullConstraint columnDataType="bigint" columnName="employee_id" tableName="over_time"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-12">
+        <addNotNullConstraint columnDataType="bigint" columnName="holiday_type_id" tableName="holiday"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1598486714636-13">
+        <addNotNullConstraint columnDataType="blob" columnName="in_time" tableName="attendance"/>
+    </changeSet>
+</databaseChangeLog>

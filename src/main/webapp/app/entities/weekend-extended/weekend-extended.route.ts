@@ -20,7 +20,7 @@ export const weekendExtendedRoute: Routes = [
         path: '',
         component: WeekendExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER'],
             pageTitle: 'Weekends'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const weekendExtendedRoute: Routes = [
             weekend: WeekendExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER'],
             pageTitle: 'Weekends'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const weekendExtendedRoute: Routes = [
             weekend: WeekendExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER'],
             pageTitle: 'Weekends'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const weekendExtendedRoute: Routes = [
             weekend: WeekendExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER'],
             pageTitle: 'Weekends'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const weekendPopupExtendedRoute: Routes = [
             weekend: WeekendExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN'],
             pageTitle: 'Weekends'
         },
         canActivate: [UserRouteAccessService],

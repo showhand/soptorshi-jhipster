@@ -1,7 +1,8 @@
 <div>
     <h2 id="page-heading">
         <span>Attendance Excel Uploads</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-attendance-excel-upload" [routerLink]="['/attendance-excel-upload/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-attendance-excel-upload" [routerLink]="['/attendance-excel-upload/new']"
+        *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             </span>
@@ -46,12 +47,14 @@
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/attendance-excel-upload', attendanceExcelUpload.id, 'view' ]"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <!--<button type="submit"
+                        <button type="submit"
                                 [routerLink]="['/attendance-excel-upload', attendanceExcelUpload.id, 'edit']"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
@@ -59,11 +62,12 @@
                         <button type="submit"
                                 [routerLink]="['/', 'attendance-excel-upload', { outlets: { popup: attendanceExcelUpload.id + '/delete'} }]"
                                 replaceUrl="true"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline">Delete</span>
-                        </button>-->
+                        </button>
                     </div>
                 </td>
             </tr>
