@@ -167,7 +167,7 @@ public class ProfitLossService {
                                     .reduce(BigDecimal.ZERO, BigDecimal::add);
                             totalDebit = totalDebit.add(totalAccDebit);
                             totalCredit = totalCredit.add(totalAccCredit);
-                            if(groupType.equals(GroupType.INCOME))
+                            if(groupType.equals(GroupType.INCOME) || groupType.equals(GroupType.DEPRECIATION))
                                 accountBalances.add(totalAccCredit.subtract(totalAccDebit));
                             else
                                 accountBalances.add(totalAccDebit.subtract(totalAccCredit));
