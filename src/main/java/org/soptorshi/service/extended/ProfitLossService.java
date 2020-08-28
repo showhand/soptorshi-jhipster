@@ -127,7 +127,8 @@ public class ProfitLossService {
             List<ProfitAndLossGroupAmountDTO> profitAndLossGroupAmountDTOS = new ArrayList<>();
             BigDecimal totalMonthGroupTypeAmount = BigDecimal.ZERO;
             List<MstGroup> groups = mstGroupExtendedRepository.findByMainGroup(groupTypeSystemAccountMapMap.get(groupType));
-            List<DtTransaction> dtTransactions = dtTransactionExtendedRepository.findByVoucherDateBetween(initialFromDate, fromDate);
+            LocalDate lastDateWithOneDateExtended  = fromDate.plusDays(1);
+            List<DtTransaction> dtTransactions = dtTransactionExtendedRepository.findByVoucherDateBetween(initialFromDate, lastDateWithOneDateExtended);
             Map<Long, List<DtTransaction>> accountMapTotalDebitBalance = dtTransactions
                 .stream()
                 .filter(t->t.getAccount()!=null)
@@ -177,7 +178,7 @@ public class ProfitLossService {
                 }
 
                 profitAndLossGroupAmountDTO.setAccountAmounts(accountBalances);
-                if(groupType.equals(GroupType.INCOME))
+                if(groupType.equals(GroupType.INCOME) || groupType.equals(GroupType.DEPRECIATION))
                     profitAndLossGroupAmountDTO.setTotalAmount(totalCredit.subtract(totalDebit));
                 else
                     profitAndLossGroupAmountDTO.setTotalAmount(totalDebit.subtract(totalCredit));
