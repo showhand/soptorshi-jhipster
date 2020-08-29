@@ -1,6 +1,7 @@
 package org.soptorshi.service.extended;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.checkerframework.checker.units.qual.A;
 import org.soptorshi.config.JxlsGenerator;
 import org.soptorshi.domain.MstAccount;
 import org.soptorshi.domain.SystemGroupMap;
@@ -9,6 +10,7 @@ import org.soptorshi.repository.extended.DtTransactionExtendedRepository;
 import org.soptorshi.repository.extended.MstAccountExtendedRepository;
 import org.soptorshi.repository.extended.MstGroupExtendedRepository;
 import org.soptorshi.repository.extended.SystemGroupMapExtendedRepository;
+import org.soptorshi.service.dto.extended.AccountsDTO;
 import org.soptorshi.service.dto.extended.MonthWithProfitAndLossAmountDTO;
 import org.soptorshi.service.dto.extended.ProfitAndLossGroupDTO;
 import org.springframework.core.io.Resource;
@@ -86,6 +88,33 @@ public class CashFlowService {
         List<MonthWithProfitAndLossAmountDTO> loanGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.LOAN, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<MonthWithProfitAndLossAmountDTO> shareCapitalGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.SHARE_CAPITAL, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
 
+
+        AccountsDTO.AccountsBuilder accountsBuilder = new AccountsDTO.AccountsBuilder()
+            .months(months)
+            .assetGroups(assetGroups)
+            .liabilityGroups(liabilityGroups)
+            .equitiesGroups(equitiesGroups)
+            .incomeGroups(incomeGroups)
+            .expenseGroups(expenseGroups)
+            .depreciationGroups(depreciationGroups)
+            .currentAssetGroups(currentAssetGroups)
+            .fixedAssetGroups(fixedAssetGroups)
+            .currentLiabilityGroups(currentLiabilityGroups)
+            .loanGroups(loanGroups)
+            .shareCapitalGroups(shareCapitalGroups)
+            .assetGroupAmount(assetGroupAmount)
+            .liabilityGroupAmount(liabilityGroupAmount)
+            .equitiesGroupAmount(equitiesGroupAmount)
+            .incomeGroupAmount(incomeGroupAmount)
+            .expenditureGroupAmount(expenditureGroupAmount)
+            .depreciationGroupAmount(depreciationGroupAmount)
+            .currentAssetGroupAmount(currentAssetGroupAmount)
+            .fixedAssetGroupAmount(fixedAssetGroupAmount)
+            .currentLiabilityGroupAmount(currentLiabilityGroupAmount)
+            .loanGroupAmount(loanGroupAmount)
+            .shareCapitalGroupAmount(shareCapitalGroupAmount);
+
+        AccountsDTO accountsDTO = new AccountsDTO(accountsBuilder);
 
 
         List<BigDecimal> differences = profitLossService.calculateDifference(incomeGroupAmount, expenditureGroupAmount);
