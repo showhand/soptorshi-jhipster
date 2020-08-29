@@ -116,7 +116,7 @@ public class CashFlowService {
 
         AccountsDTO accountsDTO = new AccountsDTO(accountsBuilder);
 
-
+        List<BigDecimal> cashMovements = calculateCashMovement(accountsDTO);
         List<BigDecimal> differences = profitLossService.calculateDifference(incomeGroupAmount, expenditureGroupAmount);
 
         Resource resource = resourceLoader.getResource("classpath:/templates/jxls/CashFlow.xls");
@@ -142,5 +142,22 @@ public class CashFlowService {
             differences.add(difference);
         }
         return differences;
+    }
+
+    public List<BigDecimal> calculateCashMovement(AccountsDTO accountsDTO){
+        List<BigDecimal> cashMovement = new ArrayList<>();
+
+        for(int i=0; i<accountsDTO.getMonths().size(); i++){
+            BigDecimal movement = accountsDTO.getIncomeGroupAmount().get(i).getGroupTypeTotal()
+                .subtract(accountsDTO.getExpenditureGroupAmount().get(i).getGroupTypeTotal())
+                .add(accountsDTO.getDepreciationGroupAmount().get(i).getGroupTypeTotal())
+                .add(accountsDTO.getCurrentAssetGroupAmount().get(i).getGroupTypeTotal())
+                .add(accountsDTO.getFixedAssetGroupAmount().get(i).getGroupTypeTotal())
+                .subtract(accountsDTO.getCurrentLiabilityGroupAmount().get(i).getGroupTypeTotal())
+                .subtract(accountsDTO.getLoanGroupAmount().get(i).getGroupTypeTotal())
+                .subtract(accountsDTO.getShareCapitalGroupAmount().get(i).getGroupTypeTotal());
+            cashMovement.add(movement);
+        }
+        return cashMovement;
     }
 }
