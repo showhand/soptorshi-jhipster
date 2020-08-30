@@ -167,10 +167,11 @@ public class ProfitLossService {
                                     .reduce(BigDecimal.ZERO, BigDecimal::add);
                             totalDebit = totalDebit.add(totalAccDebit);
                             totalCredit = totalCredit.add(totalAccCredit);
-                            if(groupType.equals(GroupType.INCOME) || groupType.equals(GroupType.DEPRECIATION))
-                                accountBalances.add(totalAccCredit.subtract(totalAccDebit));
-                            else
+                            if(groupType.equals(GroupType.ASSETS) || groupType.equals(GroupType.EXPENSES) ||  groupType.equals(GroupType.FIXED_ASSETS) ||  groupType.equals(GroupType.CURRENT_ASSETS))
                                 accountBalances.add(totalAccDebit.subtract(totalAccCredit));
+
+                            else
+                                accountBalances.add(totalAccCredit.subtract(totalAccDebit));
                         }else{
                             accountBalances.add(BigDecimal.ZERO);
                         }
@@ -178,10 +179,11 @@ public class ProfitLossService {
                 }
 
                 profitAndLossGroupAmountDTO.setAccountAmounts(accountBalances);
-                if(groupType.equals(GroupType.INCOME) || groupType.equals(GroupType.DEPRECIATION))
-                    profitAndLossGroupAmountDTO.setTotalAmount(totalCredit.subtract(totalDebit));
-                else
+                if(groupType.equals(GroupType.ASSETS) || groupType.equals(GroupType.EXPENSES) || groupType.equals(GroupType.FIXED_ASSETS) || groupType.equals(GroupType.CURRENT_ASSETS))
                     profitAndLossGroupAmountDTO.setTotalAmount(totalDebit.subtract(totalCredit));
+
+                else
+                    profitAndLossGroupAmountDTO.setTotalAmount(totalCredit.subtract(totalDebit));
                 totalMonthGroupTypeAmount = totalMonthGroupTypeAmount.add(profitAndLossGroupAmountDTO.getTotalAmount());
                 profitAndLossGroupAmountDTOS.add(profitAndLossGroupAmountDTO);
 

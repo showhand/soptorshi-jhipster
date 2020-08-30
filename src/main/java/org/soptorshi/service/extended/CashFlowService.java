@@ -222,7 +222,7 @@ public class CashFlowService {
                 for(MstAccount account: accounts){
                     if(accountMapWithAccountBalance.containsKey(account.getId())){
                         AccountBalance accountBalance = accountMapWithAccountBalance.get(account.getId());
-                        if(groupType.equals(GroupType.INCOME) || groupType.equals(GroupType.DEPRECIATION)){
+                        if(groupType.equals(GroupType.EXPENSES) || groupType.equals(GroupType.CURRENT_ASSETS) || groupType.equals(GroupType.FIXED_ASSETS)){
                             totalOpenBalance = accountBalance.getYearOpenBalanceType().equals(BalanceType.DEBIT)? totalOpenBalance.add(accountBalance.getYearOpenBalance()):  totalOpenBalance.subtract(accountBalance.getYearOpenBalance());
                         }else{
                             totalOpenBalance = accountBalance.getYearOpenBalanceType().equals(BalanceType.CREDIT)? totalOpenBalance.add(accountBalance.getYearOpenBalance()):  totalOpenBalance.subtract(accountBalance.getYearOpenBalance());
