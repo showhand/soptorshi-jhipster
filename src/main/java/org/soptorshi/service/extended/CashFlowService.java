@@ -3,14 +3,13 @@ package org.soptorshi.service.extended;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.checkerframework.checker.units.qual.A;
 import org.soptorshi.config.JxlsGenerator;
-import org.soptorshi.domain.MstAccount;
-import org.soptorshi.domain.SystemGroupMap;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.BalanceType;
+import org.soptorshi.domain.enumeration.FinancialYearStatus;
 import org.soptorshi.domain.enumeration.GroupType;
-import org.soptorshi.repository.extended.DtTransactionExtendedRepository;
-import org.soptorshi.repository.extended.MstAccountExtendedRepository;
-import org.soptorshi.repository.extended.MstGroupExtendedRepository;
-import org.soptorshi.repository.extended.SystemGroupMapExtendedRepository;
+import org.soptorshi.repository.extended.*;
 import org.soptorshi.service.dto.extended.AccountsDTO;
+import org.soptorshi.service.dto.extended.CashFlowBalanceDTO;
 import org.soptorshi.service.dto.extended.MonthWithProfitAndLossAmountDTO;
 import org.soptorshi.service.dto.extended.ProfitAndLossGroupDTO;
 import org.springframework.core.io.Resource;
@@ -37,14 +36,17 @@ public class CashFlowService {
     private final MstAccountExtendedRepository mstAccountExtendedRepository;
     private final DtTransactionExtendedRepository dtTransactionExtendedRepository;
     private final ProfitLossService profitLossService;
+    private final AccountBalanceExtendedRepository accountBalanceExtendedRepository;
+    private final FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository;
 
 
     List<SystemGroupMap> systemGroupMaps;
     Map<GroupType, Long> groupTypeSystemAccountMapMap;
     List<MstAccount> accounts;
     Map<Long, List<MstAccount>> groupMapWithAccounts;
+    Map<Long, AccountBalance> accountMapWithAccountBalance;
 
-    public CashFlowService(ResourceLoader resourceLoader, JxlsGenerator jxlsGenerator, MstGroupExtendedRepository mstGroupExtendedRepository, SystemGroupMapExtendedRepository systemGroupMapExtendedRepository, MstAccountExtendedRepository mstAccountExtendedRepository, DtTransactionExtendedRepository dtTransactionExtendedRepository, ProfitLossService profitLossService) {
+    public CashFlowService(ResourceLoader resourceLoader, JxlsGenerator jxlsGenerator, MstGroupExtendedRepository mstGroupExtendedRepository, SystemGroupMapExtendedRepository systemGroupMapExtendedRepository, MstAccountExtendedRepository mstAccountExtendedRepository, DtTransactionExtendedRepository dtTransactionExtendedRepository, ProfitLossService profitLossService, AccountBalanceExtendedRepository accountBalanceExtendedRepository, FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository) {
         this.resourceLoader = resourceLoader;
         this.jxlsGenerator = jxlsGenerator;
         this.mstGroupExtendedRepository = mstGroupExtendedRepository;
@@ -52,6 +54,8 @@ public class CashFlowService {
         this.mstAccountExtendedRepository = mstAccountExtendedRepository;
         this.dtTransactionExtendedRepository = dtTransactionExtendedRepository;
         this.profitLossService = profitLossService;
+        this.accountBalanceExtendedRepository = accountBalanceExtendedRepository;
+        this.financialAccountYearExtendedRepository = financialAccountYearExtendedRepository;
     }
 
     public ByteArrayInputStream createReport(LocalDate fromDate, LocalDate toDate) throws Exception{
@@ -59,6 +63,9 @@ public class CashFlowService {
         systemGroupMaps = systemGroupMapExtendedRepository.findAll();
         groupTypeSystemAccountMapMap = systemGroupMaps.stream().collect(Collectors.toMap(s->s.getGroupType(), s->s.getGroup().getId()));
         groupMapWithAccounts = accounts.stream().collect(Collectors.groupingBy(a->a.getGroup().getId()));
+        accountMapWithAccountBalance = accountBalanceExtendedRepository.findByFinancialAccountYear_Status(FinancialYearStatus.ACTIVE)
+            .stream()
+            .collect(Collectors.toMap(a->a.getAccount().getId(), a-> a));
 
         List<String> months = profitLossService.generateMonths(fromDate, toDate);
         List<ProfitAndLossGroupDTO> assetGroups = profitLossService.generateGroupsAndSubgroups(GroupType.ASSETS, groupTypeSystemAccountMapMap, groupMapWithAccounts);
@@ -119,6 +126,11 @@ public class CashFlowService {
         List<BigDecimal> cashMovements = calculateCashMovement(accountsDTO);
         List<BigDecimal> differences = profitLossService.calculateDifference(incomeGroupAmount, expenditureGroupAmount);
 
+
+        CashFlowBalanceDTO cashFlowBalanceDTO = calculateOpenAndClosingBalances(accountsDTO, cashMovements);
+        List<BigDecimal> openBalances = cashFlowBalanceDTO.getOpeningBalances();
+        List<BigDecimal> closingBalances = cashFlowBalanceDTO.getClosingBalances();
+
         Resource resource = resourceLoader.getResource("classpath:/templates/jxls/CashFlow.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(resource.getInputStream());
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -128,11 +140,26 @@ public class CashFlowService {
         InputStream template = resource.getInputStream();
         OutputStream outputStream = new ByteArrayOutputStream() ; // new FileOutputStream(outputResource.getFile());
         jxlsGenerator.cashFlowBuilder( months, assetGroups, liabilityGroups, equitiesGroups, incomeGroups, expenseGroups,depreciationGroups, currentAssetGroups, fixedAssetGroups, currentLiabilityGroups, loanGroups,
-            shareCapitalGroups, assetGroupAmount, equitiesGroupAmount, liabilityGroupAmount, incomeGroupAmount, expenditureGroupAmount, depreciationGroupAmount, currentAssetGroupAmount, fixedAssetGroupAmount, currentLiabilityGroupAmount, loanGroupAmount, shareCapitalGroupAmount, differences, outputStream, template);
+            shareCapitalGroups, assetGroupAmount, equitiesGroupAmount, liabilityGroupAmount, incomeGroupAmount, expenditureGroupAmount, depreciationGroupAmount, currentAssetGroupAmount, fixedAssetGroupAmount, currentLiabilityGroupAmount, loanGroupAmount, shareCapitalGroupAmount, differences, cashMovements, openBalances, closingBalances, outputStream, template);
         ByteArrayOutputStream baos =(ByteArrayOutputStream) outputStream; //(ByteArrayOutputStream) outputStream; //new ByteArrayOutputStream();
         byte[] data = baos.toByteArray();
         outputStream.write(data);
         return new ByteArrayInputStream(baos.toByteArray());
+    }
+
+    public CashFlowBalanceDTO calculateOpenAndClosingBalances(final AccountsDTO accountsDTO,final List<BigDecimal> cashMovements){
+        List<BigDecimal> openBalances = new ArrayList<>();
+        List<BigDecimal> closingBalances = new ArrayList<>();
+        openBalances.add(calculateFirstOpenBalance(accountsDTO));
+
+        for(int i=0; i<cashMovements.size(); i++){
+            BigDecimal closingBalance = openBalances.get(i).subtract(cashMovements.get(i));
+            closingBalances.add(closingBalance);
+            if(i!=(cashMovements.size()-1))
+                openBalances.add(closingBalance);
+        }
+        CashFlowBalanceDTO cashFlowBalanceDTO = new CashFlowBalanceDTO(openBalances, closingBalances);
+        return cashFlowBalanceDTO;
     }
 
     public List<BigDecimal> calculateDifference(List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount, List<MonthWithProfitAndLossAmountDTO> equitiesGroiupAmount){
@@ -148,7 +175,8 @@ public class CashFlowService {
         List<BigDecimal> cashMovement = new ArrayList<>();
 
         for(int i=0; i<accountsDTO.getMonths().size(); i++){
-            BigDecimal movement = accountsDTO.getIncomeGroupAmount().get(i).getGroupTypeTotal()
+            BigDecimal movement = BigDecimal.ZERO;
+            movement = movement.add(accountsDTO.getIncomeGroupAmount().get(i).getGroupTypeTotal())
                 .subtract(accountsDTO.getExpenditureGroupAmount().get(i).getGroupTypeTotal())
                 .add(accountsDTO.getDepreciationGroupAmount().get(i).getGroupTypeTotal())
                 .add(accountsDTO.getCurrentAssetGroupAmount().get(i).getGroupTypeTotal())
@@ -159,5 +187,52 @@ public class CashFlowService {
             cashMovement.add(movement);
         }
         return cashMovement;
+    }
+
+    public BigDecimal calculateFirstOpenBalance(AccountsDTO accountsDTO){
+        BigDecimal totalOpenBalance = BigDecimal.ZERO;
+        BigDecimal incomeTotalOpenBalance = calculateOpenBalance(GroupType.INCOME);
+        BigDecimal expenseTotalOpenBalance = calculateOpenBalance(GroupType.EXPENSES);
+        BigDecimal depreciationTotalOpenBalance = calculateOpenBalance(GroupType.DEPRECIATION);
+        BigDecimal currentAssetTotalOpenBalance = calculateOpenBalance(GroupType.CURRENT_ASSETS);
+        BigDecimal fixedAssetTotalOpenBalance = calculateOpenBalance(GroupType.FIXED_ASSETS);
+        BigDecimal currentLiabilitiesOpenBalance = calculateOpenBalance(GroupType.CURRENT_LIABILITIES);
+        BigDecimal loanTotalBalance = calculateOpenBalance(GroupType.LOAN);
+        BigDecimal shareCapitalTotalBalance = calculateOpenBalance(GroupType.SHARE_CAPITAL);
+
+        totalOpenBalance = incomeTotalOpenBalance
+            .subtract(expenseTotalOpenBalance)
+            .add(depreciationTotalOpenBalance)
+            .add(currentAssetTotalOpenBalance)
+            .add(fixedAssetTotalOpenBalance)
+            .subtract(currentLiabilitiesOpenBalance)
+            .subtract(loanTotalBalance)
+            .subtract(shareCapitalTotalBalance);
+        return totalOpenBalance;
+    }
+
+    public BigDecimal calculateOpenBalance(GroupType groupType){
+        BigDecimal totalOpenBalance = BigDecimal.ZERO;
+        Long groupId = groupTypeSystemAccountMapMap.get(groupType);
+        List<MstGroup> groups = mstGroupExtendedRepository.findByMainGroup(groupId);
+
+        for(MstGroup group: groups){
+            if(groupMapWithAccounts.containsKey(group.getId())){
+                List<MstAccount> accounts = groupMapWithAccounts.get(group.getId());
+                for(MstAccount account: accounts){
+                    if(accountMapWithAccountBalance.containsKey(account.getId())){
+                        AccountBalance accountBalance = accountMapWithAccountBalance.get(account.getId());
+                        if(groupType.equals(GroupType.INCOME) || groupType.equals(GroupType.DEPRECIATION)){
+                            totalOpenBalance = accountBalance.getYearOpenBalanceType().equals(BalanceType.DEBIT)? totalOpenBalance.add(accountBalance.getYearOpenBalance()):  totalOpenBalance.subtract(accountBalance.getYearOpenBalance());
+                        }else{
+                            totalOpenBalance = accountBalance.getYearOpenBalanceType().equals(BalanceType.CREDIT)? totalOpenBalance.add(accountBalance.getYearOpenBalance()):  totalOpenBalance.subtract(accountBalance.getYearOpenBalance());
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return totalOpenBalance;
     }
 }

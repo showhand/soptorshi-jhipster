@@ -1,5 +1,6 @@
 package org.soptorshi.config;
 
+import org.elasticsearch.search.aggregations.pipeline.movavg.models.MovAvgModel;
 import org.jxls.common.Context;
 import org.jxls.expression.JexlExpressionEvaluator;
 import org.jxls.transform.Transformer;
@@ -16,6 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,30 +49,33 @@ public class JxlsGenerator {
 
 
     public void cashFlowBuilder(
-        List<String> months,
-        List<ProfitAndLossGroupDTO> asset,
-        List<ProfitAndLossGroupDTO> liability,
-        List<ProfitAndLossGroupDTO> equity,
-        List<ProfitAndLossGroupDTO> revenue,
-        List<ProfitAndLossGroupDTO> expense,
-        List<ProfitAndLossGroupDTO> depreciation,
-        List<ProfitAndLossGroupDTO> currentAsset,
-        List<ProfitAndLossGroupDTO> fixedAsset,
-        List<ProfitAndLossGroupDTO> currentLiability,
-        List<ProfitAndLossGroupDTO> loan,
-        List<ProfitAndLossGroupDTO> shareCapital,
-        List<MonthWithProfitAndLossAmountDTO> assetGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> equityGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> depreciationGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> currentAssetGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> fixedAssetGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> currentLiabilityGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> loanGroupAmount,
-        List<MonthWithProfitAndLossAmountDTO> shareCapitalGroupAmount,
-        List<BigDecimal> differences,
+        final List<String> months,
+        final List<ProfitAndLossGroupDTO> asset,
+        final List<ProfitAndLossGroupDTO> liability,
+        final List<ProfitAndLossGroupDTO> equity,
+        final List<ProfitAndLossGroupDTO> revenue,
+        final List<ProfitAndLossGroupDTO> expense,
+        final List<ProfitAndLossGroupDTO> depreciation,
+        final List<ProfitAndLossGroupDTO> currentAsset,
+        final List<ProfitAndLossGroupDTO> fixedAsset,
+        final List<ProfitAndLossGroupDTO> currentLiability,
+        final List<ProfitAndLossGroupDTO> loan,
+        final List<ProfitAndLossGroupDTO> shareCapital,
+        final List<MonthWithProfitAndLossAmountDTO> assetGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> equityGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> depreciationGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> currentAssetGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> fixedAssetGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> currentLiabilityGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> loanGroupAmount,
+        final List<MonthWithProfitAndLossAmountDTO> shareCapitalGroupAmount,
+        final List<BigDecimal> differences,
+        final List<BigDecimal> cashMovements,
+        final List<BigDecimal> openBalances,
+        final List<BigDecimal> closingBalances,
         OutputStream out,
         InputStream templateLocation) throws IOException{
         Context context = new Context();
@@ -98,6 +103,13 @@ public class JxlsGenerator {
         context.putVar("loanGroupAmount", loanGroupAmount);
         context.putVar("shareCapitalGroupAmount", shareCapitalGroupAmount);
         context.putVar("differences", differences);
+        List<BigDecimal> movementsTmp = new ArrayList<>();
+        for(BigDecimal m: cashMovements){
+            movementsTmp.add(m);
+        }
+        context.putVar("cashMovements", movementsTmp);
+        context.putVar("openBalances", openBalances);
+        context.putVar("closingBalances", closingBalances);
         processTemplate(context, templateLocation, out);
     }
 
