@@ -11,13 +11,23 @@ import {
     DepreciationCalculationExtendedDeletePopupComponent,
     depreciationCalculationExtendedPopupRoute
 } from './';
-import { DepreciationCalculationDeletePopupComponent } from 'app/entities/depreciation-calculation';
+import {
+    DepreciationCalculationComponent,
+    DepreciationCalculationDeleteDialogComponent,
+    DepreciationCalculationDeletePopupComponent,
+    DepreciationCalculationDetailComponent,
+    DepreciationCalculationUpdateComponent
+} from 'app/entities/depreciation-calculation';
 
 const ENTITY_STATES = [...depreciationCalculationExtendedRoute, ...depreciationCalculationExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
+        DepreciationCalculationComponent,
+        DepreciationCalculationDetailComponent,
+        DepreciationCalculationUpdateComponent,
+        DepreciationCalculationDeleteDialogComponent,
         DepreciationCalculationExtendedComponent,
         DepreciationCalculationExtendedDetailComponent,
         DepreciationCalculationExtendedUpdateComponent,
