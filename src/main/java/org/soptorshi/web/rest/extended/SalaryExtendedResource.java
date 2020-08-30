@@ -10,14 +10,18 @@ import org.soptorshi.service.SalaryQueryService;
 import org.soptorshi.service.SalaryService;
 import org.soptorshi.service.dto.MonthlySalaryDTO;
 import org.soptorshi.service.dto.SalaryDTO;
+import org.soptorshi.service.extended.PayrollReportService;
 import org.soptorshi.service.extended.SalaryExtendedService;
 import org.soptorshi.web.rest.SalaryResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -35,13 +39,15 @@ public class SalaryExtendedResource {
 
     private final PayrollService payrollService;
 
+    private final PayrollReportService payrollReportService;
 
-    public SalaryExtendedResource(SalaryExtendedService salaryService, SalaryQueryService salaryQueryService, PayrollService payrollService) {
+
+    public SalaryExtendedResource(SalaryExtendedService salaryService, SalaryQueryService salaryQueryService, PayrollService payrollService, PayrollReportService payrollReportService) {
         this.salaryService = salaryService;
         this.salaryQueryService = salaryQueryService;
         this.payrollService = payrollService;
+        this.payrollReportService = payrollReportService;
     }
-
 
     /**
      * POST  /salaries : Create a new salary.
@@ -95,6 +101,14 @@ public class SalaryExtendedResource {
     public ResponseEntity<Void> generatePayroll(@PathVariable("officeId") Long officeId,@PathVariable("year") Integer year,@PathVariable("monthType") MonthType monthType, @PathVariable("employeeId") Long employeeId){
         payrollService.generatePayroll(officeId, year, monthType, employeeId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/salaries/salary-report/{officeId}/{year}/{monthType}")
+    public ResponseEntity<InputStreamResource> generatePayrollReport(@PathVariable("officeId") Long officeId, @PathVariable("year") Integer year, @PathVariable("monthType") MonthType monthType) throws Exception {
+        ByteArrayInputStream byteArrayInputStream = payrollReportService.createReport(officeId, year, monthType);
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_PDF)
+            .body(new InputStreamResource(byteArrayInputStream));
     }
 
     @PutMapping("/salaries/approveAll/office/{officeId}/designation/{designationId}/year/{year}/month/{month}")

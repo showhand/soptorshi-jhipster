@@ -10,6 +10,7 @@ import { createRequestOption } from 'app/shared';
 import { ISalary } from 'app/shared/model/salary.model';
 import { MonthType } from 'app/shared/model/monthly-salary.model';
 import { SalaryService } from 'app/entities/salary';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<ISalary>;
 type EntityArrayResponseType = HttpResponse<ISalary[]>;
@@ -44,6 +45,14 @@ export class SalaryExtendedService extends SalaryService {
                 observe: 'response'
             })
             .pipe(map((res: any) => res));
+    }
+
+    createPayrollReport(officeId: number, year: number, monthType: MonthType) {
+        return this.http
+            .get(`${this.resourceUrlExtended}/salary-report/${officeId}/${year}/${monthType}`, { responseType: 'blob' })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Salary Report');
+            });
     }
 
     generatePayrollEmployeeSpecific(

@@ -115,6 +115,14 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         }
     }
 
+    public downloadSalaryReport(): void {
+        this.salaryService.createPayrollReport(
+            this.payrollManagementService.payrollManagement.officeId,
+            this.year,
+            this.payrollManagementService.payrollManagement.monthType
+        );
+    }
+
     public generateVouchers() {
         this.monthlySalaryService
             .createSalaryVouchers(

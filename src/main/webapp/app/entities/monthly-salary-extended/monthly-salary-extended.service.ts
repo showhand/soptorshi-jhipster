@@ -9,6 +9,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IMonthlySalary, MonthType } from 'app/shared/model/monthly-salary.model';
 import { MonthlySalaryService } from 'app/entities/monthly-salary';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<IMonthlySalary>;
 type EntityArrayResponseType = HttpResponse<IMonthlySalary[]>;
@@ -25,6 +26,14 @@ export class MonthlySalaryExtendedService extends MonthlySalaryService {
         return this.http
             .get<IMonthlySalary>(`${this.resourceUrlExtended}/${officeId}/${year}/${monthType}`, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => res));
+    }
+
+    createPayrollReport(officeId: number, year: number, monthType: MonthType): void {
+        this.http
+            .get(`${this.resourceUrlExtended}/salary-report/${officeId}/${year}/${monthType}`, { observe: 'response' })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Salary Report');
+            });
     }
 
     getTotalWorkingDays(month: MonthType, year: number): Observable<HttpResponse<number>> {
