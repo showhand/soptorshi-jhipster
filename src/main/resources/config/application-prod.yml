@@ -27,7 +27,7 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://103.230.180.146:3306/soptorshi?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+        url: jdbc:mysql://103.230.180.146:3306/soptorshi?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
         username: ${SOPTORSHI_USERNAME}
         password: ${SOPTORSHI_PASSWORD}
         hikari:
