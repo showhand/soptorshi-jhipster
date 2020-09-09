@@ -52,7 +52,7 @@ spring:
         jest:
             uri: http://localhost:9200
     liquibase:
-        contexts: prod
+        contexts: dev
     mail:
         host: smtp.gmail.com
         port: 587
