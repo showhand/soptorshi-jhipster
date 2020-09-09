@@ -5,7 +5,7 @@ import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { LeaveApplicationService } from 'app/entities/leave-application/leave-application.service';
-import { ILeaveApplication, LeaveApplication, LeaveStatus } from 'app/shared/model/leave-application.model';
+import { ILeaveApplication, LeaveApplication, LeaveStatus, PaidOrUnPaid } from 'app/shared/model/leave-application.model';
 
 describe('Service Tests', () => {
     describe('LeaveApplication Service', () => {
@@ -23,7 +23,17 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new LeaveApplication(0, currentDate, currentDate, 0, 'AAAAAAA', currentDate, currentDate, LeaveStatus.WAITING);
+            elemDefault = new LeaveApplication(
+                0,
+                currentDate,
+                currentDate,
+                0,
+                PaidOrUnPaid.PAID,
+                'AAAAAAA',
+                currentDate,
+                currentDate,
+                LeaveStatus.WAITING
+            );
         });
 
         describe('Service methods', async () => {
@@ -80,6 +90,7 @@ describe('Service Tests', () => {
                         fromDate: currentDate.format(DATE_FORMAT),
                         toDate: currentDate.format(DATE_FORMAT),
                         numberOfDays: 1,
+                        paidLeave: 'BBBBBB',
                         reason: 'BBBBBB',
                         appliedOn: currentDate.format(DATE_TIME_FORMAT),
                         actionTakenOn: currentDate.format(DATE_TIME_FORMAT),
@@ -111,6 +122,7 @@ describe('Service Tests', () => {
                         fromDate: currentDate.format(DATE_FORMAT),
                         toDate: currentDate.format(DATE_FORMAT),
                         numberOfDays: 1,
+                        paidLeave: 'BBBBBB',
                         reason: 'BBBBBB',
                         appliedOn: currentDate.format(DATE_TIME_FORMAT),
                         actionTakenOn: currentDate.format(DATE_TIME_FORMAT),

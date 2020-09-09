@@ -3,10 +3,7 @@ package org.soptorshi.service;
 import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.Employee_;
 import org.soptorshi.domain.LeaveApplication;
-import org.soptorshi.domain.LeaveApplication_;
-import org.soptorshi.domain.LeaveType_;
 import org.soptorshi.repository.LeaveApplicationRepository;
 import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
 import org.soptorshi.service.dto.LeaveApplicationCriteria;
@@ -100,6 +97,9 @@ public class LeaveApplicationQueryService extends QueryService<LeaveApplication>
             }
             if (criteria.getNumberOfDays() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNumberOfDays(), LeaveApplication_.numberOfDays));
+            }
+            if (criteria.getPaidLeave() != null) {
+                specification = specification.and(buildSpecification(criteria.getPaidLeave(), LeaveApplication_.paidLeave));
             }
             if (criteria.getReason() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReason(), LeaveApplication_.reason));

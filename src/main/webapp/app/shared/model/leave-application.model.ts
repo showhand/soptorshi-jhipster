@@ -1,5 +1,11 @@
 import { Moment } from 'moment';
 
+export const enum PaidOrUnPaid {
+    PAID = 'PAID',
+    UNPAID = 'UNPAID',
+    UNDECLARED = 'UNDECLARED'
+}
+
 export const enum LeaveStatus {
     WAITING = 'WAITING',
     ACCEPTED = 'ACCEPTED',
@@ -11,6 +17,7 @@ export interface ILeaveApplication {
     fromDate?: Moment;
     toDate?: Moment;
     numberOfDays?: number;
+    paidLeave?: PaidOrUnPaid;
     reason?: string;
     appliedOn?: Moment;
     actionTakenOn?: Moment;
@@ -31,6 +38,7 @@ export class LeaveApplication implements ILeaveApplication {
         public fromDate?: Moment,
         public toDate?: Moment,
         public numberOfDays?: number,
+        public paidLeave?: PaidOrUnPaid,
         public reason?: string,
         public appliedOn?: Moment,
         public actionTakenOn?: Moment,

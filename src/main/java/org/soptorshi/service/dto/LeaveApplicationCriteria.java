@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import io.github.jhipster.service.filter.*;
 import org.soptorshi.domain.enumeration.LeaveStatus;
+import org.soptorshi.domain.enumeration.PaidOrUnPaid;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,6 +16,11 @@ import java.util.Objects;
  * fix type specific filters.
  */
 public class LeaveApplicationCriteria implements Serializable {
+    /**
+     * Class for filtering PaidOrUnPaid
+     */
+    public static class PaidOrUnPaidFilter extends Filter<PaidOrUnPaid> {
+    }
     /**
      * Class for filtering LeaveStatus
      */
@@ -30,6 +36,8 @@ public class LeaveApplicationCriteria implements Serializable {
     private LocalDateFilter toDate;
 
     private IntegerFilter numberOfDays;
+
+    private PaidOrUnPaidFilter paidLeave;
 
     private StringFilter reason;
 
@@ -77,6 +85,14 @@ public class LeaveApplicationCriteria implements Serializable {
 
     public void setNumberOfDays(IntegerFilter numberOfDays) {
         this.numberOfDays = numberOfDays;
+    }
+
+    public PaidOrUnPaidFilter getPaidLeave() {
+        return paidLeave;
+    }
+
+    public void setPaidLeave(PaidOrUnPaidFilter paidLeave) {
+        this.paidLeave = paidLeave;
     }
 
     public StringFilter getReason() {
@@ -158,6 +174,7 @@ public class LeaveApplicationCriteria implements Serializable {
             Objects.equals(fromDate, that.fromDate) &&
             Objects.equals(toDate, that.toDate) &&
             Objects.equals(numberOfDays, that.numberOfDays) &&
+            Objects.equals(paidLeave, that.paidLeave) &&
             Objects.equals(reason, that.reason) &&
             Objects.equals(appliedOn, that.appliedOn) &&
             Objects.equals(actionTakenOn, that.actionTakenOn) &&
@@ -175,6 +192,7 @@ public class LeaveApplicationCriteria implements Serializable {
         fromDate,
         toDate,
         numberOfDays,
+        paidLeave,
         reason,
         appliedOn,
         actionTakenOn,
@@ -193,6 +211,7 @@ public class LeaveApplicationCriteria implements Serializable {
                 (fromDate != null ? "fromDate=" + fromDate + ", " : "") +
                 (toDate != null ? "toDate=" + toDate + ", " : "") +
                 (numberOfDays != null ? "numberOfDays=" + numberOfDays + ", " : "") +
+                (paidLeave != null ? "paidLeave=" + paidLeave + ", " : "") +
                 (reason != null ? "reason=" + reason + ", " : "") +
                 (appliedOn != null ? "appliedOn=" + appliedOn + ", " : "") +
                 (actionTakenOn != null ? "actionTakenOn=" + actionTakenOn + ", " : "") +

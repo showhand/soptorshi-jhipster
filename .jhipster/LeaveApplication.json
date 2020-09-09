@@ -23,6 +23,11 @@
             ]
         },
         {
+            "fieldName": "paidLeave",
+            "fieldType": "PaidOrUnPaid",
+            "fieldValues": "PAID,UNPAID,UNDECLARED"
+        },
+        {
             "fieldName": "reason",
             "fieldType": "String",
             "fieldValidateRules": [
@@ -53,6 +58,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "leaveType",
             "otherEntityRelationshipName": "leaveApplication",
+            "relationshipValidateRules": "required",
             "relationshipName": "leaveTypes",
             "otherEntityField": "name"
         },
@@ -60,6 +66,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "leaveApplication",
+            "relationshipValidateRules": "required",
             "relationshipName": "employees",
             "otherEntityField": "fullName"
         },
@@ -67,6 +74,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "leaveApplication",
+            "relationshipValidateRules": "required",
             "relationshipName": "appliedById",
             "otherEntityField": "fullName"
         },

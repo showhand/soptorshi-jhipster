@@ -3,6 +3,7 @@ package org.soptorshi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.soptorshi.domain.enumeration.LeaveStatus;
+import org.soptorshi.domain.enumeration.PaidOrUnPaid;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
@@ -39,6 +40,10 @@ public class LeaveApplication implements Serializable {
     @Column(name = "number_of_days", nullable = false)
     private Integer numberOfDays;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "paid_leave")
+    private PaidOrUnPaid paidLeave;
+
     @NotNull
     @Size(max = 250)
     @Column(name = "reason", length = 250, nullable = false)
@@ -55,15 +60,18 @@ public class LeaveApplication implements Serializable {
     @Column(name = "status", nullable = false)
     private LeaveStatus status;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("leaveApplications")
     private LeaveType leaveTypes;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("leaveApplications")
     private Employee employees;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("leaveApplications")
     private Employee appliedById;
 
@@ -117,6 +125,19 @@ public class LeaveApplication implements Serializable {
 
     public void setNumberOfDays(Integer numberOfDays) {
         this.numberOfDays = numberOfDays;
+    }
+
+    public PaidOrUnPaid getPaidLeave() {
+        return paidLeave;
+    }
+
+    public LeaveApplication paidLeave(PaidOrUnPaid paidLeave) {
+        this.paidLeave = paidLeave;
+        return this;
+    }
+
+    public void setPaidLeave(PaidOrUnPaid paidLeave) {
+        this.paidLeave = paidLeave;
     }
 
     public String getReason() {
@@ -251,6 +272,7 @@ public class LeaveApplication implements Serializable {
             ", fromDate='" + getFromDate() + "'" +
             ", toDate='" + getToDate() + "'" +
             ", numberOfDays=" + getNumberOfDays() +
+            ", paidLeave='" + getPaidLeave() + "'" +
             ", reason='" + getReason() + "'" +
             ", appliedOn='" + getAppliedOn() + "'" +
             ", actionTakenOn='" + getActionTakenOn() + "'" +
