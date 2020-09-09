@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+  <!--  <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124352_added_entity_Department.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124353_added_entity_Designation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124354_added_entity_Employee.xml" relativeToChangelogFile="false"/>
@@ -114,7 +114,7 @@
     <include file="config/liquibase/changelog/20200625150650_added_entity_SupplyZoneWiseAccumulation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200822102628_added_entity_DepreciationCalculation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200822103725_added_entity_DepreciationMap.xml" relativeToChangelogFile="false"/>
-    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    &lt;!&ndash; jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here &ndash;&gt;
 
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -199,7 +199,7 @@
     <include file="config/liquibase/changelog/20200421042444_added_entity_constraints_OverTime.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200625150649_added_entity_constraints_SupplyAreaWiseAccumulation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200625150650_added_entity_constraints_SupplyZoneWiseAccumulation.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200822102628_added_entity_constraints_DepreciationCalculation.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200822102628_added_entity_constraints_DepreciationCalculation.xml" relativeToChangelogFile="false"/>-->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 
    <!-- <include context="prod,dev" file="config/liquibase/changelog/20200101083646_changelog.xml" relativeToChangelogFile="false"/>
