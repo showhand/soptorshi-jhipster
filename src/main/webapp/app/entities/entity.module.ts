@@ -967,6 +967,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'mst-account',
                 loadChildren: './mst-account/mst-account.module#SoptorshiMstAccountModule'
+            },
+            {
+                path: 'leave-application',
+                loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -40,8 +40,9 @@ public class LeaveApplication implements Serializable {
     @Column(name = "number_of_days", nullable = false)
     private Integer numberOfDays;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "paid_leave")
+    @Column(name = "paid_leave", nullable = false)
     private PaidOrUnPaid paidLeave;
 
     @NotNull

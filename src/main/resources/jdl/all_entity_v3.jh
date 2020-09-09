@@ -200,7 +200,7 @@ entity Holiday {
 entity PayrollManagement
 entity LeaveType {
   name String maxlength(50) required,
-  paidLeave PaidOrUnPaid,
+  paidLeave PaidOrUnPaid required,
   maximumNumberOfDays Integer,
   description String maxlength(250),
   createdBy String,

@@ -88,6 +88,16 @@
                 </div>
                 <div class="col-4">
                     <div class="form-group">
+                        <label class="form-control-label" for="field_paidLeave">Paid Leave</label>
+                        <select class="form-control" name="paidLeave" [(ngModel)]="leaveApplication.paidLeave" id="field_paidLeave" >
+                            <option value="PAID">PAID</option>
+                            <option value="UNPAID">UNPAID</option>
+                            <option value="UNDECLARED">UNDECLARED</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
                         <label class="form-control-label" for="field_reason">Reason</label>
                         <input type="text" class="form-control" name="reason" id="field_reason"
                                [(ngModel)]="leaveApplication.reason" required maxlength="250"/>

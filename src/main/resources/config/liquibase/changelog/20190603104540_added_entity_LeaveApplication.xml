@@ -33,7 +33,7 @@
             </column>
 
             <column name="paid_leave" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="reason" type="varchar(250)">

@@ -25,7 +25,10 @@
         {
             "fieldName": "paidLeave",
             "fieldType": "PaidOrUnPaid",
-            "fieldValues": "PAID,UNPAID,UNDECLARED"
+            "fieldValues": "PAID,UNPAID,UNDECLARED",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "reason",

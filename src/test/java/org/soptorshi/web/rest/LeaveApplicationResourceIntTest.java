@@ -276,6 +276,25 @@ public class LeaveApplicationResourceIntTest {
 
     @Test
     @Transactional
+    public void checkPaidLeaveIsRequired() throws Exception {
+        int databaseSizeBeforeTest = leaveApplicationRepository.findAll().size();
+        // set the field null
+        leaveApplication.setPaidLeave(null);
+
+        // Create the LeaveApplication, which fails.
+        LeaveApplicationDTO leaveApplicationDTO = leaveApplicationMapper.toDto(leaveApplication);
+
+        restLeaveApplicationMockMvc.perform(post("/api/leave-applications")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(leaveApplicationDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<LeaveApplication> leaveApplicationList = leaveApplicationRepository.findAll();
+        assertThat(leaveApplicationList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkReasonIsRequired() throws Exception {
         int databaseSizeBeforeTest = leaveApplicationRepository.findAll().size();
         // set the field null

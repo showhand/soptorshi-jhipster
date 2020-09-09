@@ -26,6 +26,7 @@ public class LeaveApplicationDTO implements Serializable {
     @NotNull
     private Integer numberOfDays;
 
+    @NotNull
     private PaidOrUnPaid paidLeave;
 
     @NotNull
