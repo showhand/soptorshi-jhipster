@@ -202,7 +202,7 @@
     <include file="config/liquibase/changelog/20200822102628_added_entity_constraints_DepreciationCalculation.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 
-   <!-- <include context="prod,dev" file="config/liquibase/changelog/20200101083646_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200101083646_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200101151640_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200101184342_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200110053441_changelog.xml" relativeToChangelogFile="false"/>
@@ -212,16 +212,16 @@
     <include context="prod,dev" file="config/liquibase/changelog/20200219171147_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200219180531_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200217184209_changelog.xml" relativeToChangelogFile="false"/>
-    <include context="prod,dev" file="config/liquibase/changelog/20200219053923_changelog.xml" relativeToChangelogFile="false"/>-->
+    <include context="prod,dev" file="config/liquibase/changelog/20200219053923_changelog.xml" relativeToChangelogFile="false"/>
    <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
-   <!-- <include context="prod,dev" file="config/liquibase/changelog/20200421024419_entity_requisitionCommercialIdAdded.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200421024419_entity_requisitionCommercialIdAdded.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200421124231_changelog_product_category_added_requisition_details.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200421182929_employee_refactored.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200421202452_monthly_salary_refactored.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200421204907_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200617091532_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200622110843_changelog.xml" relativeToChangelogFile="false"/>
-    <include context="prod,dev" file="config/liquibase/changelog/20200815073233_changelog.xml" relativeToChangelogFile="false"/>-->
+    <include context="prod,dev" file="config/liquibase/changelog/20200815073233_changelog.xml" relativeToChangelogFile="false"/>
 <!--    <include context="prod,dev" file="config/liquibase/changelog/20200625152050_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200702050251_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200705150336_changelog.xml" relativeToChangelogFile="false"/>
@@ -229,7 +229,7 @@
 
    <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
 
-   <!-- <include context="prod,dev" file="config/liquibase/changelog/20200821154659_changelog_depreciation_added_MstAccount.xml" relativeToChangelogFile="false"/>-->
+    <include context="prod,dev" file="config/liquibase/changelog/20200821154659_changelog_depreciation_added_MstAccount.xml" relativeToChangelogFile="false"/>
 
 
 </databaseChangeLog>
