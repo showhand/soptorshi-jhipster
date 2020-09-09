@@ -86,11 +86,6 @@ import { MatTabsModule } from '@angular/material';
                     './experience-information-attachment/experience-information-attachment.module#SoptorshiExperienceInformationAttachmentModule'
             },
             {
-                path: 'training-information-attachment',
-                loadChildren:
-                    './training-information-attachment/training-information-attachment.module#SoptorshiTrainingInformationAttachmentModule'
-            },
-            {
                 path: 'employee',
                 loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
             },
@@ -502,11 +497,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'system-group-map',
                 loadChildren: './system-group-map-extended/system-group-map-extended.module#SoptorshiSystemGroupMapExtendedModule'
-            },
-            {
-                path: 'academic-information-attachment',
-                loadChildren:
-                    './academic-information-attachment/academic-information-attachment.module#SoptorshiAcademicInformationAttachmentModule'
             },
             {
                 path: 'experience-information-attachment',

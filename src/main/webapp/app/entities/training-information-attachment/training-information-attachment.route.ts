@@ -18,11 +18,17 @@ export class TrainingInformationAttachmentResolve implements Resolve<ITrainingIn
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ITrainingInformationAttachment> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<TrainingInformationAttachment>) => response.ok),
                 map((trainingInformationAttachment: HttpResponse<TrainingInformationAttachment>) => trainingInformationAttachment.body)
             );
+        } else if (employeeId) {
+            const trainingInformationAttachment: ITrainingInformationAttachment = new TrainingInformationAttachment();
+            trainingInformationAttachment.employeeId = employeeId;
+            return of(trainingInformationAttachment);
         }
         return of(new TrainingInformationAttachment());
     }
@@ -33,7 +39,7 @@ export const trainingInformationAttachmentRoute: Routes = [
         path: '',
         component: TrainingInformationAttachmentComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +51,7 @@ export const trainingInformationAttachmentRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +63,19 @@ export const trainingInformationAttachmentRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            pageTitle: 'TrainingInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: TrainingInformationAttachmentUpdateComponent,
+        resolve: {
+            trainingInformationAttachment: TrainingInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +87,7 @@ export const trainingInformationAttachmentRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +102,7 @@ export const trainingInformationAttachmentPopupRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService],
