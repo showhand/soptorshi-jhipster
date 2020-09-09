@@ -18,11 +18,17 @@ export class AcademicInformationAttachmentResolve implements Resolve<IAcademicIn
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAcademicInformationAttachment> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<AcademicInformationAttachment>) => response.ok),
                 map((academicInformationAttachment: HttpResponse<AcademicInformationAttachment>) => academicInformationAttachment.body)
             );
+        } else if (employeeId) {
+            const academicInformationAttachment: IAcademicInformationAttachment = new AcademicInformationAttachment();
+            academicInformationAttachment.employeeId = employeeId;
+            return of(academicInformationAttachment);
         }
         return of(new AcademicInformationAttachment());
     }
@@ -71,6 +77,19 @@ export const academicInformationAttachmentRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'AcademicInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new-for-employee',
+        component: AcademicInformationAttachmentUpdateComponent,
+        resolve: {
+            academicInformationAttachment: AcademicInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            pageTitle: 'AcademicInformationAttachments',
+            breadcrumb: 'New Academic Information Attachment for Employee'
         },
         canActivate: [UserRouteAccessService]
     }
