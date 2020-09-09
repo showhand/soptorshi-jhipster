@@ -47,18 +47,18 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "attendanceExcelUpload",
-            "otherEntityRelationshipName": "attendance",
-            "relationshipName": "attendanceExcelUpload",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "attendance",
             "relationshipValidateRules": "required",
             "relationshipName": "employee",
             "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "attendanceExcelUpload",
+            "otherEntityRelationshipName": "attendance",
+            "relationshipName": "attendanceExcelUpload",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190702135954",

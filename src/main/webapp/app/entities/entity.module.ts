@@ -957,6 +957,14 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'depreciation-map',
                 loadChildren: './depreciation-map/depreciation-map.module#SoptorshiDepreciationMapModule'
+            },
+            {
+                path: 'attendance',
+                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
+            },
+            {
+                path: 'mst-account',
+                loadChildren: './mst-account/mst-account.module#SoptorshiMstAccountModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

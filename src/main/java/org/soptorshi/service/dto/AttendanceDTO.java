@@ -34,11 +34,11 @@ public class AttendanceDTO implements Serializable {
     private Instant updatedOn;
 
 
-    private Long attendanceExcelUploadId;
-
     private Long employeeId;
 
     private String employeeFullName;
+
+    private Long attendanceExcelUploadId;
 
     public Long getId() {
         return id;
@@ -120,14 +120,6 @@ public class AttendanceDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public Long getAttendanceExcelUploadId() {
-        return attendanceExcelUploadId;
-    }
-
-    public void setAttendanceExcelUploadId(Long attendanceExcelUploadId) {
-        this.attendanceExcelUploadId = attendanceExcelUploadId;
-    }
-
     public Long getEmployeeId() {
         return employeeId;
     }
@@ -142,6 +134,14 @@ public class AttendanceDTO implements Serializable {
 
     public void setEmployeeFullName(String employeeFullName) {
         this.employeeFullName = employeeFullName;
+    }
+
+    public Long getAttendanceExcelUploadId() {
+        return attendanceExcelUploadId;
+    }
+
+    public void setAttendanceExcelUploadId(Long attendanceExcelUploadId) {
+        this.attendanceExcelUploadId = attendanceExcelUploadId;
     }
 
     @Override
@@ -178,9 +178,9 @@ public class AttendanceDTO implements Serializable {
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
-            ", attendanceExcelUpload=" + getAttendanceExcelUploadId() +
             ", employee=" + getEmployeeId() +
             ", employee='" + getEmployeeFullName() + "'" +
+            ", attendanceExcelUpload=" + getAttendanceExcelUploadId() +
             "}";
     }
 }

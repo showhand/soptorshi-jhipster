@@ -112,7 +112,7 @@
         </li>
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER']">
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER']">
             <a (click)="attendanceManagement=!attendanceManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
@@ -126,7 +126,7 @@
                 <li>
                     <a class="dropdown-item" routerLink="attendance" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }"
-                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
                         <fa-icon icon="clock" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Employee Attendance</span>
                     </a>
@@ -134,21 +134,21 @@
                 <li>
                     <a class="dropdown-item" routerLink="attendance/my-attendance" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }"
-                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER']">
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER']">
                         <fa-icon icon="clock" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Attendance</span>
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item" routerLink="over-time" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER']">
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_OVERTIME_ADMIN', 'ROLE_OVERTIME_MANAGER']">
                         <fa-icon icon="star" fixedWidth="true"></fa-icon>
                         <span>Employee Over Time</span>
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item" routerLink="over-time/my-over-time" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER', 'ROLE_USER']">
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_OVERTIME_ADMIN', 'ROLE_OVERTIME_MANAGER', 'ROLE_USER']">
                         <fa-icon icon="star" fixedWidth="true"></fa-icon>
                         <span>Over Time</span>
                     </a>
