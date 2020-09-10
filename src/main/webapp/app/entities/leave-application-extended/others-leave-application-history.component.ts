@@ -13,6 +13,7 @@ import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
 import { IConstantsModel } from 'app/shared/model/constants-model';
 import * as moment from 'moment';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-others-leave-application-history',
@@ -76,65 +77,102 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
     }
 
     loadAll() {
-        if (
-            this.fromDate.day &&
-            this.fromDate.month &&
-            this.fromDate.year &&
-            this.toDate.day &&
-            this.toDate.month &&
-            this.toDate.year &&
-            this.employee
-        ) {
-            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
-            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN']) || this.accountService.hasAnyAuthority(['ROLE_LEAVE_ADMIN'])) {
+            if (
+                this.fromDate.day &&
+                this.fromDate.month &&
+                this.fromDate.year &&
+                this.toDate.day &&
+                this.toDate.month &&
+                this.toDate.year &&
+                this.employee
+            ) {
+                let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+                let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
 
-            if (from.isBefore(to.add(1))) {
-                this.employeeService
-                    .query({
-                        'employeeId.equals': this.employee.employeeId
-                    })
-                    .subscribe(
-                        (res: HttpResponse<IEmployee[]>) => {
-                            this.currentSearchAsEmployee = res.body[0];
-                            this.managerService
-                                .query({
-                                    'parentEmployeeId.equals': res.body[0].id
-                                })
-                                .subscribe(
-                                    (response: HttpResponse<IManager[]>) => {
-                                        console.log(response.body[0].employeeId);
-                                        console.log(this.currentEmployee.id);
-                                        if (response.body[0].employeeId === this.currentEmployee.id) {
-                                            this.leaveApplicationService
-                                                .query({
-                                                    page: this.page,
-                                                    size: this.itemsPerPage,
-                                                    sort: this.sort(),
-                                                    'employeesId.equals': this.currentSearchAsEmployee.id,
-                                                    'fromDate.greaterOrEqualThan': moment(
-                                                        new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`)
-                                                    ).format(DATE_FORMAT),
-                                                    'toDate.lessOrEqualThan': moment(
-                                                        new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`)
-                                                    ).format(DATE_FORMAT)
-                                                })
-                                                .subscribe(
-                                                    (ress: HttpResponse<ILeaveApplication[]>) =>
-                                                        this.paginateLeaveApplications(ress.body, ress.headers),
-                                                    (ress: HttpErrorResponse) => this.onError(ress.message)
-                                                );
-                                        }
-                                    },
-                                    (response: HttpErrorResponse) => this.onError(response.message)
-                                );
-                        },
-                        (res: HttpErrorResponse) => this.onError(res.message)
-                    );
+                if (from.isBefore(to.add(1))) {
+                    this.leaveApplicationService
+                        .query({
+                            page: this.page,
+                            size: this.itemsPerPage,
+                            sort: this.sort(),
+                            'employeesId.equals': this.employee.id,
+                            'fromDate.greaterOrEqualThan': moment(
+                                new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`)
+                            ).format(DATE_FORMAT),
+                            'toDate.lessOrEqualThan': moment(
+                                new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`)
+                            ).format(DATE_FORMAT)
+                        })
+                        .subscribe(
+                            (ress: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(ress.body, ress.headers),
+                            (ress: HttpErrorResponse) => this.onError(ress.message)
+                        );
+                } else {
+                    this.onError('Invalid dates');
+                }
             } else {
-                this.onError('Invalid dates');
+                this.onError('Invalid input');
             }
         } else {
-            this.onError('Invalid input');
+            if (
+                this.fromDate.day &&
+                this.fromDate.month &&
+                this.fromDate.year &&
+                this.toDate.day &&
+                this.toDate.month &&
+                this.toDate.year &&
+                this.employee
+            ) {
+                let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+                let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+                if (from.isBefore(to.add(1))) {
+                    this.employeeService
+                        .query({
+                            'employeeId.equals': this.employee.employeeId
+                        })
+                        .subscribe(
+                            (res: HttpResponse<IEmployee[]>) => {
+                                this.currentSearchAsEmployee = res.body[0];
+                                this.managerService
+                                    .query({
+                                        'parentEmployeeId.equals': res.body[0].id
+                                    })
+                                    .subscribe(
+                                        (response: HttpResponse<IManager[]>) => {
+                                            if (response.body[0].employeeId === this.currentEmployee.id) {
+                                                this.leaveApplicationService
+                                                    .query({
+                                                        page: this.page,
+                                                        size: this.itemsPerPage,
+                                                        sort: this.sort(),
+                                                        'employeesId.equals': this.currentSearchAsEmployee.id,
+                                                        'fromDate.greaterOrEqualThan': moment(
+                                                            new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`)
+                                                        ).format(DATE_FORMAT),
+                                                        'toDate.lessOrEqualThan': moment(
+                                                            new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`)
+                                                        ).format(DATE_FORMAT)
+                                                    })
+                                                    .subscribe(
+                                                        (ress: HttpResponse<ILeaveApplication[]>) =>
+                                                            this.paginateLeaveApplications(ress.body, ress.headers),
+                                                        (ress: HttpErrorResponse) => this.onError(ress.message)
+                                                    );
+                                            }
+                                        },
+                                        (response: HttpErrorResponse) => this.onError(response.message)
+                                    );
+                            },
+                            (res: HttpErrorResponse) => this.onError(res.message)
+                        );
+                } else {
+                    this.onError('Invalid dates');
+                }
+            } else {
+                this.onError('Invalid input');
+            }
         }
     }
 
@@ -183,42 +221,45 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            this.employeeService
-                .query({
-                    'employeeId.equals': this.currentAccount.login
-                })
-                .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => {
-                        this.currentEmployee = res.body[0];
-                        this.managerService
-                            .query({
-                                'employeeId.equals': this.currentEmployee.id
-                            })
-                            .subscribe(
-                                (res: HttpResponse<IManager[]>) => {
-                                    this.employeesUnderSupervisor = res.body;
-                                    const map: string = this.employeesUnderSupervisor.map(val => val.parentEmployeeId).join(',');
-                                    this.employeeService
-                                        .query({
-                                            'id.in': [map]
-                                        })
-                                        .subscribe(
-                                            (res: HttpResponse<IEmployee[]>) => (this.employees = res.body),
-                                            (res: HttpErrorResponse) => this.onError(res.message)
-                                        );
-                                },
-                                (res: HttpErrorResponse) => this.onError(res.message)
-                            );
-                    },
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            // this.employeeService
-            //     .query()
-            //     .pipe(
-            //         filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
-            //         map((response: HttpResponse<IEmployee[]>) => response.body)
-            //     )
-            //     .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+            if (this.accountService.hasAnyAuthority(['ROLE_ADMIN']) || this.accountService.hasAnyAuthority(['ROLE_LEAVE_ADMIN'])) {
+                this.employeeService
+                    .query()
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+                        map((response: HttpResponse<IEmployee[]>) => response.body)
+                    )
+                    .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+            } else {
+                this.employeeService
+                    .query({
+                        'employeeId.equals': this.currentAccount.login
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IEmployee[]>) => {
+                            this.currentEmployee = res.body[0];
+                            this.managerService
+                                .query({
+                                    'employeeId.equals': this.currentEmployee.id
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<IManager[]>) => {
+                                        this.employeesUnderSupervisor = res.body;
+                                        const map: string = this.employeesUnderSupervisor.map(val => val.parentEmployeeId).join(',');
+                                        this.employeeService
+                                            .query({
+                                                'id.in': [map]
+                                            })
+                                            .subscribe(
+                                                (res: HttpResponse<IEmployee[]>) => (this.employees = res.body),
+                                                (res: HttpErrorResponse) => this.onError(res.message)
+                                            );
+                                    },
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
         });
         this.registerChangeInLeaveApplications();
     }
