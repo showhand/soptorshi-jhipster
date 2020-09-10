@@ -231,10 +231,16 @@
                         <span *ngIf="!leftMenuHidden">Review Application</span>
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item" routerLink="leave-attachment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span>Leave Attachment</span>
+                    </a>
+                </li>
             </ul>
         </li>
 
-        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_USER']">
+        <!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_USER']">
             <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
@@ -684,12 +690,12 @@
                         <span *ngIf="!leftMenuHidden">Budget Step</span>
                     </a>
                 </li>
-                <!--<li>
+                &lt;!&ndash;<li>
                 <a class="dropdown-item" routerLink="commercial-product-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                     <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                     <span *ngIf="!leftMenuHidden">Commercial Product Info</span>
                 </a>
-            </li>-->
+            </li>&ndash;&gt;
                 <li>
                     <a class="dropdown-item" routerLink="commercial-pi" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
@@ -807,6 +813,6 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li>-->
     </ul>
 </nav>

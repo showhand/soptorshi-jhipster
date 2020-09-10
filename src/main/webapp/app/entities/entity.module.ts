@@ -663,10 +663,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
             },
             {
-                path: 'leave-attachment',
-                loadChildren: './leave-attachment/leave-attachment.module#SoptorshiLeaveAttachmentModule'
-            },
-            {
                 path: 'leave-application',
                 loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
             },
@@ -959,10 +955,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'leave-application',
                 loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
-            },
-            {
-                path: 'leave-attachment',
-                loadChildren: './leave-attachment/leave-attachment.module#SoptorshiLeaveAttachmentModule'
             },
             {
                 path: 'mst-account',

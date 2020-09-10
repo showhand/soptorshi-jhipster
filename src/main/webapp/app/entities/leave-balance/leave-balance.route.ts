@@ -1,7 +1,5 @@
-import { Injectable, NgModule } from '@angular/core';
-import { Routes, RouterModule, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { ILeaveApplication, LeaveApplication } from 'app/shared/model/leave-application.model';
-import { LeaveApplicationComponent, LeaveApplicationService } from 'app/entities/leave-application';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
@@ -33,7 +31,7 @@ export const leaveBalanceRoute: Routes = [
         path: '',
         component: LeaveBalanceComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveBalance'
         },
         canActivate: [UserRouteAccessService]
@@ -42,7 +40,7 @@ export const leaveBalanceRoute: Routes = [
         path: 'balance',
         component: LeaveBalanceComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveBalance'
         },
         canActivate: [UserRouteAccessService]
@@ -51,7 +49,7 @@ export const leaveBalanceRoute: Routes = [
         path: 'balance/others',
         component: OthersLeaveBalanceComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER'],
             pageTitle: 'LeaveBalance'
         },
         canActivate: [UserRouteAccessService]
