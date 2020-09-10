@@ -7,7 +7,7 @@
         Added the constraints for entity Attendance.
     -->
     <changeSet id="20190702135954-2" author="jhipster">
-        
+        <validCheckSum>7:c6e0b6df310a8062505b8a2ca8c1f0f8</validCheckSum>
         <addForeignKeyConstraint baseColumnNames="attendance_excel_upload_id"
                                  baseTableName="attendance"
                                  constraintName="fk_attendance_attendance_excel_upload_id"

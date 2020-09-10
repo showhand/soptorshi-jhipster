@@ -16,6 +16,7 @@
         Added the entity Attendance.
     -->
     <changeSet id="20190702135954-1" author="jhipster">
+        <validCheckSum>7:a448ca3e4f86e436515c3645434d5db8</validCheckSum>
         <createTable tableName="attendance">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>

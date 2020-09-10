@@ -7,7 +7,7 @@
         Added the constraints for entity LeaveAttachment.
     -->
     <changeSet id="20190603104541-2" author="jhipster">
-        
+        <validCheckSum>7:11e3806df6f343ca2e7c3fb63ebdc2df</validCheckSum>
         <addForeignKeyConstraint baseColumnNames="leave_application_id"
                                  baseTableName="leave_attachment"
                                  constraintName="fk_leave_attachment_leave_application_id"
