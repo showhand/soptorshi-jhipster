@@ -5,12 +5,14 @@ import { Subscription } from 'rxjs';
 import { LeaveApplicationService } from 'app/entities/leave-application/leave-application.service';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { DATE_FORMAT, DAYS, ITEMS_PER_PAGE, MONTHS, YEARS } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
 import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
+import { IConstantsModel } from 'app/shared/model/constants-model';
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-others-leave-application-history',
@@ -31,9 +33,23 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
     currentEmployee: IEmployee;
     employees: IEmployee[];
     employeesUnderSupervisor: IManager[];
-    hasAdminAuthority: boolean = false;
-    hasLeaveAdminAuthority: boolean = false;
-    hasLeaveManagerAuthority: boolean = false;
+
+    days: IConstantsModel[] = DAYS;
+    months: IConstantsModel[] = MONTHS;
+    years: IConstantsModel[] = YEARS();
+    employee: IEmployee;
+
+    fromDate: {
+        day: number;
+        month: number;
+        year: number;
+    } = { day: new Date().getDate(), month: new Date().getMonth() + 1, year: new Date().getFullYear() };
+
+    toDate: {
+        day: number;
+        month: number;
+        year: number;
+    } = { day: new Date().getDate(), month: new Date().getMonth() + 1, year: new Date().getFullYear() };
 
     constructor(
         protected leaveApplicationService: LeaveApplicationService,
@@ -60,55 +76,66 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
     }
 
     loadAll() {
-        this.employeeService
-            .query({
-                'employeeId.equals': this.currentSearch
-            })
-            .subscribe(
-                (res: HttpResponse<IEmployee[]>) => {
-                    this.currentSearchAsEmployee = res.body[0];
-                    this.managerService
-                        .query({
-                            'parentEmployeeId.equals': res.body[0].id
-                        })
-                        .subscribe(
-                            (response: HttpResponse<IManager[]>) => {
-                                if (response.body[0].employeeId === this.currentEmployee.id) {
-                                    if (this.currentSearch) {
-                                        this.leaveApplicationService
-                                            .query({
-                                                page: this.page,
-                                                size: this.itemsPerPage,
-                                                sort: this.sort(),
-                                                'employeesId.equals': this.currentSearchAsEmployee.id
-                                            })
-                                            .subscribe(
-                                                (ress: HttpResponse<ILeaveApplication[]>) =>
-                                                    this.paginateLeaveApplications(ress.body, ress.headers),
-                                                (ress: HttpErrorResponse) => this.onError(ress.message)
-                                            );
-                                        return;
-                                    }
-                                }
-                            },
-                            (response: HttpErrorResponse) => this.onError(response.message)
-                        );
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (
+            this.fromDate.day &&
+            this.fromDate.month &&
+            this.fromDate.year &&
+            this.toDate.day &&
+            this.toDate.month &&
+            this.toDate.year &&
+            this.employee
+        ) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
 
-        // this.leaveApplicationService
-        //     .query({
-        //         page: this.page,
-        //         size: this.itemsPerPage,
-        //         sort: this.sort(),
-        //         'employeesId.equals': this.currentSearch
-        //     })
-        //     .subscribe(
-        //         (res: HttpResponse<ILeaveApplication[]>) =>
-        //             this.paginateLeaveApplications(res.body, res.headers),
-        //         (res: HttpErrorResponse) => this.onError(res.message)
-        //     );
+            if (from.isBefore(to.add(1))) {
+                this.employeeService
+                    .query({
+                        'employeeId.equals': this.employee.employeeId
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IEmployee[]>) => {
+                            this.currentSearchAsEmployee = res.body[0];
+                            this.managerService
+                                .query({
+                                    'parentEmployeeId.equals': res.body[0].id
+                                })
+                                .subscribe(
+                                    (response: HttpResponse<IManager[]>) => {
+                                        console.log(response.body[0].employeeId);
+                                        console.log(this.currentEmployee.id);
+                                        if (response.body[0].employeeId === this.currentEmployee.id) {
+                                            this.leaveApplicationService
+                                                .query({
+                                                    page: this.page,
+                                                    size: this.itemsPerPage,
+                                                    sort: this.sort(),
+                                                    'employeesId.equals': this.currentSearchAsEmployee.id,
+                                                    'fromDate.greaterOrEqualThan': moment(
+                                                        new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`)
+                                                    ).format(DATE_FORMAT),
+                                                    'toDate.lessOrEqualThan': moment(
+                                                        new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`)
+                                                    ).format(DATE_FORMAT)
+                                                })
+                                                .subscribe(
+                                                    (ress: HttpResponse<ILeaveApplication[]>) =>
+                                                        this.paginateLeaveApplications(ress.body, ress.headers),
+                                                    (ress: HttpErrorResponse) => this.onError(ress.message)
+                                                );
+                                        }
+                                    },
+                                    (response: HttpErrorResponse) => this.onError(response.message)
+                                );
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else {
+                this.onError('Invalid dates');
+            }
+        } else {
+            this.onError('Invalid input');
+        }
     }
 
     reset() {
@@ -227,5 +254,17 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackDayId(index: number, item: IConstantsModel) {
+        return item.id;
+    }
+
+    trackMonthId(index: number, item: IConstantsModel) {
+        return item.id;
+    }
+
+    trackYearId(index: number, item: IConstantsModel) {
+        return item.id;
     }
 }
