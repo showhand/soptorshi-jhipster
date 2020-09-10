@@ -676,25 +676,6 @@ public class AttendanceResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllAttendancesByAttendanceExcelUploadIsEqualToSomething() throws Exception {
-        // Initialize the database
-        AttendanceExcelUpload attendanceExcelUpload = AttendanceExcelUploadResourceIntTest.createEntity(em);
-        em.persist(attendanceExcelUpload);
-        em.flush();
-        attendance.setAttendanceExcelUpload(attendanceExcelUpload);
-        attendanceRepository.saveAndFlush(attendance);
-        Long attendanceExcelUploadId = attendanceExcelUpload.getId();
-
-        // Get all the attendanceList where attendanceExcelUpload equals to attendanceExcelUploadId
-        defaultAttendanceShouldBeFound("attendanceExcelUploadId.equals=" + attendanceExcelUploadId);
-
-        // Get all the attendanceList where attendanceExcelUpload equals to attendanceExcelUploadId + 1
-        defaultAttendanceShouldNotBeFound("attendanceExcelUploadId.equals=" + (attendanceExcelUploadId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllAttendancesByEmployeeIsEqualToSomething() throws Exception {
         // Initialize the database
         Employee employee = EmployeeResourceIntTest.createEntity(em);
@@ -709,6 +690,25 @@ public class AttendanceResourceIntTest {
 
         // Get all the attendanceList where employee equals to employeeId + 1
         defaultAttendanceShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByAttendanceExcelUploadIsEqualToSomething() throws Exception {
+        // Initialize the database
+        AttendanceExcelUpload attendanceExcelUpload = AttendanceExcelUploadResourceIntTest.createEntity(em);
+        em.persist(attendanceExcelUpload);
+        em.flush();
+        attendance.setAttendanceExcelUpload(attendanceExcelUpload);
+        attendanceRepository.saveAndFlush(attendance);
+        Long attendanceExcelUploadId = attendanceExcelUpload.getId();
+
+        // Get all the attendanceList where attendanceExcelUpload equals to attendanceExcelUploadId
+        defaultAttendanceShouldBeFound("attendanceExcelUploadId.equals=" + attendanceExcelUploadId);
+
+        // Get all the attendanceList where attendanceExcelUpload equals to attendanceExcelUploadId + 1
+        defaultAttendanceShouldNotBeFound("attendanceExcelUploadId.equals=" + (attendanceExcelUploadId + 1));
     }
 
     /**

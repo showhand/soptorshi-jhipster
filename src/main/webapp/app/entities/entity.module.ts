@@ -663,10 +663,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
             },
             {
-                path: 'leave-attachment',
-                loadChildren: './leave-attachment/leave-attachment.module#SoptorshiLeaveAttachmentModule'
-            },
-            {
                 path: 'leave-application',
                 loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
             },
@@ -947,6 +943,26 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'depreciation-map',
                 loadChildren: './depreciation-map/depreciation-map.module#SoptorshiDepreciationMapModule'
+            },
+            {
+                path: 'attendance',
+                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
+            },
+            {
+                path: 'mst-account',
+                loadChildren: './mst-account/mst-account.module#SoptorshiMstAccountModule'
+            },
+            {
+                path: 'leave-application',
+                loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
+            },
+            {
+                path: 'mst-account',
+                loadChildren: './mst-account/mst-account.module#SoptorshiMstAccountModule'
+            },
+            {
+                path: 'leave-application',
+                loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

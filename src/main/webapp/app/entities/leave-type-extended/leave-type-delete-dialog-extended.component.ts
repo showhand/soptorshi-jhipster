@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,8 +24,30 @@ export class LeaveTypeDeleteDialogExtendedComponent extends LeaveTypeDeleteDialo
     selector: 'jhi-leave-type-delete-popup-extended',
     template: ''
 })
-export class LeaveTypeDeletePopupExtendedComponent extends LeaveTypeDeletePopupComponent {
+export class LeaveTypeDeletePopupExtendedComponent extends LeaveTypeDeletePopupComponent implements OnInit {
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
+    }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ leaveType }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(LeaveTypeDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.leaveType = leaveType;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/leave-type', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/leave-type', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
     }
 }

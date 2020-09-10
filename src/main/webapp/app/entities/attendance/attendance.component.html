@@ -39,8 +39,8 @@
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="attendanceExcelUploadId"><span>Attendance Excel Upload</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="attendanceExcelUploadId"><span>Attendance Excel Upload</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -57,13 +57,13 @@
                 <td>{{attendance.updatedBy}}</td>
                 <td>{{attendance.updatedOn | date:'medium'}}</td>
                 <td>
-                    <div *ngIf="attendance.attendanceExcelUploadId">
-                        <a [routerLink]="['../attendance-excel-upload', attendance.attendanceExcelUploadId , 'view' ]" >{{attendance.attendanceExcelUploadId}}</a>
+                    <div *ngIf="attendance.employeeId">
+                        <a [routerLink]="['../employee', attendance.employeeId , 'view' ]" >{{attendance.employeeFullName}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="attendance.employeeId">
-                        <a [routerLink]="['../employee', attendance.employeeId , 'view' ]" >{{attendance.employeeFullName}}</a>
+                    <div *ngIf="attendance.attendanceExcelUploadId">
+                        <a [routerLink]="['../attendance-excel-upload', attendance.attendanceExcelUploadId , 'view' ]" >{{attendance.attendanceExcelUploadId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

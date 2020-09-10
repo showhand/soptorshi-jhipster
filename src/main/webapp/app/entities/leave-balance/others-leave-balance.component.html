@@ -30,8 +30,13 @@
 
 <div class="row">
     <div class="col-6">
-        <form name="searchForm" class="form-inline">
+        <!--<form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
+                <select class="form-control" name="yearFrom" [(ngModel)]="fromDate.year" id="field_YearFrom">
+                    <option [ngValue]="null">Year</option>
+                    <option [ngValue]="year.id" *ngFor="let year of years; trackBy: trackYearId">{{year.name}}</option>
+                </select>
+
                 <select class="form-control" id="currentSearch" name="currentSearch"
                         [(ngModel)]="currentSearch" placeholder="Employee Id" required>
                     <option [ngValue]="null"></option>
@@ -45,9 +50,44 @@
                     <fa-icon [icon]="'trash-alt'"></fa-icon>
                 </button>
             </div>
-        </form>
+        </form>-->
     </div>
 </div>
+
+
+<br/>
+<div class="row">
+    <div class="col-4">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Year</span>
+            </div>
+
+            <select class="form-control" name="yearFrom" [(ngModel)]="fromDate.year" id="field_YearFrom">
+                <option [ngValue]="null">Year</option>
+                <option [ngValue]="year.id" *ngFor="let year of years; trackBy: trackYearId">{{year.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Employee</span>
+            </div>
+            <select class="form-control" id="field_EmployeeId" name="employeeId"
+                    [(ngModel)]="employee">
+                <option [ngValue]="null">Select an Employee</option>
+                <option [ngValue]="emp"
+                        *ngFor="let emp of employees">{{emp.fullName + " [" + emp.departmentName + "] "}}</option>
+            </select>
+            <button class="input-group-append btn btn-info" (click)="search()">
+                <fa-icon [icon]="'search'"></fa-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+<br />
 
 <div class="row justify-content-center">
     <div class="col-12 ">
@@ -64,6 +104,11 @@
                     </th>
                     <th><span>Remaining days</span>
                     </th>
+                    <th><button type="button" style="float: right"
+                                class="btn btn-info btn-sm"
+                                (click)="generateReport()" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER']">
+                        <fa-icon [icon]="'download'"></fa-icon>
+                    </button></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -74,6 +119,7 @@
                     </td>
                     <td>{{leaveBalance.totalLeaveApplicableDays}}</td>
                     <td>{{leaveBalance.remainingDays}}</td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>

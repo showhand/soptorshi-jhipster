@@ -41,16 +41,16 @@
                 <dd>
                     <span>{{attendance.updatedOn}}</span>
                 </dd>
-                <dt><span>Attendance Excel Upload</span></dt>
-                <dd>
-                    <div *ngIf="attendance.attendanceExcelUploadId">
-                        <a [routerLink]="['/attendance-excel-upload', attendance.attendanceExcelUploadId, 'view']">{{attendance.attendanceExcelUploadId}}</a>
-                    </div>
-                </dd>
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="attendance.employeeId">
                         <a [routerLink]="['/employee', attendance.employeeId, 'view']">{{attendance.employeeFullName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Attendance Excel Upload</span></dt>
+                <dd>
+                    <div *ngIf="attendance.attendanceExcelUploadId">
+                        <a [routerLink]="['/attendance-excel-upload', attendance.attendanceExcelUploadId, 'view']">{{attendance.attendanceExcelUploadId}}</a>
                     </div>
                 </dd>
             </dl>

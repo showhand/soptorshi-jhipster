@@ -37,9 +37,9 @@ public class AttendanceCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
-    private LongFilter attendanceExcelUploadId;
-
     private LongFilter employeeId;
+
+    private LongFilter attendanceExcelUploadId;
 
     public LongFilter getId() {
         return id;
@@ -121,20 +121,20 @@ public class AttendanceCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public LongFilter getAttendanceExcelUploadId() {
-        return attendanceExcelUploadId;
-    }
-
-    public void setAttendanceExcelUploadId(LongFilter attendanceExcelUploadId) {
-        this.attendanceExcelUploadId = attendanceExcelUploadId;
-    }
-
     public LongFilter getEmployeeId() {
         return employeeId;
     }
 
     public void setEmployeeId(LongFilter employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public LongFilter getAttendanceExcelUploadId() {
+        return attendanceExcelUploadId;
+    }
+
+    public void setAttendanceExcelUploadId(LongFilter attendanceExcelUploadId) {
+        this.attendanceExcelUploadId = attendanceExcelUploadId;
     }
 
 
@@ -158,8 +158,8 @@ public class AttendanceCriteria implements Serializable {
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
-            Objects.equals(attendanceExcelUploadId, that.attendanceExcelUploadId) &&
-            Objects.equals(employeeId, that.employeeId);
+            Objects.equals(employeeId, that.employeeId) &&
+            Objects.equals(attendanceExcelUploadId, that.attendanceExcelUploadId);
     }
 
     @Override
@@ -175,8 +175,8 @@ public class AttendanceCriteria implements Serializable {
         createdOn,
         updatedBy,
         updatedOn,
-        attendanceExcelUploadId,
-        employeeId
+        employeeId,
+        attendanceExcelUploadId
         );
     }
 
@@ -193,8 +193,8 @@ public class AttendanceCriteria implements Serializable {
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
-                (attendanceExcelUploadId != null ? "attendanceExcelUploadId=" + attendanceExcelUploadId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
+                (attendanceExcelUploadId != null ? "attendanceExcelUploadId=" + attendanceExcelUploadId + ", " : "") +
             "}";
     }
 

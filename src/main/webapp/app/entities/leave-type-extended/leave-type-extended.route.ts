@@ -20,7 +20,7 @@ export const leaveTypeExtendedRoute: Routes = [
         path: '',
         component: LeaveTypeExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const leaveTypeExtendedRoute: Routes = [
             leaveType: LeaveTypeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const leaveTypeExtendedRoute: Routes = [
             leaveType: LeaveTypeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const leaveTypeExtendedRoute: Routes = [
             leaveType: LeaveTypeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const leaveTypePopupExtendedRoute: Routes = [
             leaveType: LeaveTypeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService],

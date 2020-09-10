@@ -85,13 +85,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_attendanceExcelUpload">Attendance Excel Upload</label>
-                    <select class="form-control" id="field_attendanceExcelUpload" name="attendanceExcelUpload" [(ngModel)]="attendance.attendanceExcelUploadId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="attendanceExcelUploadOption.id" *ngFor="let attendanceExcelUploadOption of attendanceexceluploads; trackBy: trackAttendanceExcelUploadById">{{attendanceExcelUploadOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" [(ngModel)]="attendance.employeeId"  required>
                         <option *ngIf="!editForm.value.employee" [ngValue]="null" selected></option>
@@ -103,6 +96,13 @@
                         [hidden]="!editForm.controls.employee?.errors?.required">
                         This field is required.
                     </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_attendanceExcelUpload">Attendance Excel Upload</label>
+                    <select class="form-control" id="field_attendanceExcelUpload" name="attendanceExcelUpload" [(ngModel)]="attendance.attendanceExcelUploadId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="attendanceExcelUploadOption.id" *ngFor="let attendanceExcelUploadOption of attendanceexceluploads; trackBy: trackAttendanceExcelUploadById">{{attendanceExcelUploadOption.id}}</option>
+                    </select>
                 </div>
             </div>
             <div>

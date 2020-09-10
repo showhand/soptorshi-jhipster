@@ -71,6 +71,15 @@ export class OthersLeaveApplicationComponent implements OnInit {
                     map((response: HttpResponse<ILeaveType[]>) => response.body)
                 )
                 .subscribe((res: ILeaveType[]) => (this.leavetypes = res), (res: HttpErrorResponse) => this.onError(res.message));
+            // this.employeeService
+            //     .query({
+            //         'employeeId.equals': this.account.login
+            //     })
+            //     .pipe(
+            //         filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+            //         map((response: HttpResponse<IEmployee[]>) => response.body)
+            //     )
+            //     .subscribe((res: IEmployee[]) => (this.currentEmployee = res[0]), (res: HttpErrorResponse) => this.onError(res.message));
 
             this.employeeService
                 .query({
@@ -101,6 +110,14 @@ export class OthersLeaveApplicationComponent implements OnInit {
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+
+            // this.employeeService
+            //     .query()
+            //     .pipe(
+            //         filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+            //         map((response: HttpResponse<IEmployee[]>) => response.body)
+            //     )
+            //     .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
         });
     }
 
@@ -119,6 +136,7 @@ export class OthersLeaveApplicationComponent implements OnInit {
     save() {
         this.isSaving = true;
         this.leaveApplication.status = LeaveStatus.WAITING;
+        this.leaveApplication.appliedByIdId = this.currentEmployee.id;
         this.leaveApplication.appliedOn = this.appliedOn != null ? moment(this.appliedOn, DATE_TIME_FORMAT) : null;
         this.leaveApplication.actionTakenOn = this.actionTakenOn != null ? moment(this.actionTakenOn, DATE_TIME_FORMAT) : null;
         if (this.leaveApplication.id !== undefined) {

@@ -101,6 +101,9 @@ public class LeaveApplicationQueryService extends QueryService<LeaveApplication>
             if (criteria.getNumberOfDays() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNumberOfDays(), LeaveApplication_.numberOfDays));
             }
+            if (criteria.getPaidLeave() != null) {
+                specification = specification.and(buildSpecification(criteria.getPaidLeave(), LeaveApplication_.paidLeave));
+            }
             if (criteria.getReason() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReason(), LeaveApplication_.reason));
             }

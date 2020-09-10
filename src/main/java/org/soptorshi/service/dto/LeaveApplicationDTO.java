@@ -1,6 +1,7 @@
 package org.soptorshi.service.dto;
 
 import org.soptorshi.domain.enumeration.LeaveStatus;
+import org.soptorshi.domain.enumeration.PaidOrUnPaid;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,6 +25,9 @@ public class LeaveApplicationDTO implements Serializable {
 
     @NotNull
     private Integer numberOfDays;
+
+    @NotNull
+    private PaidOrUnPaid paidLeave;
 
     @NotNull
     @Size(max = 250)
@@ -83,6 +87,14 @@ public class LeaveApplicationDTO implements Serializable {
 
     public void setNumberOfDays(Integer numberOfDays) {
         this.numberOfDays = numberOfDays;
+    }
+
+    public PaidOrUnPaid getPaidLeave() {
+        return paidLeave;
+    }
+
+    public void setPaidLeave(PaidOrUnPaid paidLeave) {
+        this.paidLeave = paidLeave;
     }
 
     public String getReason() {
@@ -209,6 +221,7 @@ public class LeaveApplicationDTO implements Serializable {
             ", fromDate='" + getFromDate() + "'" +
             ", toDate='" + getToDate() + "'" +
             ", numberOfDays=" + getNumberOfDays() +
+            ", paidLeave='" + getPaidLeave() + "'" +
             ", reason='" + getReason() + "'" +
             ", appliedOn='" + getAppliedOn() + "'" +
             ", actionTakenOn='" + getActionTakenOn() + "'" +

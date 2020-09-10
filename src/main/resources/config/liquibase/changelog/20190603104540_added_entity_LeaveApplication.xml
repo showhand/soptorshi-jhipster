@@ -32,6 +32,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="paid_leave" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="reason" type="varchar(250)">
                 <constraints nullable="false" />
             </column>
@@ -49,15 +53,15 @@
             </column>
 
             <column name="leave_types_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="employees_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="applied_by_id_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="action_taken_by_id_id" type="bigint">

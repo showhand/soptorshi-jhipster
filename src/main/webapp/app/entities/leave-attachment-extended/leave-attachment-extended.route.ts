@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { LeaveAttachmentDeletePopupComponent, LeaveAttachmentResolve } from 'app/entities/leave-attachment';
+import { LeaveAttachmentResolve } from 'app/entities/leave-attachment';
 import { LeaveAttachmentExtendedService } from 'app/entities/leave-attachment-extended/leave-attachment-extended.service';
 import { LeaveAttachmentExtendedComponent } from 'app/entities/leave-attachment-extended/leave-attachment-extended.component';
 import { LeaveAttachmentDetailExtendedComponent } from 'app/entities/leave-attachment-extended/leave-attachment-detail-extended.component';
 import { LeaveAttachmentUpdateExtendedComponent } from 'app/entities/leave-attachment-extended/leave-attachment-update-extended.component';
+import { LeaveAttachmentDeletePopupExtendedComponent } from 'app/entities/leave-attachment-extended/leave-attachment-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveAttachmentExtendedResolve extends LeaveAttachmentResolve {
@@ -65,7 +66,7 @@ export const leaveAttachmentExtendedRoute: Routes = [
 export const leaveAttachmentPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
-        component: LeaveAttachmentDeletePopupComponent,
+        component: LeaveAttachmentDeletePopupExtendedComponent,
         resolve: {
             leaveAttachment: LeaveAttachmentExtendedResolve
         },

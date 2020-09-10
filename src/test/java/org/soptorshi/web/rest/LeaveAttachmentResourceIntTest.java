@@ -133,6 +133,11 @@ public class LeaveAttachmentResourceIntTest {
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        LeaveApplication leaveApplication = LeaveApplicationResourceIntTest.createEntity(em);
+        em.persist(leaveApplication);
+        em.flush();
+        leaveAttachment.setLeaveApplication(leaveApplication);
         return leaveAttachment;
     }
 

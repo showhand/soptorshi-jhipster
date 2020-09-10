@@ -9,6 +9,7 @@ import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.domain.LeaveType;
 import org.soptorshi.domain.enumeration.LeaveStatus;
+import org.soptorshi.domain.enumeration.PaidOrUnPaid;
 import org.soptorshi.repository.LeaveApplicationRepository;
 import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
 import org.soptorshi.service.LeaveApplicationQueryService;
@@ -61,6 +62,9 @@ public class LeaveApplicationResourceIntTest {
 
     private static final Integer DEFAULT_NUMBER_OF_DAYS = 1;
     private static final Integer UPDATED_NUMBER_OF_DAYS = 2;
+
+    private static final PaidOrUnPaid DEFAULT_PAID_LEAVE = PaidOrUnPaid.PAID;
+    private static final PaidOrUnPaid UPDATED_PAID_LEAVE = PaidOrUnPaid.UNPAID;
 
     private static final String DEFAULT_REASON = "AAAAAAAAAA";
     private static final String UPDATED_REASON = "BBBBBBBBBB";
@@ -136,10 +140,23 @@ public class LeaveApplicationResourceIntTest {
             .fromDate(DEFAULT_FROM_DATE)
             .toDate(DEFAULT_TO_DATE)
             .numberOfDays(DEFAULT_NUMBER_OF_DAYS)
+            .paidLeave(DEFAULT_PAID_LEAVE)
             .reason(DEFAULT_REASON)
             .appliedOn(DEFAULT_APPLIED_ON)
             .actionTakenOn(DEFAULT_ACTION_TAKEN_ON)
             .status(DEFAULT_STATUS);
+        // Add required entity
+        LeaveType leaveType = LeaveTypeResourceIntTest.createEntity(em);
+        em.persist(leaveType);
+        em.flush();
+        leaveApplication.setLeaveTypes(leaveType);
+        // Add required entity
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        leaveApplication.setEmployees(employee);
+        // Add required entity
+        leaveApplication.setAppliedById(employee);
         return leaveApplication;
     }
 
@@ -167,6 +184,7 @@ public class LeaveApplicationResourceIntTest {
         assertThat(testLeaveApplication.getFromDate()).isEqualTo(DEFAULT_FROM_DATE);
         assertThat(testLeaveApplication.getToDate()).isEqualTo(DEFAULT_TO_DATE);
         assertThat(testLeaveApplication.getNumberOfDays()).isEqualTo(DEFAULT_NUMBER_OF_DAYS);
+        assertThat(testLeaveApplication.getPaidLeave()).isEqualTo(DEFAULT_PAID_LEAVE);
         assertThat(testLeaveApplication.getReason()).isEqualTo(DEFAULT_REASON);
         assertThat(testLeaveApplication.getAppliedOn()).isEqualTo(DEFAULT_APPLIED_ON);
         assertThat(testLeaveApplication.getActionTakenOn()).isEqualTo(DEFAULT_ACTION_TAKEN_ON);
@@ -258,6 +276,25 @@ public class LeaveApplicationResourceIntTest {
 
     @Test
     @Transactional
+    public void checkPaidLeaveIsRequired() throws Exception {
+        int databaseSizeBeforeTest = leaveApplicationRepository.findAll().size();
+        // set the field null
+        leaveApplication.setPaidLeave(null);
+
+        // Create the LeaveApplication, which fails.
+        LeaveApplicationDTO leaveApplicationDTO = leaveApplicationMapper.toDto(leaveApplication);
+
+        restLeaveApplicationMockMvc.perform(post("/api/leave-applications")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(leaveApplicationDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<LeaveApplication> leaveApplicationList = leaveApplicationRepository.findAll();
+        assertThat(leaveApplicationList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkReasonIsRequired() throws Exception {
         int databaseSizeBeforeTest = leaveApplicationRepository.findAll().size();
         // set the field null
@@ -308,6 +345,7 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
+            .andExpect(jsonPath("$.[*].paidLeave").value(hasItem(DEFAULT_PAID_LEAVE.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].appliedOn").value(hasItem(DEFAULT_APPLIED_ON.toString())))
             .andExpect(jsonPath("$.[*].actionTakenOn").value(hasItem(DEFAULT_ACTION_TAKEN_ON.toString())))
@@ -328,6 +366,7 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(jsonPath("$.fromDate").value(DEFAULT_FROM_DATE.toString()))
             .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()))
             .andExpect(jsonPath("$.numberOfDays").value(DEFAULT_NUMBER_OF_DAYS))
+            .andExpect(jsonPath("$.paidLeave").value(DEFAULT_PAID_LEAVE.toString()))
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
             .andExpect(jsonPath("$.appliedOn").value(DEFAULT_APPLIED_ON.toString()))
             .andExpect(jsonPath("$.actionTakenOn").value(DEFAULT_ACTION_TAKEN_ON.toString()))
@@ -531,6 +570,45 @@ public class LeaveApplicationResourceIntTest {
         defaultLeaveApplicationShouldBeFound("numberOfDays.lessThan=" + UPDATED_NUMBER_OF_DAYS);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllLeaveApplicationsByPaidLeaveIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveApplicationRepository.saveAndFlush(leaveApplication);
+
+        // Get all the leaveApplicationList where paidLeave equals to DEFAULT_PAID_LEAVE
+        defaultLeaveApplicationShouldBeFound("paidLeave.equals=" + DEFAULT_PAID_LEAVE);
+
+        // Get all the leaveApplicationList where paidLeave equals to UPDATED_PAID_LEAVE
+        defaultLeaveApplicationShouldNotBeFound("paidLeave.equals=" + UPDATED_PAID_LEAVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveApplicationsByPaidLeaveIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveApplicationRepository.saveAndFlush(leaveApplication);
+
+        // Get all the leaveApplicationList where paidLeave in DEFAULT_PAID_LEAVE or UPDATED_PAID_LEAVE
+        defaultLeaveApplicationShouldBeFound("paidLeave.in=" + DEFAULT_PAID_LEAVE + "," + UPDATED_PAID_LEAVE);
+
+        // Get all the leaveApplicationList where paidLeave equals to UPDATED_PAID_LEAVE
+        defaultLeaveApplicationShouldNotBeFound("paidLeave.in=" + UPDATED_PAID_LEAVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveApplicationsByPaidLeaveIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveApplicationRepository.saveAndFlush(leaveApplication);
+
+        // Get all the leaveApplicationList where paidLeave is not null
+        defaultLeaveApplicationShouldBeFound("paidLeave.specified=true");
+
+        // Get all the leaveApplicationList where paidLeave is null
+        defaultLeaveApplicationShouldNotBeFound("paidLeave.specified=false");
+    }
 
     @Test
     @Transactional
@@ -774,6 +852,7 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
+            .andExpect(jsonPath("$.[*].paidLeave").value(hasItem(DEFAULT_PAID_LEAVE.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON)))
             .andExpect(jsonPath("$.[*].appliedOn").value(hasItem(DEFAULT_APPLIED_ON.toString())))
             .andExpect(jsonPath("$.[*].actionTakenOn").value(hasItem(DEFAULT_ACTION_TAKEN_ON.toString())))
@@ -828,6 +907,7 @@ public class LeaveApplicationResourceIntTest {
             .fromDate(UPDATED_FROM_DATE)
             .toDate(UPDATED_TO_DATE)
             .numberOfDays(UPDATED_NUMBER_OF_DAYS)
+            .paidLeave(UPDATED_PAID_LEAVE)
             .reason(UPDATED_REASON)
             .appliedOn(UPDATED_APPLIED_ON)
             .actionTakenOn(UPDATED_ACTION_TAKEN_ON)
@@ -846,6 +926,7 @@ public class LeaveApplicationResourceIntTest {
         assertThat(testLeaveApplication.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
         assertThat(testLeaveApplication.getToDate()).isEqualTo(UPDATED_TO_DATE);
         assertThat(testLeaveApplication.getNumberOfDays()).isEqualTo(UPDATED_NUMBER_OF_DAYS);
+        assertThat(testLeaveApplication.getPaidLeave()).isEqualTo(UPDATED_PAID_LEAVE);
         assertThat(testLeaveApplication.getReason()).isEqualTo(UPDATED_REASON);
         assertThat(testLeaveApplication.getAppliedOn()).isEqualTo(UPDATED_APPLIED_ON);
         assertThat(testLeaveApplication.getActionTakenOn()).isEqualTo(UPDATED_ACTION_TAKEN_ON);
@@ -913,6 +994,7 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
+            .andExpect(jsonPath("$.[*].paidLeave").value(hasItem(DEFAULT_PAID_LEAVE.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON)))
             .andExpect(jsonPath("$.[*].appliedOn").value(hasItem(DEFAULT_APPLIED_ON.toString())))
             .andExpect(jsonPath("$.[*].actionTakenOn").value(hasItem(DEFAULT_ACTION_TAKEN_ON.toString())))

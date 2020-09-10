@@ -57,6 +57,20 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_paidLeave">Paid Leave</label>
+                    <select class="form-control" name="paidLeave" [(ngModel)]="leaveApplication.paidLeave" id="field_paidLeave"  required>
+                        <option value="PAID">PAID</option>
+                        <option value="UNPAID">UNPAID</option>
+                        <option value="UNDECLARED">UNDECLARED</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.paidLeave?.dirty && editForm.controls.paidLeave?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.paidLeave?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_reason">Reason</label>
                     <input type="text" class="form-control" name="reason" id="field_reason"
                         [(ngModel)]="leaveApplication.reason" required maxlength="250"/>
@@ -102,24 +116,42 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_leaveTypes">Leave Types</label>
-                    <select class="form-control" id="field_leaveTypes" name="leaveTypes" [(ngModel)]="leaveApplication.leaveTypesId" >
-                        <option [ngValue]="null"></option>
+                    <select class="form-control" id="field_leaveTypes" name="leaveTypes" [(ngModel)]="leaveApplication.leaveTypesId"  required>
+                        <option *ngIf="!editForm.value.leaveTypes" [ngValue]="null" selected></option>
                         <option [ngValue]="leaveTypeOption.id" *ngFor="let leaveTypeOption of leavetypes; trackBy: trackLeaveTypeById">{{leaveTypeOption.name}}</option>
                     </select>
                 </div>
+                <div [hidden]="!(editForm.controls.leaveTypes?.dirty && editForm.controls.leaveTypes?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.leaveTypes?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_employees">Employees</label>
-                    <select class="form-control" id="field_employees" name="employees" [(ngModel)]="leaveApplication.employeesId" >
-                        <option [ngValue]="null"></option>
+                    <select class="form-control" id="field_employees" name="employees" [(ngModel)]="leaveApplication.employeesId"  required>
+                        <option *ngIf="!editForm.value.employees" [ngValue]="null" selected></option>
                         <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
                     </select>
                 </div>
+                <div [hidden]="!(editForm.controls.employees?.dirty && editForm.controls.employees?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.employees?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_appliedById">Applied By Id</label>
-                    <select class="form-control" id="field_appliedById" name="appliedById" [(ngModel)]="leaveApplication.appliedByIdId" >
-                        <option [ngValue]="null"></option>
+                    <select class="form-control" id="field_appliedById" name="appliedById" [(ngModel)]="leaveApplication.appliedByIdId"  required>
+                        <option *ngIf="!editForm.value.appliedById" [ngValue]="null" selected></option>
                         <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.appliedById?.dirty && editForm.controls.appliedById?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.appliedById?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_actionTakenById">Action Taken By Id</label>
