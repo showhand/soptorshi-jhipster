@@ -458,7 +458,7 @@
 
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-        >
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ACCOUNTS']">
             <a (click)="accountsConfig=!accountsConfig" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
@@ -570,7 +570,7 @@
 
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-        >
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ACCOUNTS']">
             <a (click)="vouchers=!vouchers" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
@@ -626,7 +626,7 @@
 
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-        >
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ACCOUNTS']">
             <a (click)="reports=!reports" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 

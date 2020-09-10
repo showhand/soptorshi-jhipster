@@ -90,20 +90,19 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
                 (res: HttpErrorResponse) => this.jhiAlertService.error('Error in retrieving academic information data')
             );
 
+        console.log(this.employee);
         this.academicInformationAttachmentService
             .query({
                 'employeeId.equals': this.employee.id
             })
-            .pipe(
-                filter((res: HttpResponse<IAcademicInformationAttachment[]>) => res.ok),
-                map((res: HttpResponse<IAcademicInformationAttachment[]>) => res.body)
-            )
-            .subscribe(
-                (res: IAcademicInformationAttachment[]) => {
-                    this.academicInformationAttachmentList = res;
-                },
-                (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching academic information attachments')
-            );
+            .subscribe(req => {
+                this.academicInformationAttachmentList = [];
+                req.body.forEach((a: IAcademicInformationAttachment) => {
+                    if (a.employeeId === this.employee.id) {
+                        this.academicInformationAttachmentList.push(a);
+                    }
+                });
+            });
 
         this.experienceInformationService
             .query({
@@ -126,7 +125,10 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
             )
             .subscribe(
                 (res: IExperienceInformationAttachment[]) => {
-                    this.experienceInformationAttachments = res;
+                    this.experienceInformationAttachments = [];
+                    res.forEach((a: IExperienceInformationAttachment) => {
+                        if (a.employeeId === this.employee.id) this.experienceInformationAttachments.push(a);
+                    });
                 },
                 (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching experience information attachments')
             );
@@ -170,7 +172,10 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
             )
             .subscribe(
                 (res: ITrainingInformationAttachment[]) => {
-                    this.trainingInformationAttachments = res;
+                    this.trainingInformationAttachments = [];
+                    res.forEach((a: ITrainingInformationAttachment) => {
+                        if (a.employeeId === this.employee.id) this.trainingInformationAttachments.push(a);
+                    });
                 },
                 (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching training information attachments')
             );
