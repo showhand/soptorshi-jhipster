@@ -2,18 +2,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 import { Account, AccountService } from 'app/core';
 import { Subscription } from 'rxjs';
-import { LeaveApplicationService } from 'app/entities/leave-application/leave-application.service';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { DATE_FORMAT, DAYS, ITEMS_PER_PAGE, MONTHS, YEARS } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { IEmployee } from 'app/shared/model/employee.model';
-import { EmployeeService } from 'app/entities/employee';
 import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
 import { IConstantsModel } from 'app/shared/model/constants-model';
 import * as moment from 'moment';
 import { filter, map } from 'rxjs/operators';
+import { LeaveApplicationExtendedService } from 'app/entities/leave-application-extended/leave-application-extended.service';
+import { EmployeeExtendedService } from 'app/entities/employee-extended';
 
 @Component({
     selector: 'jhi-others-leave-application-history',
@@ -53,13 +53,13 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
     } = { day: new Date().getDate(), month: new Date().getMonth() + 1, year: new Date().getFullYear() };
 
     constructor(
-        protected leaveApplicationService: LeaveApplicationService,
+        protected leaveApplicationService: LeaveApplicationExtendedService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
-        protected employeeService: EmployeeService,
+        protected employeeService: EmployeeExtendedService,
         protected managerService: ManagerService
     ) {
         this.leaveApplications = [];
@@ -307,5 +307,48 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
 
     trackYearId(index: number, item: IConstantsModel) {
         return item.id;
+    }
+
+    generateReport() {
+        if (
+            this.fromDate.day &&
+            this.fromDate.month &&
+            this.fromDate.year &&
+            this.toDate.day &&
+            this.toDate.month &&
+            this.toDate.year &&
+            this.employee
+        ) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+            if (from.isBefore(to.add(1))) {
+                this.leaveApplicationService.generateReportByFromDateAndToDateAndEmployeeId(from, to, this.employee.employeeId);
+            } else {
+                this.onError('Invalid dates');
+            }
+        } else if (
+            this.fromDate.day &&
+            this.fromDate.month &&
+            this.fromDate.year &&
+            this.toDate.day &&
+            this.toDate.month &&
+            this.toDate.year
+        ) {
+            if (this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'])) {
+                let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+                let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+                if (from.isBefore(to.add(1))) {
+                    this.leaveApplicationService.generateReportByFromDateAndToDate(from, to);
+                } else {
+                    this.onError('Invalid dates');
+                }
+            } else {
+                this.onError('Please fill up all the required information');
+            }
+        } else {
+            this.onError('Invalid input');
+        }
     }
 }

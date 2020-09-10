@@ -166,4 +166,18 @@ export class OthersLeaveBalanceComponent implements OnInit {
     trackYearId(index: number, item: IConstantsModel) {
         return item.id;
     }
+
+    generateReport() {
+        if (this.fromDate.year && this.employee) {
+            this.leaveBalanceService.generateReportByFromDateAndToDateAndEmployeeId(this.fromDate.year, this.employee.employeeId);
+        } else if (this.fromDate.year) {
+            if (this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'])) {
+                this.leaveBalanceService.generateReportByFromDateAndToDate(this.fromDate.year);
+            } else {
+                this.onError('Please fill up all the required information');
+            }
+        } else {
+            this.onError('Invalid input');
+        }
+    }
 }

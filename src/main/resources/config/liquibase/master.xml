@@ -222,14 +222,16 @@
     <include context="prod,dev" file="config/liquibase/changelog/20200617091532_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200622110843_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200815073233_changelog.xml" relativeToChangelogFile="false"/>
-<!--    <include context="prod,dev" file="config/liquibase/changelog/20200625152050_changelog.xml" relativeToChangelogFile="false"/>
+<include context="prod,dev" file="config/liquibase/changelog/20200625152050_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200702050251_changelog.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20200705150336_changelog.xml" relativeToChangelogFile="false"/>
-    <include context="prod,dev" file="config/liquibase/changelog/20200709025808_changelog.xml" relativeToChangelogFile="false"/>-->
+    <include context="prod,dev" file="config/liquibase/changelog/20200709025808_changelog.xml" relativeToChangelogFile="false"/>
 
-   <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
+   <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>
 
     <include context="prod,dev" file="config/liquibase/changelog/20200821154659_changelog_depreciation_added_MstAccount.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20200909185713_changelog.xml" relativeToChangelogFile="false"/>
 
 
 </databaseChangeLog>

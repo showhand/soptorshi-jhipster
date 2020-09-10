@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { SERVER_API_URL } from 'app/app.constants';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ILeaveApplication } from 'app/shared/model/leave-application.model';
-import { map } from 'rxjs/operators';
 import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<ILeaveBalance>;
 type EntityArrayResponseType = HttpResponse<ILeaveBalance[]>;
@@ -25,5 +24,25 @@ export class LeaveBalanceService {
         return this.http.get<ILeaveBalance>(`${this.resourceUrl}/employee/${employeeId}/year/${queryYear}/leave-type/${leaveType}`, {
             observe: 'response'
         });
+    }
+
+    generateReportByFromDateAndToDateAndEmployeeId(year: number, employeeId: string) {
+        return this.http
+            .get(`api/extended/leave-applications/balance/report/year/${year}/employeeId/${employeeId}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Leave Balance');
+            });
+    }
+
+    generateReportByFromDateAndToDate(year: number) {
+        return this.http
+            .get(`api/extended/leave-applications/history/balance/year/${year}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Leave Balance');
+            });
     }
 }

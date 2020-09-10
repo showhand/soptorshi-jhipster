@@ -107,4 +107,19 @@ export class LeaveApplicationExtendedComponent extends LeaveApplicationComponent
     trackYearId(index: number, item: IConstantsModel) {
         return item.id;
     }
+
+    generateReport() {
+        if (this.fromDate.day && this.fromDate.month && this.fromDate.year && this.toDate.day && this.toDate.month && this.toDate.year) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+            if (from.isBefore(to.add(1))) {
+                this.leaveApplicationService.generateReportByFromDateAndToDateAndEmployeeId(from, to, this.employee.employeeId);
+            } else {
+                this.onError('Invalid dates');
+            }
+        } else {
+            this.onError('Invalid input');
+        }
+    }
 }

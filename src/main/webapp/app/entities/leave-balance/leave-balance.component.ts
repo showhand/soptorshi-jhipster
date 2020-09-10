@@ -85,4 +85,12 @@ export class LeaveBalanceComponent implements OnInit {
     trackYearId(index: number, item: IConstantsModel) {
         return item.id;
     }
+
+    generateReport() {
+        if (this.fromDate.year) {
+            this.leaveBalanceService.generateReportByFromDateAndToDateAndEmployeeId(this.fromDate.year, this.employee.employeeId);
+        } else {
+            this.onError('Invalid input');
+        }
+    }
 }

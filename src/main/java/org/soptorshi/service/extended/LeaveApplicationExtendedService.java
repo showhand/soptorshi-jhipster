@@ -245,4 +245,16 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
         }
         return dates;
     }
+
+    public List<LeaveApplication> getAll() {
+        return leaveApplicationRepository.findAll();
+    }
+
+    public List<LeaveApplication> getAll(LocalDate fromDate, LocalDate toDate, Employee employee) {
+        return leaveApplicationRepository.getAllByFromDateGreaterThanEqualAndToDateLessThanEqualAndEmployeesEquals(fromDate, toDate, employee);
+    }
+
+    public List<LeaveApplication> getAll(LocalDate fromDate, LocalDate toDate) {
+        return leaveApplicationRepository.getAllByFromDateGreaterThanEqualAndToDateLessThanEqual(fromDate, toDate);
+    }
 }

@@ -153,7 +153,13 @@
                     </th>
                     <!--<th jhiSortBy="appliedByIdFullName"><span>Applied By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="actionTakenByIdFullName"><span>Action Taken By</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-                    <th></th>
+                    <th>
+                        <button type="button" style="float: right"
+                                class="btn btn-info btn-sm"
+                                (click)="generateReport()" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER']">
+                            <fa-icon [icon]="'download'"></fa-icon>
+                        </button>
+                    </th>
                 </tr>
                 </thead>
                 <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"

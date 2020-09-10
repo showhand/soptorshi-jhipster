@@ -6,6 +6,9 @@ import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 import { LeaveApplicationService } from 'app/entities/leave-application';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
+import { Moment } from 'moment';
+import { DATE_FORMAT } from 'app/shared';
 
 type EntityResponseType = HttpResponse<ILeaveApplication>;
 type EntityArrayResponseType = HttpResponse<ILeaveApplication[]>;
@@ -17,6 +20,31 @@ export class LeaveApplicationExtendedService extends LeaveApplicationService {
 
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    generateReportByFromDateAndToDateAndEmployeeId(fromDate: Moment, toDate: Moment, employeeId: string) {
+        return this.http
+            .get(
+                `${this.resourceUrl}/history/report/fromDate/${fromDate.format(DATE_FORMAT)}/toDate/${toDate.format(
+                    DATE_FORMAT
+                )}/employeeId/${employeeId}`,
+                {
+                    responseType: 'blob'
+                }
+            )
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Leave History');
+            });
+    }
+
+    generateReportByFromDateAndToDate(fromDate: Moment, toDate: Moment) {
+        return this.http
+            .get(`${this.resourceUrl}/history/report/fromDate/${fromDate.format(DATE_FORMAT)}/toDate/${toDate.format(DATE_FORMAT)}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Leave History');
+            });
     }
 
     calculateDifference(fromDate: string, toDate: string): Observable<HttpResponse<number>> {

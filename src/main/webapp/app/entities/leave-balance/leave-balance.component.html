@@ -64,6 +64,11 @@
                     </th>
                     <th><span>Remaining days</span>
                     </th>
+                    <th><button type="button" style="float: right"
+                                class="btn btn-info btn-sm"
+                                (click)="generateReport()" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER']">
+                        <fa-icon [icon]="'download'"></fa-icon>
+                    </button></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -74,6 +79,7 @@
                     </td>
                     <td>{{leaveBalance.totalLeaveApplicableDays}}</td>
                     <td>{{leaveBalance.remainingDays}}</td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
