@@ -20,4 +20,8 @@ export class LeaveTypeExtendedComponent extends LeaveTypeComponent {
     ) {
         super(leaveTypeService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
+
+    generateReport() {
+        this.leaveTypeService.generateReport();
+    }
 }

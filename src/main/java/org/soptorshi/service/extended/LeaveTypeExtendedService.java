@@ -3,7 +3,7 @@ package org.soptorshi.service.extended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.LeaveType;
-import org.soptorshi.repository.LeaveTypeRepository;
+import org.soptorshi.repository.extended.LeaveTypeExtendedRepository;
 import org.soptorshi.repository.search.LeaveTypeSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.LeaveTypeService;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * Service Implementation for managing LeaveType.
@@ -23,13 +24,13 @@ public class LeaveTypeExtendedService extends LeaveTypeService {
 
     private final Logger log = LoggerFactory.getLogger(LeaveTypeExtendedService.class);
 
-    private final LeaveTypeRepository leaveTypeRepository;
+    private final LeaveTypeExtendedRepository leaveTypeExtendedRepository;
 
     private final LeaveTypeMapper leaveTypeMapper;
 
-    public LeaveTypeExtendedService(LeaveTypeRepository leaveTypeRepository, LeaveTypeMapper leaveTypeMapper, LeaveTypeSearchRepository leaveTypeSearchRepository) {
-        super(leaveTypeRepository, leaveTypeMapper, leaveTypeSearchRepository);
-        this.leaveTypeRepository = leaveTypeRepository;
+    public LeaveTypeExtendedService(LeaveTypeExtendedRepository leaveTypeExtendedRepository, LeaveTypeMapper leaveTypeMapper, LeaveTypeSearchRepository leaveTypeSearchRepository) {
+        super(leaveTypeExtendedRepository, leaveTypeMapper, leaveTypeSearchRepository);
+        this.leaveTypeExtendedRepository = leaveTypeExtendedRepository;
         this.leaveTypeMapper = leaveTypeMapper;
     }
 
@@ -53,9 +54,13 @@ public class LeaveTypeExtendedService extends LeaveTypeService {
             leaveTypeDTO.setUpdatedOn(currentDateTime);
         }
         LeaveType leaveType = leaveTypeMapper.toEntity(leaveTypeDTO);
-        leaveType = leaveTypeRepository.save(leaveType);
+        leaveType = leaveTypeExtendedRepository.save(leaveType);
         LeaveTypeDTO result = leaveTypeMapper.toDto(leaveType);
         //leaveTypeSearchRepository.save(leaveType);
         return result;
+    }
+
+    public List<LeaveType> getAll() {
+        return leaveTypeExtendedRepository.findAll();
     }
 }

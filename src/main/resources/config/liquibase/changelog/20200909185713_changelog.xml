@@ -5,4 +5,7 @@
     <changeSet author="kawsu (generated)" id="1599677870420-3">
         <dropNotNullConstraint columnDataType="varchar(255)" columnName="paid_leave" tableName="leave_application"/>
     </changeSet>
+    <changeSet author="kawsu (generated)" id="1599679197450-3">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="paid_leave" tableName="leave_application"/>
+    </changeSet>
 </databaseChangeLog>

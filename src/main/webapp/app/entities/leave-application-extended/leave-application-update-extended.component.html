@@ -89,11 +89,17 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="form-control-label" for="field_paidLeave">Paid Leave</label>
-                        <select class="form-control" name="paidLeave" [(ngModel)]="leaveApplication.paidLeave" id="field_paidLeave" >
+                        <select class="form-control" name="paidLeave" [(ngModel)]="leaveApplication.paidLeave" id="field_paidLeave"  required>
                             <option value="PAID">PAID</option>
                             <option value="UNPAID">UNPAID</option>
                             <option value="UNDECLARED">UNDECLARED</option>
                         </select>
+                        <div [hidden]="!(editForm.controls.paidLeave?.dirty && editForm.controls.paidLeave?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.paidLeave?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
                     </div>
                 </div>
                 <div class="col-4">

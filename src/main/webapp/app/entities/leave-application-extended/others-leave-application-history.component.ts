@@ -31,6 +31,9 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
     currentEmployee: IEmployee;
     employees: IEmployee[];
     employeesUnderSupervisor: IManager[];
+    hasAdminAuthority: boolean = false;
+    hasLeaveAdminAuthority: boolean = false;
+    hasLeaveManagerAuthority: boolean = false;
 
     constructor(
         protected leaveApplicationService: LeaveApplicationService,
@@ -70,7 +73,7 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
                         })
                         .subscribe(
                             (response: HttpResponse<IManager[]>) => {
-                                if (response.body[1].employeeId === this.currentEmployee.id) {
+                                if (response.body[0].employeeId === this.currentEmployee.id) {
                                     if (this.currentSearch) {
                                         this.leaveApplicationService
                                             .query({
@@ -93,6 +96,19 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+
+        // this.leaveApplicationService
+        //     .query({
+        //         page: this.page,
+        //         size: this.itemsPerPage,
+        //         sort: this.sort(),
+        //         'employeesId.equals': this.currentSearch
+        //     })
+        //     .subscribe(
+        //         (res: HttpResponse<ILeaveApplication[]>) =>
+        //             this.paginateLeaveApplications(res.body, res.headers),
+        //         (res: HttpErrorResponse) => this.onError(res.message)
+        //     );
     }
 
     reset() {
@@ -169,6 +185,13 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+            // this.employeeService
+            //     .query()
+            //     .pipe(
+            //         filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+            //         map((response: HttpResponse<IEmployee[]>) => response.body)
+            //     )
+            //     .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
         });
         this.registerChangeInLeaveApplications();
     }
