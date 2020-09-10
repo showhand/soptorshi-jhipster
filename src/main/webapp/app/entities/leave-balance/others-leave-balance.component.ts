@@ -13,6 +13,7 @@ import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
 import { IConstantsModel } from 'app/shared/model/constants-model';
 import { YEARS } from 'app/shared';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-others-leave-balance',
@@ -53,62 +54,80 @@ export class OthersLeaveBalanceComponent implements OnInit {
         this.leaveBalances = [];
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            this.employeeService
-                .query({
-                    'employeeId.equals': this.currentAccount.login
-                })
-                .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => {
-                        this.currentEmployee = res.body[0];
-                        this.managerService
-                            .query({
-                                'employeeId.equals': this.currentEmployee.id
-                            })
-                            .subscribe(
-                                (res: HttpResponse<IManager[]>) => {
-                                    this.employeesUnderSupervisor = res.body;
-                                    const map: string = this.employeesUnderSupervisor.map(val => val.parentEmployeeId).join(',');
-                                    this.employeeService
-                                        .query({
-                                            'id.in': [map]
-                                        })
-                                        .subscribe(
-                                            (res: HttpResponse<IEmployee[]>) => (this.employees = res.body),
-                                            (res: HttpErrorResponse) => this.onError(res.message)
-                                        );
-                                },
-                                (res: HttpErrorResponse) => this.onError(res.message)
-                            );
-                    },
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
+            if (this.accountService.hasAnyAuthority(['ROLE_ADMIN']) || this.accountService.hasAnyAuthority(['ROLE_LEAVE_ADMIN'])) {
+                this.employeeService
+                    .query()
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+                        map((response: HttpResponse<IEmployee[]>) => response.body)
+                    )
+                    .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+            } else {
+                this.employeeService
+                    .query({
+                        'employeeId.equals': this.currentAccount.login
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IEmployee[]>) => {
+                            this.currentEmployee = res.body[0];
+                            this.managerService
+                                .query({
+                                    'employeeId.equals': this.currentEmployee.id
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<IManager[]>) => {
+                                        this.employeesUnderSupervisor = res.body;
+                                        const map: string = this.employeesUnderSupervisor.map(val => val.parentEmployeeId).join(',');
+                                        this.employeeService
+                                            .query({
+                                                'id.in': [map]
+                                            })
+                                            .subscribe(
+                                                (res: HttpResponse<IEmployee[]>) => (this.employees = res.body),
+                                                (res: HttpErrorResponse) => this.onError(res.message)
+                                            );
+                                    },
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
         });
     }
 
     search() {
-        if (this.fromDate.year && this.employee) {
-            this.employeeService
-                .query({
-                    'employeeId.equals': this.employee.employeeId
-                })
-                .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => {
-                        this.currentEmployee = res.body[0];
-                        this.managerService
-                            .query({
-                                'parentEmployeeId.equals': this.currentEmployee.id
-                            })
-                            .subscribe(
-                                (response: HttpResponse<IManager[]>) => {
-                                    this.getLeaveBalance(this.currentEmployee.employeeId, this.fromDate.year);
-                                },
-                                (response: HttpErrorResponse) => this.onError(response.message)
-                            );
-                    },
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
+        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN']) || this.accountService.hasAnyAuthority(['ROLE_LEAVE_ADMIN'])) {
+            if (this.fromDate.year && this.employee) {
+                this.getLeaveBalance(this.employee.employeeId, this.fromDate.year);
+            } else {
+                this.onError('Invalid input');
+            }
         } else {
-            this.onError('Invalid input');
+            if (this.fromDate.year && this.employee) {
+                this.employeeService
+                    .query({
+                        'employeeId.equals': this.employee.employeeId
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IEmployee[]>) => {
+                            this.currentEmployee = res.body[0];
+                            this.managerService
+                                .query({
+                                    'parentEmployeeId.equals': this.currentEmployee.id
+                                })
+                                .subscribe(
+                                    (response: HttpResponse<IManager[]>) => {
+                                        this.getLeaveBalance(this.currentEmployee.employeeId, this.fromDate.year);
+                                    },
+                                    (response: HttpErrorResponse) => this.onError(response.message)
+                                );
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else {
+                this.onError('Invalid input');
+            }
         }
     }
 
