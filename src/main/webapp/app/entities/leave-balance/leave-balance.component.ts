@@ -9,7 +9,8 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
-import * as moment from 'moment';
+import { IConstantsModel } from 'app/shared/model/constants-model';
+import { YEARS } from 'app/shared';
 
 @Component({
     selector: 'jhi-leave-balance',
@@ -21,6 +22,12 @@ export class LeaveBalanceComponent implements OnInit {
     employee: IEmployee;
     currentAccount: Account;
     eventSubscriber: Subscription;
+
+    years: IConstantsModel[] = YEARS();
+
+    fromDate: {
+        year: number;
+    } = { year: new Date().getFullYear() };
 
     constructor(
         protected leaveBalanceService: LeaveBalanceService,
@@ -44,16 +51,16 @@ export class LeaveBalanceComponent implements OnInit {
                 .subscribe(
                     (res: HttpResponse<IEmployee[]>) => {
                         this.employee = res.body[0];
-                        this.getLeaveBalance(this.employee.employeeId);
+                        this.getLeaveBalance(this.employee.employeeId, this.fromDate.year);
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
         });
     }
 
-    getLeaveBalance(employeeId: string) {
+    getLeaveBalance(employeeId: string, year: number) {
         this.leaveBalanceService
-            .find(employeeId, moment().year())
+            .find(employeeId, year)
             .subscribe(
                 (res: HttpResponse<ILeaveBalance[]>) => this.constructLeaveBalance(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
@@ -73,5 +80,9 @@ export class LeaveBalanceComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackYearId(index: number, item: IConstantsModel) {
+        return item.id;
     }
 }

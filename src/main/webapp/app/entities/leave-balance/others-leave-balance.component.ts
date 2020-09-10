@@ -9,9 +9,10 @@ import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ILeaveApplication } from 'app/shared/model/leave-application.model';
-import * as moment from 'moment';
 import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
+import { IConstantsModel } from 'app/shared/model/constants-model';
+import { YEARS } from 'app/shared';
 
 @Component({
     selector: 'jhi-others-leave-balance',
@@ -27,6 +28,13 @@ export class OthersLeaveBalanceComponent implements OnInit {
     account: Account;
     currentEmployee: IEmployee;
     employeesUnderSupervisor: IManager[];
+
+    years: IConstantsModel[] = YEARS();
+    employee: IEmployee;
+
+    fromDate: {
+        year: number;
+    } = { year: new Date().getFullYear() };
 
     constructor(
         protected leaveBalanceService: LeaveBalanceService,
@@ -78,35 +86,39 @@ export class OthersLeaveBalanceComponent implements OnInit {
     }
 
     search() {
-        this.employeeService
-            .query({
-                'employeeId.equals': this.currentSearch
-            })
-            .subscribe(
-                (res: HttpResponse<IEmployee[]>) => {
-                    this.currentEmployee = res.body[0];
-                    this.managerService
-                        .query({
-                            'parentEmployeeId.equals': this.currentEmployee.id
-                        })
-                        .subscribe(
-                            (response: HttpResponse<IManager[]>) => {
-                                this.getLeaveBalance(this.currentEmployee.employeeId);
-                            },
-                            (response: HttpErrorResponse) => this.onError(response.message)
-                        );
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.fromDate.year && this.employee) {
+            this.employeeService
+                .query({
+                    'employeeId.equals': this.employee.employeeId
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.currentEmployee = res.body[0];
+                        this.managerService
+                            .query({
+                                'parentEmployeeId.equals': this.currentEmployee.id
+                            })
+                            .subscribe(
+                                (response: HttpResponse<IManager[]>) => {
+                                    this.getLeaveBalance(this.currentEmployee.employeeId, this.fromDate.year);
+                                },
+                                (response: HttpErrorResponse) => this.onError(response.message)
+                            );
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.onError('Invalid input');
+        }
     }
 
     clear() {
         this.currentSearch = '';
     }
 
-    getLeaveBalance(employeeId: string) {
+    getLeaveBalance(employeeId: string, year: number) {
         this.leaveBalanceService
-            .find(employeeId, moment().year())
+            .find(employeeId, year)
             .subscribe(
                 (res: HttpResponse<ILeaveBalance[]>) => this.constructLeaveBalance(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
@@ -129,6 +141,10 @@ export class OthersLeaveBalanceComponent implements OnInit {
     }
 
     trackEmployeeById(index: number, item: IEmployee) {
+        return item.id;
+    }
+
+    trackYearId(index: number, item: IConstantsModel) {
         return item.id;
     }
 }

@@ -27,6 +27,28 @@
         </form>
     </div>
 </div>
+
+<br/>
+
+<div class="row">
+    <div class="col-3">
+        <label class="form-control-label">Year</label>
+        <div class="input-group">
+            <select class="form-control" name="yearFrom" [(ngModel)]="fromDate.year" id="field_YearFrom">
+                <option [ngValue]="null">Year</option>
+                <option [ngValue]="year.id" *ngFor="let year of years; trackBy: trackYearId">{{year.name}}</option>
+            </select>
+
+            <button class="input-group-append btn btn-info" (click)="getLeaveBalance(employee.employeeId, fromDate.year)">
+                <fa-icon [icon]="'search'"></fa-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+<br/>
+
+
 <div class="row justify-content-center">
     <div class="col-12 ">
         <br/>
