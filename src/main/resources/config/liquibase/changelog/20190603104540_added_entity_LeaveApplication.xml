@@ -16,6 +16,7 @@
         Added the entity LeaveApplication.
     -->
     <changeSet id="20190603104540-1" author="jhipster">
+        <validCheckSum>7:baa4262280de6d1c8683928b5ed67eb2</validCheckSum>
         <createTable tableName="leave_application">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
