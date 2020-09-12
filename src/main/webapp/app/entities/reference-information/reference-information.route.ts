@@ -42,7 +42,7 @@ export const referenceInformationRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT'],
             defaultSort: 'id,asc',
             pageTitle: 'ReferenceInformations'
         },
@@ -55,7 +55,7 @@ export const referenceInformationRoute: Routes = [
             referenceInformation: ReferenceInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ReferenceInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -67,7 +67,7 @@ export const referenceInformationRoute: Routes = [
             referenceInformation: ReferenceInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ReferenceInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -79,7 +79,7 @@ export const referenceInformationRoute: Routes = [
             referenceInformation: ReferenceInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ReferenceInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -91,7 +91,7 @@ export const referenceInformationRoute: Routes = [
             referenceInformation: ReferenceInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ReferenceInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -106,7 +106,7 @@ export const referenceInformationPopupRoute: Routes = [
             referenceInformation: ReferenceInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ReferenceInformations'
         },
         canActivate: [UserRouteAccessService],
