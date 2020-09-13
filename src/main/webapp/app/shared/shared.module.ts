@@ -53,6 +53,7 @@ import { RequisitionInfoCommercialDirComponent } from 'app/entities/requisition-
 import { ScmZoneManagerFilterPipe } from 'app/shared/util/scm-zone-manager-filter.pipe';
 import { ScmAreaManagerFilterPipe } from 'app/shared/util/scm-area-manager-filter.pipe';
 import { ScmOrderDetailsFilterPipe } from 'app/shared/util/scm-order-details-filter.pipe';
+import { LeaveAttachmentFilterPipe } from 'app/shared/util/leave-attachment-filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -95,7 +96,8 @@ import { ToastrModule } from 'ngx-toastr';
         RequisitionInfoCommercialDirComponent,
         ScmZoneManagerFilterPipe,
         ScmAreaManagerFilterPipe,
-        ScmOrderDetailsFilterPipe
+        ScmOrderDetailsFilterPipe,
+        LeaveAttachmentFilterPipe
     ],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
@@ -136,7 +138,8 @@ import { ToastrModule } from 'ngx-toastr';
         RequisitionInfoCommercialDirComponent,
         ScmZoneManagerFilterPipe,
         ScmAreaManagerFilterPipe,
-        ScmOrderDetailsFilterPipe
+        ScmOrderDetailsFilterPipe,
+        LeaveAttachmentFilterPipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

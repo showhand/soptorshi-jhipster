@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,8 +24,30 @@ export class LeaveAttachmentDeleteDialogExtendedComponent extends LeaveAttachmen
     selector: 'jhi-leave-attachment-delete-popup-extended',
     template: ''
 })
-export class LeaveAttachmentDeletePopupExtendedComponent extends LeaveAttachmentDeletePopupComponent {
+export class LeaveAttachmentDeletePopupExtendedComponent extends LeaveAttachmentDeletePopupComponent implements OnInit {
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
+    }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ leaveAttachment }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(LeaveAttachmentDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.leaveAttachment = leaveAttachment;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/leave-attachment', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/leave-attachment', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
     }
 }

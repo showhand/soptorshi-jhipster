@@ -20,7 +20,7 @@ export const leaveAttachmentExtendedRoute: Routes = [
         path: '',
         component: LeaveAttachmentExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER', 'ROLE_USER'],
             pageTitle: 'LeaveAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const leaveAttachmentExtendedRoute: Routes = [
             leaveAttachment: LeaveAttachmentExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER', 'ROLE_USER'],
             pageTitle: 'LeaveAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const leaveAttachmentExtendedRoute: Routes = [
             leaveAttachment: LeaveAttachmentExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER', 'ROLE_USER'],
             pageTitle: 'LeaveAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const leaveAttachmentExtendedRoute: Routes = [
             leaveAttachment: LeaveAttachmentExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'],
             pageTitle: 'LeaveAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const leaveAttachmentPopupExtendedRoute: Routes = [
             leaveAttachment: LeaveAttachmentExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'],
             pageTitle: 'LeaveAttachments'
         },
         canActivate: [UserRouteAccessService],

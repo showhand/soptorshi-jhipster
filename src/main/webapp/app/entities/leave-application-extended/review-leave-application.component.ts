@@ -11,6 +11,8 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
 import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
+import { LeaveAttachmentExtendedService } from 'app/entities/leave-attachment-extended';
+import { LeaveAttachment } from 'app/shared/model/leave-attachment.model';
 import moment = require('moment');
 
 @Component({
@@ -31,6 +33,7 @@ export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
     currentEmployee: IEmployee[];
     manager: IManager[];
     child: IEmployee[];
+    leaveAttachments: LeaveAttachment[];
 
     constructor(
         protected leaveApplicationService: LeaveApplicationService,
@@ -40,7 +43,8 @@ export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
         protected employeeService: EmployeeService,
-        protected managerService: ManagerService
+        protected managerService: ManagerService,
+        protected leaveAttachmentExtendedService: LeaveAttachmentExtendedService
     ) {
         this.leaveApplications = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -57,18 +61,60 @@ export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.leaveApplicationService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort(),
-                'employeesId.in': this.child.map(val => val.id).join(','),
-                'status.equals': LeaveStatus.WAITING
-            })
-            .subscribe(
-                (res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN']) || this.accountService.hasAnyAuthority(['ROLE_LEAVE_ADMIN'])) {
+            this.leaveApplicationService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'status.equals': LeaveStatus.WAITING
+                })
+                .subscribe(
+                    (res: HttpResponse<ILeaveApplication[]>) => {
+                        this.paginateLeaveApplications(res.body, res.headers);
+                        if (res.body.length > 0) {
+                            this.leaveAttachmentExtendedService
+                                .query({
+                                    'leaveApplicationId.in': res.body.map(value => value.id).join(',')
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<ILeaveApplication[]>) => {
+                                        this.leaveAttachments = res.body;
+                                    },
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        }
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.leaveApplicationService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'employeesId.in': this.child.map(val => val.id).join(','),
+                    'status.equals': LeaveStatus.WAITING
+                })
+                .subscribe(
+                    (res: HttpResponse<ILeaveApplication[]>) => {
+                        this.paginateLeaveApplications(res.body, res.headers);
+                        if (res.body.length > 0) {
+                            this.leaveAttachmentExtendedService
+                                .query({
+                                    'leaveApplicationId.in': res.body.map(value => value.id).join(',')
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<ILeaveApplication[]>) => {
+                                        this.leaveAttachments = res.body;
+                                    },
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        }
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     reset() {
@@ -112,38 +158,42 @@ export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            this.employeeService
-                .query({
-                    'employeeId.equals': this.currentAccount.login
-                })
-                .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => {
-                        this.currentEmployee = res.body;
-                        this.managerService
-                            .query({
-                                'employeeId.equals': this.currentEmployee[0].id
-                            })
-                            .subscribe(
-                                (response: HttpResponse<IManager[]>) => {
-                                    this.manager = response.body;
-                                    const map: string = this.manager.map(val => val.parentEmployeeId).join(',');
-                                    this.employeeService
-                                        .query({
-                                            'id.in': map
-                                        })
-                                        .subscribe(
-                                            (ress: HttpResponse<IEmployee[]>) => {
-                                                this.child = ress.body;
-                                                this.loadAll();
-                                            },
-                                            (ress: HttpErrorResponse) => this.onError(ress.message)
-                                        );
-                                },
-                                (response: HttpErrorResponse) => this.onError(response.message)
-                            );
-                    },
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
+            if (this.accountService.hasAnyAuthority(['ROLE_ADMIN']) || this.accountService.hasAnyAuthority(['ROLE_LEAVE_ADMIN'])) {
+                this.loadAll();
+            } else {
+                this.employeeService
+                    .query({
+                        'employeeId.equals': this.currentAccount.login
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IEmployee[]>) => {
+                            this.currentEmployee = res.body;
+                            this.managerService
+                                .query({
+                                    'employeeId.equals': this.currentEmployee[0].id
+                                })
+                                .subscribe(
+                                    (response: HttpResponse<IManager[]>) => {
+                                        this.manager = response.body;
+                                        const map: string = this.manager.map(val => val.parentEmployeeId).join(',');
+                                        this.employeeService
+                                            .query({
+                                                'id.in': map
+                                            })
+                                            .subscribe(
+                                                (ress: HttpResponse<IEmployee[]>) => {
+                                                    this.child = ress.body;
+                                                    this.loadAll();
+                                                },
+                                                (ress: HttpErrorResponse) => this.onError(ress.message)
+                                            );
+                                    },
+                                    (response: HttpErrorResponse) => this.onError(response.message)
+                                );
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
         });
         this.registerChangeInLeaveApplications();
     }

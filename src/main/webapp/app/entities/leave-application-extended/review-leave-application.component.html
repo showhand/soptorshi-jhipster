@@ -76,7 +76,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-9"></div>
+                            <div class="col-9">
+                                {{leaveApplication.id | leaveAttachmentFilter: leaveAttachments}}
+                            </div>
                             <div class="col-3" style="float: right">
                                 <div class="btn-group flex-btn-group-container">
                                     <button type="submit"

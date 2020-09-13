@@ -13,3 +13,4 @@ export * from './util/datepicker-adapter';
 export * from './util/scm-zone-manager-filter.pipe';
 export * from './util/scm-area-manager-filter.pipe';
 export * from './util/scm-order-details-filter.pipe';
+export * from './util/leave-attachment-filter.pipe';
