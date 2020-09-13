@@ -5,12 +5,13 @@ import { Observable, Subscription } from 'rxjs';
 import { LeaveApplicationService } from 'app/entities/leave-application/leave-application.service';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { DATE_TIME_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
 import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-review-leave-application',
@@ -182,6 +183,8 @@ export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
 
     save(val: boolean, leaveApplication: ILeaveApplication) {
         leaveApplication.status = val ? LeaveStatus.ACCEPTED : LeaveStatus.REJECTED;
+        leaveApplication.actionTakenByIdId = this.currentEmployee[0].id;
+        leaveApplication.actionTakenOn = moment(new Date(), DATE_TIME_FORMAT);
         this.subscribeToSaveResponse(this.leaveApplicationService.update(leaveApplication));
     }
 

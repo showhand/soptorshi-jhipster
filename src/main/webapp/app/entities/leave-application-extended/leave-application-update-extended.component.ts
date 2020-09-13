@@ -75,7 +75,8 @@ export class LeaveApplicationUpdateExtendedComponent extends LeaveApplicationUpd
         this.leaveApplication.status = LeaveStatus.WAITING;
         this.leaveApplication.employeesId = this.currentEmployee.id;
         this.leaveApplication.appliedByIdId = this.currentEmployee.id;
-        this.leaveApplication.appliedOn = this.appliedOn != null ? moment(this.appliedOn, DATE_TIME_FORMAT) : null;
+        this.leaveApplication.appliedOn =
+            this.appliedOn != null ? moment(this.appliedOn, DATE_TIME_FORMAT) : moment(new Date(), DATE_TIME_FORMAT);
         this.leaveApplication.actionTakenOn = this.actionTakenOn != null ? moment(this.actionTakenOn, DATE_TIME_FORMAT) : null;
         if (this.leaveApplication.id !== undefined) {
             this.subscribeToSaveResponse(this.leaveApplicationService.update(this.leaveApplication));
