@@ -233,8 +233,17 @@
                 </li>
                 <li>
                     <a class="dropdown-item" routerLink="leave-attachment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <fa-icon icon="book" fixedWidth="true"></fa-icon>
                         <span>Leave Attachment</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="leave-attachment/others" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN',
+            'ROLE_LEAVE_MANAGER']">
+                        <fa-icon icon="book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Others Leave Attachment</span>
                     </a>
                 </li>
             </ul>

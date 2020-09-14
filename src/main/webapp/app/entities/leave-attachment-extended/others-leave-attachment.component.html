@@ -1,0 +1,92 @@
+<div>
+    <h2 id="page-heading">
+        <span>Leave Attachments</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-leave-attachment"
+                [routerLink]="['/leave-attachment/new/others']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <!--<span class="hidden-sm-down" >
+            Create new Leave Attachment
+            </span>-->
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br />
+    <div class="row">
+        <div class="col-6">
+            <div class="input-group">
+                <select class="form-control" id="field_EmployeeId" name="employeeId"
+                        [(ngModel)]="employee">
+                    <option [ngValue]="null">Select an Employee</option>
+                    <option [ngValue]="emp"
+                            *ngFor="let emp of employees">{{emp.fullName + " [" + emp.departmentName + "] "}}</option>
+                </select>
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="leaveAttachments">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                <th jhiSortBy="id"><span>ID</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="file"><span>File</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="leaveApplicationId"><span>Leave Application</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                   [infiniteScrollDistance]="0">
+            <tr *ngFor="let leaveAttachment of leaveAttachments ;trackBy: trackId">
+                <td><a [routerLink]="['/leave-attachment', leaveAttachment.id, 'view' ]">{{leaveAttachment.id}}</a></td>
+                <td>
+                    <a *ngIf="leaveAttachment.file"
+                       (click)="openFile(leaveAttachment.fileContentType, leaveAttachment.file)">open</a>
+                    <span *ngIf="leaveAttachment.file">{{leaveAttachment.fileContentType}}
+                        , {{byteSize(leaveAttachment.file)}}</span>
+                </td>
+                <td>
+                    <div *ngIf="leaveAttachment.leaveApplicationId">
+                        <a [routerLink]="['../leave-application', leaveAttachment.leaveApplicationId , 'view' ]">{{leaveAttachment.leaveApplicationId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER', 'ROLE_USER']"
+                                [routerLink]="['/leave-attachment', leaveAttachment.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN']"
+                                [routerLink]="['/leave-attachment', leaveAttachment.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN']"
+                                [routerLink]="['/', 'leave-attachment', { outlets: { popup: leaveAttachment.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

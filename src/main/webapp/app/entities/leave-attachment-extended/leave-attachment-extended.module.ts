@@ -9,8 +9,10 @@ import {
     LeaveAttachmentExtendedComponent,
     leaveAttachmentExtendedRoute,
     leaveAttachmentPopupExtendedRoute,
-    LeaveAttachmentUpdateExtendedComponent
+    LeaveAttachmentUpdateExtendedComponent,
+    OthersLeaveAttachmentUpdateComponent
 } from './';
+import { OthersLeaveAttachmentComponent } from 'app/entities/leave-attachment-extended/others-leave-attachment.component';
 
 const ENTITY_STATES = [...leaveAttachmentExtendedRoute, ...leaveAttachmentPopupExtendedRoute];
 
@@ -21,7 +23,9 @@ const ENTITY_STATES = [...leaveAttachmentExtendedRoute, ...leaveAttachmentPopupE
         LeaveAttachmentDetailExtendedComponent,
         LeaveAttachmentUpdateExtendedComponent,
         LeaveAttachmentDeleteDialogExtendedComponent,
-        LeaveAttachmentDeletePopupExtendedComponent
+        LeaveAttachmentDeletePopupExtendedComponent,
+        OthersLeaveAttachmentComponent,
+        OthersLeaveAttachmentUpdateComponent
     ],
     entryComponents: [
         LeaveAttachmentExtendedComponent,

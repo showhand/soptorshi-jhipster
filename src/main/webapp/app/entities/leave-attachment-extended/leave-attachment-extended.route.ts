@@ -7,6 +7,8 @@ import { LeaveAttachmentExtendedComponent } from 'app/entities/leave-attachment-
 import { LeaveAttachmentDetailExtendedComponent } from 'app/entities/leave-attachment-extended/leave-attachment-detail-extended.component';
 import { LeaveAttachmentUpdateExtendedComponent } from 'app/entities/leave-attachment-extended/leave-attachment-update-extended.component';
 import { LeaveAttachmentDeletePopupExtendedComponent } from 'app/entities/leave-attachment-extended/leave-attachment-delete-dialog-extended.component';
+import { OthersLeaveAttachmentComponent } from 'app/entities/leave-attachment-extended/others-leave-attachment.component';
+import { OthersLeaveAttachmentUpdateComponent } from 'app/entities/leave-attachment-extended/others-leave-attachment-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveAttachmentExtendedResolve extends LeaveAttachmentResolve {
@@ -57,6 +59,27 @@ export const leaveAttachmentExtendedRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN'],
+            pageTitle: 'LeaveAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'others',
+        component: OthersLeaveAttachmentComponent,
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER'],
+            pageTitle: 'LeaveAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'new/others',
+        component: OthersLeaveAttachmentUpdateComponent,
+        resolve: {
+            leaveAttachment: LeaveAttachmentExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_ADMIN', 'ROLE_LEAVE_MANAGER'],
             pageTitle: 'LeaveAttachments'
         },
         canActivate: [UserRouteAccessService]
