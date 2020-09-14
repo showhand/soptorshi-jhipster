@@ -13,7 +13,7 @@ import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
 import { LeaveAttachmentExtendedService } from 'app/entities/leave-attachment-extended';
 import { LeaveAttachment } from 'app/shared/model/leave-attachment.model';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-review-leave-application',
@@ -149,7 +149,7 @@ export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
             last: 0
         };
         this.page = 0;
-        this.predicate = '_score';
+        this.predicate = 'id';
         this.reverse = false;
         this.currentSearch = query;
         this.loadAll();
