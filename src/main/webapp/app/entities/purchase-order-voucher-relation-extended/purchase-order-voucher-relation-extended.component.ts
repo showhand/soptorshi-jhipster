@@ -63,5 +63,7 @@ export class PurchaseOrderVoucherRelationExtendedComponent extends PurchaseOrder
             this.router.navigate(['/journal-voucher/voucher-no', purchaseOrderVoucherRelation.voucherNo, 'edit']);
         else if (purchaseOrderVoucherRelation.voucherNo.includes('CV'))
             this.router.navigate(['/contra-voucher/voucher-no', purchaseOrderVoucherRelation.voucherNo, 'edit']);
+        else if (purchaseOrderVoucherRelation.voucherNo.includes('BP'))
+            this.router.navigate(['/payment-voucher/voucher-no', purchaseOrderVoucherRelation.voucherNo, 'edit']);
     }
 }

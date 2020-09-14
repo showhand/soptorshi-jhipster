@@ -29,6 +29,10 @@ export class PaymentVoucherExtendedComponent extends PaymentVoucherComponent imp
         super(paymentVoucherService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
     }
 
+    ngOnDestroy() {
+        //   this.eventManager.destroy(this.eventSubscriber);
+    }
+
     back() {
         window.history.back();
     }

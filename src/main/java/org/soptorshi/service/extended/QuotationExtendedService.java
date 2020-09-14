@@ -36,7 +36,7 @@ public class QuotationExtendedService extends QuotationService {
 
     @Override
     public QuotationDTO save(QuotationDTO quotationDTO) {
-        if(quotationDTO.getSelectionStatus().equals(SelectionType.SELECTED)){
+        if(quotationDTO.getSelectionStatus()!=null && quotationDTO.getSelectionStatus().equals(SelectionType.SELECTED)){
             Requisition requisition = requisitionRepository.findById(quotationDTO.getRequisitionId()).get();
             requisition.setAmount(quotationDTO.getTotalAmount());
         }
