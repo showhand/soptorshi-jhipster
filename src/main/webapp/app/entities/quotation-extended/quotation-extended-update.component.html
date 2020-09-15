@@ -94,7 +94,7 @@
             </div>
         </form>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="quotation.id">
         <jhi-quotation-details-extended-directive-for-quotation [quotation]="quotation"></jhi-quotation-details-extended-directive-for-quotation>
     </div>
     <div class="col-md-12">
