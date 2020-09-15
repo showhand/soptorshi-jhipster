@@ -61,7 +61,7 @@ public class PurchaseOrderReportService {
         PdfPTable table = new PdfPTable(1);
         table.setWidthPercentage(100);
         PdfPCell cell = new PdfPCell();
-        Paragraph paragraph = new Paragraph("Seven Oceans Fish Processing LTD", FontFactory.getFont(FontFactory.TIMES_BOLD));
+        Paragraph paragraph = new Paragraph("", FontFactory.getFont(FontFactory.TIMES_BOLD));
         paragraph.setAlignment(Element.ALIGN_RIGHT);
         cell.addElement(paragraph);
         cell.setBorder(Rectangle.BOTTOM);
@@ -71,6 +71,8 @@ public class PurchaseOrderReportService {
         table = new PdfPTable(2);
         table.setWidthPercentage(100);
         PdfPCell leftCell = new PdfPCell();
+        leftCell.addElement(new Paragraph("Date: "+ SoptorshiUtils.formatDate(purchaseOrder.getIssueDate(),"dd-MM-yyyy"),FontFactory.getFont(FontFactory.TIMES_BOLD) ));
+        leftCell.addElement(new Paragraph(""));
         leftCell.addElement(new Paragraph("To", FontFactory.getFont(FontFactory.TIMES_BOLD)));
 //        leftCell.addElement(new Paragraph(purchaseOrder.getReferredTo(), FontFactory.getFont(FontFactory.TIMES)));
         leftCell.addElement(new Paragraph(purchaseOrder.getQuotation().getVendor().getCompanyName(), FontFactory.getFont(FontFactory.TIMES)));
