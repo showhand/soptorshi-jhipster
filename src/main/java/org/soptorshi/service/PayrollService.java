@@ -121,15 +121,13 @@ public class PayrollService {
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getFestivalAllowance(), BigDecimal.ZERO));
             BigDecimal totalDeduction = new BigDecimal(0);
             totalDeduction = totalDeduction
-                .add(ObjectUtils.defaultIfNull(monthlySalary.getAdvanceFactory(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getAdvanceHO(), BigDecimal.ZERO))
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getFine(), BigDecimal.ZERO))
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getLoanAmount(), BigDecimal.ZERO));
 
 
-
-
-
             monthlySalary.setPayable(totalPayable.subtract(totalDeduction));
+            monthlySalary.setGross(monthlySalary.getPayable());
 
             monthlySalaries.add(monthlySalary);
         }
@@ -337,8 +335,8 @@ public class PayrollService {
         List<Advance> advances = advanceService.get(employee, PaymentStatus.NOT_PAID);
         for(Advance advance: advances){
             BigDecimal advanceAmount = advance.getAmount().multiply(BigDecimal.valueOf(advance.getMonthlyPayable()/100));
-            BigDecimal totalLeft = advance.getLeft().add(advanceAmount);
-            advance.setLeft(advance.getAmount().subtract(totalLeft));
+            BigDecimal totalLeft = advance.getLeft().subtract(advanceAmount);
+            advance.setLeft(advance.getAmount().subtract(advanceAmount));
             if(advance.getLeft().equals(new BigDecimal(0)) || advance.getLeft().compareTo(BigDecimal.ZERO)==-1)
                 advance.setPaymentStatus(PaymentStatus.PAID);
             totalAdvance = totalAdvance.add(advanceAmount);
@@ -352,12 +350,12 @@ public class PayrollService {
         List<Loan> loans = loanService.get(employee, PaymentStatus.NOT_PAID);
         for(Loan loan: loans){
             BigDecimal loanAmount = loan.getAmount().multiply(BigDecimal.valueOf(loan.getMonthlyPayable()/100));
-            BigDecimal totalLeft = loan.getLeft().add(loanAmount);
+            BigDecimal totalLeft = loan.getLeft().subtract(loanAmount);
             loan.setLeft(loan.getAmount().subtract(totalLeft));
             if(loan.getLeft().equals(new BigDecimal(0)) || loan.getLeft().compareTo(BigDecimal.ZERO)==-1){
                 loan.setPaymentStatus(PaymentStatus.PAID);
             }
-            totalLoan = totalLoan.add(totalLeft);
+            totalLoan = totalLoan.add(loanAmount);
         }
         return totalLoan;
     }
