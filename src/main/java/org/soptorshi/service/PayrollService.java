@@ -152,7 +152,7 @@ public class PayrollService {
 
     @Transactional
     public void generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType){
-        monthlySalaryService.delete(year, monthType, officeId, designationId);
+        monthlySalaryService.delete(year, monthType, officeId);
         updatableFines = new ArrayList<>();
         updatableAdvances = new ArrayList<>();
         updatableLoans = new ArrayList<>();

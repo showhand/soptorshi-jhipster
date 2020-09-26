@@ -37,20 +37,6 @@ export class DesignationWiseAllowanceExtendedComponent extends DesignationWiseAl
     loadAll() {
         this.designationWiseAllowances = [];
 
-        if (this.currentSearch) {
-            this.designationWiseAllowanceService
-                .search({
-                    query: this.currentSearch,
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<IDesignationWiseAllowance[]>) => this.paginateDesignationWiseAllowances(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
         if (this.designationWiseAllowanceService.designationId) {
             this.designationWiseAllowanceService
                 .query({
@@ -80,7 +66,8 @@ export class DesignationWiseAllowanceExtendedComponent extends DesignationWiseAl
             .subscribe(
                 (res: HttpResponse<Designation[]>) => {
                     this.designations = res.body;
-                    this.designationWiseAllowanceService.designationId = this.designations[0].id;
+                    if (this.designationWiseAllowanceService.designationId === undefined)
+                        this.designationWiseAllowanceService.designationId = this.designations[0].id;
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
