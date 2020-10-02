@@ -113,6 +113,7 @@ public class PayrollService {
             BigDecimal grossSalaryBasedOnPresense = perDaySalary.multiply(BigDecimal.valueOf(totalPresent));
             BigDecimal totalPayableSalary = grossSalaryBasedOnPresense.compareTo(monthlySalary.getGross())<0? grossSalaryBasedOnPresense: monthlySalary.getGross();
             monthlySalary.setGross(totalPayableSalary);
+            monthlySalary = assignTax(monthlySalary);
 
             BigDecimal totalPayable = new BigDecimal(0);
             totalPayable = totalPayable
@@ -120,16 +121,17 @@ public class PayrollService {
                 .add(ObjectUtils.defaultIfNull( monthlySalary.getOverTimeAllowance(), BigDecimal.ZERO))
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getFestivalAllowance(), BigDecimal.ZERO));
             BigDecimal totalDeduction = new BigDecimal(0);
+
             totalDeduction = totalDeduction
-                .add(ObjectUtils.defaultIfNull(monthlySalary.getAdvanceFactory(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getAdvanceHO(), BigDecimal.ZERO))
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getFine(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getTax(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getProvidentFund(), BigDecimal.ZERO))
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getLoanAmount(), BigDecimal.ZERO));
 
 
-
-
-
             monthlySalary.setPayable(totalPayable.subtract(totalDeduction));
+            monthlySalary.setGross(monthlySalary.getPayable());
 
             monthlySalaries.add(monthlySalary);
         }
@@ -150,7 +152,7 @@ public class PayrollService {
 
     @Transactional
     public void generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType){
-        monthlySalaryService.delete(year, monthType, officeId, designationId);
+        monthlySalaryService.delete(year, monthType, officeId);
         updatableFines = new ArrayList<>();
         updatableAdvances = new ArrayList<>();
         updatableLoans = new ArrayList<>();
@@ -169,7 +171,7 @@ public class PayrollService {
             monthlySalary.setYear(year);
             monthlySalary.setMonth(monthType);
             monthlySalary.setFine(calculateFine(employee, year, monthType));
-            monthlySalary.setAdvanceHO(calculateAdvance(employee, year, monthType));
+            monthlySalary.setAdvanceFactory(calculateAdvance(employee, year, monthType));
             monthlySalary.setLoanAmount(calculateLoan(employee, year, monthType));
             calculateBasicAndGross(employee, year, monthType, monthlySalary);
             monthlySalary = calculateProvidentFund(monthlySalary);
@@ -197,11 +199,14 @@ public class PayrollService {
             totalPayable = totalPayable
                 .add(monthlySalary.getGross())
                 .add(ObjectUtils.defaultIfNull( monthlySalary.getOverTimeAllowance(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull( monthlySalary.getBillPayable(), BigDecimal.ZERO))
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getFestivalAllowance(), BigDecimal.ZERO));
             BigDecimal totalDeduction = new BigDecimal(0);
+            monthlySalary = assignTax(monthlySalary);
             totalDeduction = totalDeduction
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getAdvanceFactory(), BigDecimal.ZERO))
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getFine(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getTax(), BigDecimal.ZERO))
                 .add(ObjectUtils.defaultIfNull(monthlySalary.getLoanAmount(), BigDecimal.ZERO));
 
             monthlySalary.setPayable(totalPayable.subtract(totalDeduction));
@@ -268,6 +273,8 @@ public class PayrollService {
 
     private MonthlySalary assignTax(MonthlySalary monthlySalary){
         Tax tax = taxService.find(monthlySalary.getEmployee().getId(), TaxStatus.ACTIVE);
+        if(tax==null)
+            return monthlySalary;
         monthlySalary.setTax(tax.getAmount());
         return monthlySalary;
     }
@@ -295,7 +302,7 @@ public class PayrollService {
     private MonthlySalary calculateProvidentFund(MonthlySalary monthlySalary){
         ProvidentFund providentFund = providentFundService.get(monthlySalary.getEmployee(), ProvidentFundStatus.ACTIVE);
         if(providentFund!=null){
-            monthlySalary.setProvidentFund(monthlySalary.getGross().divide(BigDecimal.valueOf(providentFund.getRate()/100)));
+            monthlySalary.setProvidentFund(monthlySalary.getBasic().divide(BigDecimal.valueOf(providentFund.getRate()/100)));
         }
         return monthlySalary;
     }
@@ -322,7 +329,7 @@ public class PayrollService {
         for(Fine fine: fines){
             BigDecimal fineAmount = fine.getAmount().multiply(BigDecimal.valueOf(fine.getMonthlyPayable()/100));
             BigDecimal totalLeft = fine.getLeft().add(fineAmount);
-            fine.setLeft(fine.getAmount().subtract(totalLeft));
+            fine.setLeft(fine.getAmount().subtract(fineAmount));
             if(fine.getLeft().equals(new BigDecimal(0)) || fine.getLeft().compareTo(BigDecimal.ZERO)==-1)
                 fine.setPaymentStatus(PaymentStatus.PAID);
             totalFine = totalFine.add(fineAmount);
@@ -337,8 +344,8 @@ public class PayrollService {
         List<Advance> advances = advanceService.get(employee, PaymentStatus.NOT_PAID);
         for(Advance advance: advances){
             BigDecimal advanceAmount = advance.getAmount().multiply(BigDecimal.valueOf(advance.getMonthlyPayable()/100));
-            BigDecimal totalLeft = advance.getLeft().add(advanceAmount);
-            advance.setLeft(advance.getAmount().subtract(totalLeft));
+            BigDecimal totalLeft = advance.getLeft().subtract(advanceAmount);
+            advance.setLeft(advance.getAmount().subtract(advanceAmount));
             if(advance.getLeft().equals(new BigDecimal(0)) || advance.getLeft().compareTo(BigDecimal.ZERO)==-1)
                 advance.setPaymentStatus(PaymentStatus.PAID);
             totalAdvance = totalAdvance.add(advanceAmount);
@@ -352,12 +359,12 @@ public class PayrollService {
         List<Loan> loans = loanService.get(employee, PaymentStatus.NOT_PAID);
         for(Loan loan: loans){
             BigDecimal loanAmount = loan.getAmount().multiply(BigDecimal.valueOf(loan.getMonthlyPayable()/100));
-            BigDecimal totalLeft = loan.getLeft().add(loanAmount);
-            loan.setLeft(loan.getAmount().subtract(totalLeft));
+            BigDecimal totalLeft = loan.getLeft().subtract(loanAmount);
+            loan.setLeft(loan.getAmount().subtract(loanAmount));
             if(loan.getLeft().equals(new BigDecimal(0)) || loan.getLeft().compareTo(BigDecimal.ZERO)==-1){
                 loan.setPaymentStatus(PaymentStatus.PAID);
             }
-            totalLoan = totalLoan.add(totalLeft);
+            totalLoan = totalLoan.add(loanAmount);
         }
         return totalLoan;
     }

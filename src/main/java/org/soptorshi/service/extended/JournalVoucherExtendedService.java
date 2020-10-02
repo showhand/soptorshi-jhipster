@@ -170,7 +170,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
 
         BigDecimal totalAmount = monthlySalaries
             .stream()
-            .map(MonthlySalary::getGross)
+            .map(MonthlySalary::getPayable)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         List<DtTransaction> voucherTransactions = new ArrayList<>();

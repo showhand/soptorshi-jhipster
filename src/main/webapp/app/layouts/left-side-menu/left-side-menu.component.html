@@ -254,7 +254,7 @@
             </ul>
         </li>
 
-        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_USER']">
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_ACCOUNTS','ROLE_CFO','ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_MD']">
             <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 

@@ -11,6 +11,9 @@ import java.util.List;
 
 @Repository
 public interface MonthlySalaryExtendedRepository extends MonthlySalaryRepository {
+
+    void deleteAllByYearAndMonthAndEmployee_Office_Id(Integer year, MonthType monthType, Long officeId);
+
     void deleteAllByYearAndMonthAndEmployee_Office_IdAndEmployee_Designation_Id(Integer year, MonthType monthType, Long officeId, Long designationId);
 
     void deleteAllByYearAndMonthAndEmployee_Office_IdAndEmployee_idAndStatusIsNot(Integer year, MonthType monthType, Long officeId, Long employeeId, MonthlySalaryStatus status);

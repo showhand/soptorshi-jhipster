@@ -47,7 +47,12 @@ public class MonthlySalaryExtendedService extends MonthlySalaryService {
 
     @Override
     public MonthlySalaryDTO save(MonthlySalaryDTO monthlySalaryDTO) {
+
         return super.save(monthlySalaryDTO);
+    }
+
+    public void delete(Integer year, MonthType monthType, Long officeId){
+        monthlySalaryExtendedRepository.deleteAllByYearAndMonthAndEmployee_Office_Id(year, monthType, officeId);
     }
 
     public void delete(Integer year, MonthType monthType, Long officeId, Long designationId){
