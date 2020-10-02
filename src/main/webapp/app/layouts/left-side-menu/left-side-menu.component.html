@@ -367,7 +367,7 @@
                     </a>
                 </li>
             </ul>
-        </li> -->
+        </li>
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
             *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
@@ -685,7 +685,7 @@
             </ul>
         </li>
 
-        <!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
             *jhiHasAnyAuthority="['ROLE_ADMIN']">
             <a (click)="commercialManagement=!commercialManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
@@ -704,12 +704,12 @@
                         <span *ngIf="!leftMenuHidden">Budget Step</span>
                     </a>
                 </li>
-                &lt;!&ndash;<li>
+                <!--<li>
                 <a class="dropdown-item" routerLink="commercial-product-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                     <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                     <span *ngIf="!leftMenuHidden">Commercial Product Info</span>
                 </a>
-            </li>&ndash;&gt;
+            </li>-->
                 <li>
                     <a class="dropdown-item" routerLink="commercial-pi" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
@@ -740,7 +740,7 @@
             </ul>
         </li>
 
-        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        <!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
             *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER']">
             <a (click)="supplyChainManagement=!supplyChainManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">

@@ -2,14 +2,19 @@ package org.soptorshi.web.rest.extended;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.security.AuthoritiesConstants;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.CommercialAttachmentQueryService;
 import org.soptorshi.service.dto.CommercialAttachmentDTO;
 import org.soptorshi.service.extended.CommercialAttachmentExtendedService;
 import org.soptorshi.web.rest.CommercialAttachmentResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -23,34 +28,55 @@ public class CommercialAttachmentExtendedResource extends CommercialAttachmentRe
 
     private static final String ENTITY_NAME = "commercialAttachment";
 
-    public CommercialAttachmentExtendedResource(CommercialAttachmentExtendedService commercialAttachmentService, CommercialAttachmentQueryService commercialAttachmentQueryService) {
-       super(commercialAttachmentService, commercialAttachmentQueryService);
+    private final CommercialAttachmentExtendedService commercialAttachmentExtendedService;
+
+    public CommercialAttachmentExtendedResource(CommercialAttachmentExtendedService commercialAttachmentExtendedService, CommercialAttachmentQueryService commercialAttachmentQueryService) {
+       super(commercialAttachmentExtendedService, commercialAttachmentQueryService);
+       this.commercialAttachmentExtendedService = commercialAttachmentExtendedService;
     }
 
-    /**
-     * PUT  /commercial-attachments : Updates an existing commercialAttachment.
-     *
-     * @param commercialAttachmentDTO the commercialAttachmentDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated commercialAttachmentDTO,
-     * or with status 400 (Bad Request) if the commercialAttachmentDTO is not valid,
-     * or with status 500 (Internal Server Error) if the commercialAttachmentDTO couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
+    @PostMapping("/commercial-attachments")
+    public ResponseEntity<CommercialAttachmentDTO> createCommercialAttachment(@Valid @RequestBody CommercialAttachmentDTO commercialAttachmentDTO) throws URISyntaxException {
+        log.debug("REST request to save CommercialAttachment : {}", commercialAttachmentDTO);
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_MANAGER)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        if (commercialAttachmentDTO.getId() != null) {
+            throw new BadRequestAlertException("A new commercialAttachment cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        CommercialAttachmentDTO result = commercialAttachmentExtendedService.save(commercialAttachmentDTO);
+        return ResponseEntity.created(new URI("/api/commercial-attachments/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
     @PutMapping("/commercial-attachments")
-    public ResponseEntity<CommercialAttachmentDTO> updateCommercialAttachment(@RequestBody CommercialAttachmentDTO commercialAttachmentDTO) throws URISyntaxException {
+    public ResponseEntity<CommercialAttachmentDTO> updateCommercialAttachment(@Valid @RequestBody CommercialAttachmentDTO commercialAttachmentDTO) throws URISyntaxException {
         log.debug("REST request to update CommercialAttachment : {}", commercialAttachmentDTO);
-        throw new BadRequestAlertException("Update operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_MANAGER)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        if (commercialAttachmentDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        CommercialAttachmentDTO result = commercialAttachmentExtendedService.save(commercialAttachmentDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, commercialAttachmentDTO.getId().toString()))
+            .body(result);
     }
 
-    /**
-     * DELETE  /commercial-attachments/:id : delete the "id" commercialAttachment.
-     *
-     * @param id the id of the commercialAttachmentDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
     @DeleteMapping("/commercial-attachments/{id}")
     public ResponseEntity<Void> deleteCommercialAttachment(@PathVariable Long id) {
         log.debug("REST request to delete CommercialAttachment : {}", id);
-        throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        commercialAttachmentExtendedService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

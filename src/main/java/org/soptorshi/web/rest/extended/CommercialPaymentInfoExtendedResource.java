@@ -2,14 +2,19 @@ package org.soptorshi.web.rest.extended;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.security.AuthoritiesConstants;
+import org.soptorshi.security.SecurityUtils;
+import org.soptorshi.service.dto.CommercialPaymentInfoDTO;
 import org.soptorshi.service.extended.CommercialPaymentInfoExtendedService;
 import org.soptorshi.web.rest.CommercialPaymentInfoResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * REST controller for managing CommercialPaymentInfo.
@@ -22,19 +27,56 @@ public class CommercialPaymentInfoExtendedResource extends CommercialPaymentInfo
 
     private static final String ENTITY_NAME = "commercialPaymentInfo";
 
+    private final CommercialPaymentInfoExtendedService commercialPaymentInfoExtendedService;
+
     public CommercialPaymentInfoExtendedResource(CommercialPaymentInfoExtendedService commercialPaymentInfoExtendedService) {
         super(commercialPaymentInfoExtendedService);
+        this.commercialPaymentInfoExtendedService = commercialPaymentInfoExtendedService;
     }
 
-    /**
-     * DELETE  /commercial-payment-infos/:id : delete the "id" commercialPaymentInfo.
-     *
-     * @param id the id of the commercialPaymentInfoDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
+    @PostMapping("/commercial-payment-infos")
+    public ResponseEntity<CommercialPaymentInfoDTO> createCommercialPaymentInfo(@Valid @RequestBody CommercialPaymentInfoDTO commercialPaymentInfoDTO) throws URISyntaxException {
+        log.debug("REST request to save CommercialPaymentInfo : {}", commercialPaymentInfoDTO);
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_MANAGER)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        if (commercialPaymentInfoDTO.getId() != null) {
+            throw new BadRequestAlertException("A new commercialPaymentInfo cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        CommercialPaymentInfoDTO result = commercialPaymentInfoExtendedService.save(commercialPaymentInfoDTO);
+        return ResponseEntity.created(new URI("/api/commercial-payment-infos/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+
+    @PutMapping("/commercial-payment-infos")
+    public ResponseEntity<CommercialPaymentInfoDTO> updateCommercialPaymentInfo(@Valid @RequestBody CommercialPaymentInfoDTO commercialPaymentInfoDTO) throws URISyntaxException {
+        log.debug("REST request to update CommercialPaymentInfo : {}", commercialPaymentInfoDTO);
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_MANAGER)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        if (commercialPaymentInfoDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        CommercialPaymentInfoDTO result = commercialPaymentInfoExtendedService.save(commercialPaymentInfoDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, commercialPaymentInfoDTO.getId().toString()))
+            .body(result);
+    }
+
     @DeleteMapping("/commercial-payment-infos/{id}")
     public ResponseEntity<Void> deleteCommercialPaymentInfo(@PathVariable Long id) {
         log.debug("REST request to delete CommercialPaymentInfo : {}", id);
-        throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        commercialPaymentInfoExtendedService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

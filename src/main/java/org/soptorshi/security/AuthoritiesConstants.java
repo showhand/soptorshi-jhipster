@@ -109,6 +109,12 @@ public final class AuthoritiesConstants {
 
     public static final String INVENTORY_MANAGER = "ROLE_INVENTORY_MANAGER";
 
+    /* -----------Commercial Roles------------- */
+
+    public static final String COMMERCIAL_ADMIN = "ROLE_COMMERCIAL_ADMIN";
+
+    public static final String COMMERCIAL_MANAGER = "ROLE_COMMERCIAL_MANAGER";
+
     private AuthoritiesConstants() {
     }
 }
