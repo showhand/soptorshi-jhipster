@@ -5,7 +5,7 @@ import { CommercialBudgetUpdateComponent } from 'app/entities/commercial-budget'
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ICommercialProductInfo } from 'app/shared/model/commercial-product-info.model';
 import { DATE_TIME_FORMAT } from 'app/shared';
-import { CommercialBudgetStatus, ICommercialBudget } from 'app/shared/model/commercial-budget.model';
+import { CommercialBudgetStatus, CommercialCustomerCategory, ICommercialBudget } from 'app/shared/model/commercial-budget.model';
 import * as moment from 'moment';
 import { CommercialProductInfoExtendedService } from 'app/entities/commercial-product-info-extended';
 import { ICommercialPi } from 'app/shared/model/commercial-pi.model';
@@ -133,6 +133,14 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
         this.commercialProductInfos = [];
         for (let i = 0; i < data.length; i++) {
             this.commercialProductInfos.push(data[i]);
+        }
+    }
+
+    updateCustomer() {
+        if (this.commercialBudget.type === 'LOCAL') {
+            this.commercialBudget.customer = CommercialCustomerCategory.ZONE;
+        } else if (this.commercialBudget.type === 'FOREIGN') {
+            this.commercialBudget.customer = CommercialCustomerCategory.FOREIGN;
         }
     }
 }

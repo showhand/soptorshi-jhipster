@@ -26,7 +26,7 @@
                 <div class="form-group col-3">
                     <label class="form-control-label" for="field_type">Type</label>
                     <select class="form-control" name="type" [(ngModel)]="commercialBudget.type" id="field_type"
-                            required>
+                            (ngModelChange)="updateCustomer()" required>
                         <option value="LOCAL">LOCAL</option>
                         <option value="FOREIGN">FOREIGN</option>
                     </select>
@@ -40,7 +40,7 @@
                 <div class="form-group col-3">
                     <label class="form-control-label" for="field_customer">Customer</label>
                     <select class="form-control" name="customer" [(ngModel)]="commercialBudget.customer"
-                            id="field_customer" required>
+                            id="field_customer" disabled required>
                         <option value="ZONE">ZONE</option>
                         <option value="FOREIGN">FOREIGN</option>
                     </select>
