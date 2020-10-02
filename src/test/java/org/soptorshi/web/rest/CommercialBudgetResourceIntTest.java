@@ -112,8 +112,8 @@ public class CommercialBudgetResourceIntTest {
     private static final BigDecimal DEFAULT_PROFIT_PERCENTAGE = new BigDecimal(1);
     private static final BigDecimal UPDATED_PROFIT_PERCENTAGE = new BigDecimal(2);
 
-    private static final CommercialBudgetStatus DEFAULT_BUDGET_STATUS = CommercialBudgetStatus.WAITING_FOR_APPROVAL;
-    private static final CommercialBudgetStatus UPDATED_BUDGET_STATUS = CommercialBudgetStatus.APPROVED;
+    private static final CommercialBudgetStatus DEFAULT_BUDGET_STATUS = CommercialBudgetStatus.SAVE_AS_DRAFT;
+    private static final CommercialBudgetStatus UPDATED_BUDGET_STATUS = CommercialBudgetStatus.WAITING_FOR_APPROVAL;
 
     private static final String DEFAULT_PROFORMA_NO = "AAAAAAAAAA";
     private static final String UPDATED_PROFORMA_NO = "BBBBBBBBBB";

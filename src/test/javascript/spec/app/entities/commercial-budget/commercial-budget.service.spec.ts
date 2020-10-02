@@ -53,7 +53,7 @@ describe('Service Tests', () => {
                 0,
                 0,
                 0,
-                CommercialBudgetStatus.WAITING_FOR_APPROVAL,
+                CommercialBudgetStatus.SAVE_AS_DRAFT,
                 'AAAAAAA',
                 'AAAAAAA',
                 currentDate,

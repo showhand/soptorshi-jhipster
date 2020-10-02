@@ -40,7 +40,7 @@ export class CommercialPaymentInfoUpdateComponent implements OnInit {
                 this.commercialPaymentInfo.updatedOn != null ? this.commercialPaymentInfo.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
         this.commercialPiService
-            .query({ filter: 'commercialpaymentinfo-is-null' })
+            .query({ 'commercialPaymentInfoId.specified': 'false' })
             .pipe(
                 filter((mayBeOk: HttpResponse<ICommercialPi[]>) => mayBeOk.ok),
                 map((response: HttpResponse<ICommercialPi[]>) => response.body)

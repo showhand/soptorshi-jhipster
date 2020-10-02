@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.security.AuthoritiesConstants;
 import org.soptorshi.security.SecurityUtils;
+import org.soptorshi.service.CommercialPaymentInfoQueryService;
 import org.soptorshi.service.dto.CommercialPaymentInfoDTO;
 import org.soptorshi.service.extended.CommercialPaymentInfoExtendedService;
 import org.soptorshi.web.rest.CommercialPaymentInfoResource;
@@ -29,8 +30,8 @@ public class CommercialPaymentInfoExtendedResource extends CommercialPaymentInfo
 
     private final CommercialPaymentInfoExtendedService commercialPaymentInfoExtendedService;
 
-    public CommercialPaymentInfoExtendedResource(CommercialPaymentInfoExtendedService commercialPaymentInfoExtendedService) {
-        super(commercialPaymentInfoExtendedService);
+    public CommercialPaymentInfoExtendedResource(CommercialPaymentInfoExtendedService commercialPaymentInfoExtendedService, CommercialPaymentInfoQueryService commercialPaymentInfoQueryService) {
+        super(commercialPaymentInfoExtendedService, commercialPaymentInfoQueryService);
         this.commercialPaymentInfoExtendedService = commercialPaymentInfoExtendedService;
     }
 

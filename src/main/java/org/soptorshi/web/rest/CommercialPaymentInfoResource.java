@@ -3,7 +3,9 @@ package org.soptorshi.web.rest;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.CommercialPaymentInfoQueryService;
 import org.soptorshi.service.CommercialPaymentInfoService;
+import org.soptorshi.service.dto.CommercialPaymentInfoCriteria;
 import org.soptorshi.service.dto.CommercialPaymentInfoDTO;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -33,8 +35,11 @@ public class CommercialPaymentInfoResource {
 
     private final CommercialPaymentInfoService commercialPaymentInfoService;
 
-    public CommercialPaymentInfoResource(CommercialPaymentInfoService commercialPaymentInfoService) {
+    private final CommercialPaymentInfoQueryService commercialPaymentInfoQueryService;
+
+    public CommercialPaymentInfoResource(CommercialPaymentInfoService commercialPaymentInfoService, CommercialPaymentInfoQueryService commercialPaymentInfoQueryService) {
         this.commercialPaymentInfoService = commercialPaymentInfoService;
+        this.commercialPaymentInfoQueryService = commercialPaymentInfoQueryService;
     }
 
     /**
@@ -81,14 +86,27 @@ public class CommercialPaymentInfoResource {
      * GET  /commercial-payment-infos : get all the commercialPaymentInfos.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of commercialPaymentInfos in body
      */
     @GetMapping("/commercial-payment-infos")
-    public ResponseEntity<List<CommercialPaymentInfoDTO>> getAllCommercialPaymentInfos(Pageable pageable) {
-        log.debug("REST request to get a page of CommercialPaymentInfos");
-        Page<CommercialPaymentInfoDTO> page = commercialPaymentInfoService.findAll(pageable);
+    public ResponseEntity<List<CommercialPaymentInfoDTO>> getAllCommercialPaymentInfos(CommercialPaymentInfoCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get CommercialPaymentInfos by criteria: {}", criteria);
+        Page<CommercialPaymentInfoDTO> page = commercialPaymentInfoQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/commercial-payment-infos");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /commercial-payment-infos/count : count all the commercialPaymentInfos.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/commercial-payment-infos/count")
+    public ResponseEntity<Long> countCommercialPaymentInfos(CommercialPaymentInfoCriteria criteria) {
+        log.debug("REST request to count CommercialPaymentInfos by criteria: {}", criteria);
+        return ResponseEntity.ok().body(commercialPaymentInfoQueryService.countByCriteria(criteria));
     }
 
     /**
