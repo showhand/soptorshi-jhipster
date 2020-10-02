@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,8 +24,30 @@ export class StockStatusDeleteDialogExtendedComponent extends StockStatusDeleteD
     selector: 'jhi-stock-status-delete-popup-extended',
     template: ''
 })
-export class StockStatusDeletePopupExtendedComponent extends StockStatusDeletePopupComponent {
+export class StockStatusDeletePopupExtendedComponent extends StockStatusDeletePopupComponent implements OnInit {
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
+    }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ stockStatus }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(StockStatusDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.stockStatus = stockStatus;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/stock-status', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/stock-status', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
     }
 }

@@ -208,6 +208,7 @@
                     <td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER']"
                                     [routerLink]="['/stock-in-process', stockInProcess.id, 'view' ]"
                                     class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'eye'"></fa-icon>
@@ -215,19 +216,21 @@
                             </button>
                             <button type="submit"
                                     [hidden]="stockInProcess.status == 'COMPLETED_STOCK_IN_PROCESS'"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER']"
                                     [routerLink]="['/stock-in-process', stockInProcess.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
-                            <!--<button type="submit"
+                            <button type="submit"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN']"
                                     [routerLink]="['/', 'stock-in-process', { outlets: { popup: stockInProcess.id + '/delete'} }]"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                            </button>
                         </div>
                     </td>
                 </tr>

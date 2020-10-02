@@ -20,7 +20,7 @@ export const productionExtendedRoute: Routes = [
         path: '',
         component: ProductionExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_PRODUCTION_ADMIN', 'ROLE_PRODUCTION_MANAGER'],
             pageTitle: 'Productions'
         },
         canActivate: [UserRouteAccessService]
@@ -29,10 +29,10 @@ export const productionExtendedRoute: Routes = [
         path: ':id/view',
         component: ProductionDetailExtendedComponent,
         resolve: {
-            production: ProductionResolve
+            production: ProductionExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_PRODUCTION_ADMIN', 'ROLE_PRODUCTION_MANAGER'],
             pageTitle: 'Productions'
         },
         canActivate: [UserRouteAccessService]
@@ -41,10 +41,10 @@ export const productionExtendedRoute: Routes = [
         path: 'new',
         component: ProductionUpdateExtendedComponent,
         resolve: {
-            production: ProductionResolve
+            production: ProductionExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_PRODUCTION_ADMIN', 'ROLE_PRODUCTION_MANAGER'],
             pageTitle: 'Productions'
         },
         canActivate: [UserRouteAccessService]
@@ -53,10 +53,10 @@ export const productionExtendedRoute: Routes = [
         path: ':id/edit',
         component: ProductionUpdateExtendedComponent,
         resolve: {
-            production: ProductionResolve
+            production: ProductionExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_PRODUCTION_ADMIN', 'ROLE_PRODUCTION_MANAGER'],
             pageTitle: 'Productions'
         },
         canActivate: [UserRouteAccessService]
@@ -68,10 +68,10 @@ export const productionPopupExtendedRoute: Routes = [
         path: ':id/delete',
         component: ProductionDeletePopupExtendedComponent,
         resolve: {
-            production: ProductionResolve
+            production: ProductionExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_PRODUCTION_ADMIN'],
             pageTitle: 'Productions'
         },
         canActivate: [UserRouteAccessService],

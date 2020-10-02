@@ -114,10 +114,11 @@ public class StockInProcessExtendedService extends StockInProcessService {
         return isTotalQuantityAndSumOfItemsPerContainerEqual(stockInProcessDTO, itemsPerContainer);
     }
 
-    private boolean isTotalQuantityAndSumOfItemsPerContainerEqual(StockInProcessDTO stockInProcessDTO, String[] itemsPerContainer) {
+    public boolean isTotalQuantityAndSumOfItemsPerContainerEqual(StockInProcessDTO stockInProcessDTO, String[] itemsPerContainer) {
         BigDecimal totalQuantity = BigDecimal.ZERO;
         for (String itemPerContainer : itemsPerContainer) {
-            BigDecimal bigDecimal = new BigDecimal(itemPerContainer);
+            Double d = new Double(itemPerContainer);
+            BigDecimal bigDecimal = new BigDecimal(d);
             totalQuantity = bigDecimal.add(totalQuantity);
         }
         return !totalQuantity.equals(stockInProcessDTO.getTotalQuantity());

@@ -75,18 +75,21 @@
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER']"
                                     [routerLink]="['/inventory-sub-location', inventorySubLocation.id, 'view' ]"
                                     class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
                             <button type="submit"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER']"
                                     [routerLink]="['/inventory-sub-location', inventorySubLocation.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
                             <button type="submit"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN']"
                                     [routerLink]="['/', 'inventory-sub-location', { outlets: { popup: inventorySubLocation.id + '/delete'} }]"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"

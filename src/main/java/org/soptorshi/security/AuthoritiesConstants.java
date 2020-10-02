@@ -99,9 +99,15 @@ public final class AuthoritiesConstants {
 
     /* -----------Production Roles------------- */
 
-    public static final String PRODUCTION_ADMIN= "ROLE_PRODUCTION_ADMIN";
+    public static final String PRODUCTION_ADMIN = "ROLE_PRODUCTION_ADMIN";
 
     public static final String PRODUCTION_MANAGER = "ROLE_PRODUCTION_MANAGER";
+
+    /* -----------Inventory Roles------------- */
+
+    public static final String INVENTORY_ADMIN = "ROLE_INVENTORY_ADMIN";
+
+    public static final String INVENTORY_MANAGER = "ROLE_INVENTORY_MANAGER";
 
     private AuthoritiesConstants() {
     }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,8 +28,30 @@ export class InventoryLocationDeleteDialogExtendedComponent extends InventoryLoc
     selector: 'jhi-inventory-location-delete-popup-extended',
     template: ''
 })
-export class InventoryLocationDeletePopupExtendedComponent extends InventoryLocationDeletePopupComponent {
+export class InventoryLocationDeletePopupExtendedComponent extends InventoryLocationDeletePopupComponent implements OnInit {
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
+    }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ inventoryLocation }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(InventoryLocationDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.inventoryLocation = inventoryLocation;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/inventory-location', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/inventory-location', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
     }
 }

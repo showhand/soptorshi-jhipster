@@ -23,6 +23,8 @@ export class ProductionUpdateExtendedComponent extends ProductionUpdateComponent
     requisitionDetails: IRequisitionDetails[];
     masterCopyOfProducts: IProduct[];
 
+    maxVal: number;
+
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected productionService: ProductionExtendedService,
@@ -120,7 +122,35 @@ export class ProductionUpdateExtendedComponent extends ProductionUpdateComponent
         for (let i = 0; i < this.requisitionDetails.length; i++) {
             if (this.production.productsId === this.requisitionDetails[i].productId) {
                 this.production.quantity = this.requisitionDetails[i].unit;
+                this.maxVal = this.production.quantity;
             }
+        }
+    }
+
+    validateQuantity() {
+        if (this.production.quantity < 0) {
+            this.isSaving = true;
+            this.onError('Quantity can not be zero');
+        } else if (this.production.quantity > this.maxVal && this.production.weightStep === 'RAW') {
+            this.isSaving = true;
+            this.onError('Quantity can not be bigger than provided in requisition');
+        } else {
+            this.isSaving = false;
+        }
+    }
+
+    validateByProduct() {
+        if (this.production.byProductQuantity < 0) {
+            this.isSaving = true;
+            this.onError('By product quantity can not be zero');
+        } else if (this.production.byProductQuantity > this.maxVal && this.production.weightStep === 'RAW') {
+            this.isSaving = true;
+            this.onError('By product quantity can not be bigger than provided in requisition');
+        } else if (this.production.byProductQuantity + this.production.quantity === this.maxVal && this.production.weightStep === 'RAW') {
+            this.isSaving = true;
+            this.onError('By product quantity and quantity summation should be equal to total value');
+        } else {
+            this.isSaving = false;
         }
     }
 

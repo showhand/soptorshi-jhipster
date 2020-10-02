@@ -136,6 +136,7 @@
                     <td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_PRODUCTION_ADMIN', 'ROLE_PRODUCTION_MANAGER']"
                                     [routerLink]="['/production', production.id, 'view' ]"
                                     class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'eye'"></fa-icon>
@@ -143,18 +144,20 @@
                             </button>
                             <button type="submit"
                                     [routerLink]="['/production', production.id, 'edit']"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_PRODUCTION_ADMIN', 'ROLE_PRODUCTION_MANAGER']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
-                            <!--<button type="submit"
+                            <button type="submit"
                                     [routerLink]="['/', 'production', { outlets: { popup: production.id + '/delete'} }]"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_PRODUCTION_ADMIN']"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                            </button>
                         </div>
                     </td>
                 </tr>

@@ -206,24 +206,27 @@
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/stock-status', stockStatus.id, 'view' ]"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
-                            <!--<button type="submit"
+                            <button type="submit"
                                     [routerLink]="['/stock-status', stockStatus.id, 'edit']"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
                             <button type="submit"
                                     [routerLink]="['/', 'stock-status', { outlets: { popup: stockStatus.id + '/delete'} }]"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN']"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                            </button>
                         </div>
                     </td>
                 </tr>
