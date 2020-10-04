@@ -103,7 +103,7 @@
         {
             "fieldName": "budgetStatus",
             "fieldType": "CommercialBudgetStatus",
-            "fieldValues": "WAITING_FOR_APPROVAL,APPROVED,REJECTED"
+            "fieldValues": "SAVE_AS_DRAFT,WAITING_FOR_APPROVAL,APPROVED,REJECTED"
         },
         {
             "fieldName": "proformaNo",

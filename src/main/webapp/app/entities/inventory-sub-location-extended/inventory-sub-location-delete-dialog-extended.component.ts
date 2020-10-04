@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,8 +24,30 @@ export class InventorySubLocationDeleteDialogExtendedComponent extends Inventory
     selector: 'jhi-inventory-sub-location-delete-popup-extended',
     template: ''
 })
-export class InventorySubLocationDeletePopupExtendedComponent extends InventorySubLocationDeletePopupComponent {
+export class InventorySubLocationDeletePopupExtendedComponent extends InventorySubLocationDeletePopupComponent implements OnInit {
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
+    }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ inventorySubLocation }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(InventorySubLocationDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.inventorySubLocation = inventorySubLocation;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/inventory-sub-location', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/inventory-sub-location', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
     }
 }

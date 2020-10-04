@@ -20,7 +20,7 @@ export const stockStatusExtendedRoute: Routes = [
         path: '',
         component: StockStatusExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'StockStatuses'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const stockStatusExtendedRoute: Routes = [
             stockStatus: StockStatusExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'StockStatuses'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const stockStatusExtendedRoute: Routes = [
             stockStatus: StockStatusExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'StockStatuses'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const stockStatusExtendedRoute: Routes = [
             stockStatus: StockStatusExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN'],
             pageTitle: 'StockStatuses'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const stockStatusPopupExtendedRoute: Routes = [
             stockStatus: StockStatusExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN'],
             pageTitle: 'StockStatuses'
         },
         canActivate: [UserRouteAccessService],

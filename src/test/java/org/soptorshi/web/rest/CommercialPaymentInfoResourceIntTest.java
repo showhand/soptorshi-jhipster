@@ -11,6 +11,7 @@ import org.soptorshi.domain.enumeration.CommercialPaymentStatus;
 import org.soptorshi.domain.enumeration.PaymentType;
 import org.soptorshi.repository.CommercialPaymentInfoRepository;
 import org.soptorshi.repository.search.CommercialPaymentInfoSearchRepository;
+import org.soptorshi.service.CommercialPaymentInfoQueryService;
 import org.soptorshi.service.CommercialPaymentInfoService;
 import org.soptorshi.service.dto.CommercialPaymentInfoDTO;
 import org.soptorshi.service.mapper.CommercialPaymentInfoMapper;
@@ -96,6 +97,9 @@ public class CommercialPaymentInfoResourceIntTest {
     private CommercialPaymentInfoSearchRepository mockCommercialPaymentInfoSearchRepository;
 
     @Autowired
+    private CommercialPaymentInfoQueryService commercialPaymentInfoQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -117,7 +121,7 @@ public class CommercialPaymentInfoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CommercialPaymentInfoResource commercialPaymentInfoResource = new CommercialPaymentInfoResource(commercialPaymentInfoService);
+        final CommercialPaymentInfoResource commercialPaymentInfoResource = new CommercialPaymentInfoResource(commercialPaymentInfoService, commercialPaymentInfoQueryService);
         this.restCommercialPaymentInfoMockMvc = MockMvcBuilders.standaloneSetup(commercialPaymentInfoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -309,6 +313,418 @@ public class CommercialPaymentInfoResourceIntTest {
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByPaymentTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where paymentType equals to DEFAULT_PAYMENT_TYPE
+        defaultCommercialPaymentInfoShouldBeFound("paymentType.equals=" + DEFAULT_PAYMENT_TYPE);
+
+        // Get all the commercialPaymentInfoList where paymentType equals to UPDATED_PAYMENT_TYPE
+        defaultCommercialPaymentInfoShouldNotBeFound("paymentType.equals=" + UPDATED_PAYMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByPaymentTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where paymentType in DEFAULT_PAYMENT_TYPE or UPDATED_PAYMENT_TYPE
+        defaultCommercialPaymentInfoShouldBeFound("paymentType.in=" + DEFAULT_PAYMENT_TYPE + "," + UPDATED_PAYMENT_TYPE);
+
+        // Get all the commercialPaymentInfoList where paymentType equals to UPDATED_PAYMENT_TYPE
+        defaultCommercialPaymentInfoShouldNotBeFound("paymentType.in=" + UPDATED_PAYMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByPaymentTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where paymentType is not null
+        defaultCommercialPaymentInfoShouldBeFound("paymentType.specified=true");
+
+        // Get all the commercialPaymentInfoList where paymentType is null
+        defaultCommercialPaymentInfoShouldNotBeFound("paymentType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByTotalAmountToPayIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where totalAmountToPay equals to DEFAULT_TOTAL_AMOUNT_TO_PAY
+        defaultCommercialPaymentInfoShouldBeFound("totalAmountToPay.equals=" + DEFAULT_TOTAL_AMOUNT_TO_PAY);
+
+        // Get all the commercialPaymentInfoList where totalAmountToPay equals to UPDATED_TOTAL_AMOUNT_TO_PAY
+        defaultCommercialPaymentInfoShouldNotBeFound("totalAmountToPay.equals=" + UPDATED_TOTAL_AMOUNT_TO_PAY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByTotalAmountToPayIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where totalAmountToPay in DEFAULT_TOTAL_AMOUNT_TO_PAY or UPDATED_TOTAL_AMOUNT_TO_PAY
+        defaultCommercialPaymentInfoShouldBeFound("totalAmountToPay.in=" + DEFAULT_TOTAL_AMOUNT_TO_PAY + "," + UPDATED_TOTAL_AMOUNT_TO_PAY);
+
+        // Get all the commercialPaymentInfoList where totalAmountToPay equals to UPDATED_TOTAL_AMOUNT_TO_PAY
+        defaultCommercialPaymentInfoShouldNotBeFound("totalAmountToPay.in=" + UPDATED_TOTAL_AMOUNT_TO_PAY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByTotalAmountToPayIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where totalAmountToPay is not null
+        defaultCommercialPaymentInfoShouldBeFound("totalAmountToPay.specified=true");
+
+        // Get all the commercialPaymentInfoList where totalAmountToPay is null
+        defaultCommercialPaymentInfoShouldNotBeFound("totalAmountToPay.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByTotalAmountPaidIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where totalAmountPaid equals to DEFAULT_TOTAL_AMOUNT_PAID
+        defaultCommercialPaymentInfoShouldBeFound("totalAmountPaid.equals=" + DEFAULT_TOTAL_AMOUNT_PAID);
+
+        // Get all the commercialPaymentInfoList where totalAmountPaid equals to UPDATED_TOTAL_AMOUNT_PAID
+        defaultCommercialPaymentInfoShouldNotBeFound("totalAmountPaid.equals=" + UPDATED_TOTAL_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByTotalAmountPaidIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where totalAmountPaid in DEFAULT_TOTAL_AMOUNT_PAID or UPDATED_TOTAL_AMOUNT_PAID
+        defaultCommercialPaymentInfoShouldBeFound("totalAmountPaid.in=" + DEFAULT_TOTAL_AMOUNT_PAID + "," + UPDATED_TOTAL_AMOUNT_PAID);
+
+        // Get all the commercialPaymentInfoList where totalAmountPaid equals to UPDATED_TOTAL_AMOUNT_PAID
+        defaultCommercialPaymentInfoShouldNotBeFound("totalAmountPaid.in=" + UPDATED_TOTAL_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByTotalAmountPaidIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where totalAmountPaid is not null
+        defaultCommercialPaymentInfoShouldBeFound("totalAmountPaid.specified=true");
+
+        // Get all the commercialPaymentInfoList where totalAmountPaid is null
+        defaultCommercialPaymentInfoShouldNotBeFound("totalAmountPaid.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByRemainingAmountToPayIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where remainingAmountToPay equals to DEFAULT_REMAINING_AMOUNT_TO_PAY
+        defaultCommercialPaymentInfoShouldBeFound("remainingAmountToPay.equals=" + DEFAULT_REMAINING_AMOUNT_TO_PAY);
+
+        // Get all the commercialPaymentInfoList where remainingAmountToPay equals to UPDATED_REMAINING_AMOUNT_TO_PAY
+        defaultCommercialPaymentInfoShouldNotBeFound("remainingAmountToPay.equals=" + UPDATED_REMAINING_AMOUNT_TO_PAY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByRemainingAmountToPayIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where remainingAmountToPay in DEFAULT_REMAINING_AMOUNT_TO_PAY or UPDATED_REMAINING_AMOUNT_TO_PAY
+        defaultCommercialPaymentInfoShouldBeFound("remainingAmountToPay.in=" + DEFAULT_REMAINING_AMOUNT_TO_PAY + "," + UPDATED_REMAINING_AMOUNT_TO_PAY);
+
+        // Get all the commercialPaymentInfoList where remainingAmountToPay equals to UPDATED_REMAINING_AMOUNT_TO_PAY
+        defaultCommercialPaymentInfoShouldNotBeFound("remainingAmountToPay.in=" + UPDATED_REMAINING_AMOUNT_TO_PAY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByRemainingAmountToPayIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where remainingAmountToPay is not null
+        defaultCommercialPaymentInfoShouldBeFound("remainingAmountToPay.specified=true");
+
+        // Get all the commercialPaymentInfoList where remainingAmountToPay is null
+        defaultCommercialPaymentInfoShouldNotBeFound("remainingAmountToPay.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByPaymentStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where paymentStatus equals to DEFAULT_PAYMENT_STATUS
+        defaultCommercialPaymentInfoShouldBeFound("paymentStatus.equals=" + DEFAULT_PAYMENT_STATUS);
+
+        // Get all the commercialPaymentInfoList where paymentStatus equals to UPDATED_PAYMENT_STATUS
+        defaultCommercialPaymentInfoShouldNotBeFound("paymentStatus.equals=" + UPDATED_PAYMENT_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByPaymentStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where paymentStatus in DEFAULT_PAYMENT_STATUS or UPDATED_PAYMENT_STATUS
+        defaultCommercialPaymentInfoShouldBeFound("paymentStatus.in=" + DEFAULT_PAYMENT_STATUS + "," + UPDATED_PAYMENT_STATUS);
+
+        // Get all the commercialPaymentInfoList where paymentStatus equals to UPDATED_PAYMENT_STATUS
+        defaultCommercialPaymentInfoShouldNotBeFound("paymentStatus.in=" + UPDATED_PAYMENT_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByPaymentStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where paymentStatus is not null
+        defaultCommercialPaymentInfoShouldBeFound("paymentStatus.specified=true");
+
+        // Get all the commercialPaymentInfoList where paymentStatus is null
+        defaultCommercialPaymentInfoShouldNotBeFound("paymentStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByCreatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where createdOn equals to DEFAULT_CREATED_ON
+        defaultCommercialPaymentInfoShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
+
+        // Get all the commercialPaymentInfoList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPaymentInfoShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByCreatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultCommercialPaymentInfoShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
+
+        // Get all the commercialPaymentInfoList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPaymentInfoShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByCreatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where createdOn is not null
+        defaultCommercialPaymentInfoShouldBeFound("createdOn.specified=true");
+
+        // Get all the commercialPaymentInfoList where createdOn is null
+        defaultCommercialPaymentInfoShouldNotBeFound("createdOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where createdBy equals to DEFAULT_CREATED_BY
+        defaultCommercialPaymentInfoShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the commercialPaymentInfoList where createdBy equals to UPDATED_CREATED_BY
+        defaultCommercialPaymentInfoShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultCommercialPaymentInfoShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the commercialPaymentInfoList where createdBy equals to UPDATED_CREATED_BY
+        defaultCommercialPaymentInfoShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where createdBy is not null
+        defaultCommercialPaymentInfoShouldBeFound("createdBy.specified=true");
+
+        // Get all the commercialPaymentInfoList where createdBy is null
+        defaultCommercialPaymentInfoShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByUpdatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where updatedOn equals to DEFAULT_UPDATED_ON
+        defaultCommercialPaymentInfoShouldBeFound("updatedOn.equals=" + DEFAULT_UPDATED_ON);
+
+        // Get all the commercialPaymentInfoList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultCommercialPaymentInfoShouldNotBeFound("updatedOn.equals=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByUpdatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where updatedOn in DEFAULT_UPDATED_ON or UPDATED_UPDATED_ON
+        defaultCommercialPaymentInfoShouldBeFound("updatedOn.in=" + DEFAULT_UPDATED_ON + "," + UPDATED_UPDATED_ON);
+
+        // Get all the commercialPaymentInfoList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultCommercialPaymentInfoShouldNotBeFound("updatedOn.in=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByUpdatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where updatedOn is not null
+        defaultCommercialPaymentInfoShouldBeFound("updatedOn.specified=true");
+
+        // Get all the commercialPaymentInfoList where updatedOn is null
+        defaultCommercialPaymentInfoShouldNotBeFound("updatedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByUpdatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where updatedBy equals to DEFAULT_UPDATED_BY
+        defaultCommercialPaymentInfoShouldBeFound("updatedBy.equals=" + DEFAULT_UPDATED_BY);
+
+        // Get all the commercialPaymentInfoList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultCommercialPaymentInfoShouldNotBeFound("updatedBy.equals=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByUpdatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where updatedBy in DEFAULT_UPDATED_BY or UPDATED_UPDATED_BY
+        defaultCommercialPaymentInfoShouldBeFound("updatedBy.in=" + DEFAULT_UPDATED_BY + "," + UPDATED_UPDATED_BY);
+
+        // Get all the commercialPaymentInfoList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultCommercialPaymentInfoShouldNotBeFound("updatedBy.in=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByUpdatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+
+        // Get all the commercialPaymentInfoList where updatedBy is not null
+        defaultCommercialPaymentInfoShouldBeFound("updatedBy.specified=true");
+
+        // Get all the commercialPaymentInfoList where updatedBy is null
+        defaultCommercialPaymentInfoShouldNotBeFound("updatedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPaymentInfosByCommercialPiIsEqualToSomething() throws Exception {
+        // Initialize the database
+        CommercialPi commercialPi = CommercialPiResourceIntTest.createEntity(em);
+        em.persist(commercialPi);
+        em.flush();
+        commercialPaymentInfo.setCommercialPi(commercialPi);
+        commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
+        Long commercialPiId = commercialPi.getId();
+
+        // Get all the commercialPaymentInfoList where commercialPi equals to commercialPiId
+        defaultCommercialPaymentInfoShouldBeFound("commercialPiId.equals=" + commercialPiId);
+
+        // Get all the commercialPaymentInfoList where commercialPi equals to commercialPiId + 1
+        defaultCommercialPaymentInfoShouldNotBeFound("commercialPiId.equals=" + (commercialPiId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultCommercialPaymentInfoShouldBeFound(String filter) throws Exception {
+        restCommercialPaymentInfoMockMvc.perform(get("/api/commercial-payment-infos?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(commercialPaymentInfo.getId().intValue())))
+            .andExpect(jsonPath("$.[*].paymentType").value(hasItem(DEFAULT_PAYMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].totalAmountToPay").value(hasItem(DEFAULT_TOTAL_AMOUNT_TO_PAY.intValue())))
+            .andExpect(jsonPath("$.[*].totalAmountPaid").value(hasItem(DEFAULT_TOTAL_AMOUNT_PAID.intValue())))
+            .andExpect(jsonPath("$.[*].remainingAmountToPay").value(hasItem(DEFAULT_REMAINING_AMOUNT_TO_PAY.intValue())))
+            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)));
+
+        // Check, that the count call also returns 1
+        restCommercialPaymentInfoMockMvc.perform(get("/api/commercial-payment-infos/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultCommercialPaymentInfoShouldNotBeFound(String filter) throws Exception {
+        restCommercialPaymentInfoMockMvc.perform(get("/api/commercial-payment-infos?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restCommercialPaymentInfoMockMvc.perform(get("/api/commercial-payment-infos/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

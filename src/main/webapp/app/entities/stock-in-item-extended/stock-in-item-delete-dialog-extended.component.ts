@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,8 +24,30 @@ export class StockInItemDeleteDialogExtendedComponent extends StockInItemDeleteD
     selector: 'jhi-stock-in-item-delete-popup-extended',
     template: ''
 })
-export class StockInItemDeletePopupExtendedComponent extends StockInItemDeletePopupComponent {
+export class StockInItemDeletePopupExtendedComponent extends StockInItemDeletePopupComponent implements OnInit {
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
+    }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ stockInItem }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(StockInItemDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.stockInItem = stockInItem;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/stock-in-item', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/stock-in-item', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
     }
 }

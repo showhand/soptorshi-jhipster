@@ -82,7 +82,7 @@
 
                 <fa-icon icon="calendar-alt" fixedWidth="true"></fa-icon>
                 <span *ngIf="!leftMenuHidden">
-                            Holiday Manag.
+                            Holiday
                         </span>
 
             </a>
@@ -118,7 +118,7 @@
 
                 <fa-icon icon="user-clock" fixedWidth="true"></fa-icon>
                 <span *ngIf="!leftMenuHidden">
-                            Attendance Manag.
+                            Attendance
                         </span>
 
             </a>
@@ -165,7 +165,7 @@
 
                 <fa-icon icon="star" fixedWidth="true"></fa-icon>
                 <span *ngIf="!leftMenuHidden">
-                            Leave Manag.
+                            Leave
                         </span>
 
             </a>
@@ -370,7 +370,7 @@
         </li>
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-            *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+            *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_PRODUCTION_ADMIN', 'ROLE_PRODUCTION_MANAGER']">
             <a (click)="production=!production" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
@@ -392,39 +392,17 @@
         </li>
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-            *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER']">
             <a (click)="inventoryManagement=!inventoryManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
                         <fa-icon icon="shopping-basket" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">
-                            Inventory Manag.
+                            Inventory
                         </span>
 
             </a>
             <ul [ngbCollapse]="!inventoryManagement" class="list-unstyled" id="inventory-management">
-                <li>
-                <a class="dropdown-item" routerLink="manufacturer" routerLinkActive="active"
-                   [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
-                    <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
-                    <span *ngIf="!leftMenuHidden">Manufacture</span>
-                </a>
-            </li>
-                <li>
-                    <a class="dropdown-item" routerLink="item-category" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
-                        <fa-icon icon="cube" fixedWidth="true"></fa-icon>
-                        <span *ngIf="!leftMenuHidden">Item Category</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="dropdown-item" routerLink="item-sub-category" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
-                        <fa-icon icon="cubes" fixedWidth="true"></fa-icon>
-                        <span *ngIf="!leftMenuHidden">Item Sub Category</span>
-                    </a>
-                </li>
                 <li>
                     <a class="dropdown-item" routerLink="inventory-location" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }"
@@ -685,14 +663,14 @@
             </ul>
         </li>
 
-        <!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-            *jhiHasAnyAuthority="['ROLE_ADMIN']">
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_COMMERCIAL_ADMIN', 'ROLE_COMMERCIAL_MANAGER']">
             <a (click)="commercialManagement=!commercialManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
                         <fa-icon icon="link" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">
-                            Commercial Manag.
+                            Commercial
                         </span>
 
             </a>
@@ -704,12 +682,6 @@
                         <span *ngIf="!leftMenuHidden">Budget Step</span>
                     </a>
                 </li>
-                &lt;!&ndash;<li>
-                <a class="dropdown-item" routerLink="commercial-product-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                    <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                    <span *ngIf="!leftMenuHidden">Commercial Product Info</span>
-                </a>
-            </li>&ndash;&gt;
                 <li>
                     <a class="dropdown-item" routerLink="commercial-pi" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
@@ -740,7 +712,7 @@
             </ul>
         </li>
 
-        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        <!--<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
             *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER']">
             <a (click)="supplyChainManagement=!supplyChainManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">

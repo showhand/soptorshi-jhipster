@@ -103,6 +103,7 @@ import { LeftSideMenuComponent } from 'app/layouts/left-side-menu/left-side-menu
             multi: true
         }
     ],
+    exports: [ErrorComponent],
     bootstrap: [JhiMainExtendedComponent]
 })
 export class SoptorshiAppModule {

@@ -20,7 +20,7 @@ export const inventorySubLocationExtendedRoute: Routes = [
         path: '',
         component: InventorySubLocationExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'InventorySubLocations'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const inventorySubLocationExtendedRoute: Routes = [
             inventorySubLocation: InventorySubLocationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'InventorySubLocations'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const inventorySubLocationExtendedRoute: Routes = [
             inventorySubLocation: InventorySubLocationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'InventorySubLocations'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const inventorySubLocationExtendedRoute: Routes = [
             inventorySubLocation: InventorySubLocationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'InventorySubLocations'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const inventorySubLocationPopupExtendedRoute: Routes = [
             inventorySubLocation: InventorySubLocationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN'],
             pageTitle: 'InventorySubLocations'
         },
         canActivate: [UserRouteAccessService],

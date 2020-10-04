@@ -36,6 +36,8 @@ export class StockOutItemExtendedComponent extends StockOutItemComponent impleme
     predicate: any;
     reverse: any;
 
+    challan: number;
+
     constructor(
         protected stockOutItemService: StockOutItemExtendedService,
         protected jhiAlertService: JhiAlertService,
@@ -163,5 +165,13 @@ export class StockOutItemExtendedComponent extends StockOutItemComponent impleme
 
     trackInventorySubLocationById(index: number, item: IInventorySubLocation) {
         return item.id;
+    }
+
+    downloadChallan() {
+        if (this.challan) {
+            this.stockOutItemService.generateChallan(this.challan);
+        } else {
+            this.onError('Please enter a stock out id');
+        }
     }
 }

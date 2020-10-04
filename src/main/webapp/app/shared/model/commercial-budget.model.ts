@@ -25,6 +25,7 @@ export const enum TransportType {
 }
 
 export const enum CommercialBudgetStatus {
+    SAVE_AS_DRAFT = 'SAVE_AS_DRAFT',
     WAITING_FOR_APPROVAL = 'WAITING_FOR_APPROVAL',
     APPROVED = 'APPROVED',
     REJECTED = 'REJECTED'

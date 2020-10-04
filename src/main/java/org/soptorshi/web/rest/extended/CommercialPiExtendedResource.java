@@ -2,15 +2,19 @@ package org.soptorshi.web.rest.extended;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.security.AuthoritiesConstants;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.CommercialPiQueryService;
 import org.soptorshi.service.dto.CommercialPiDTO;
 import org.soptorshi.service.extended.CommercialPiExtendedService;
 import org.soptorshi.web.rest.CommercialPiResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -24,32 +28,53 @@ public class CommercialPiExtendedResource extends CommercialPiResource {
 
     private static final String ENTITY_NAME = "commercialPi";
 
-    public CommercialPiExtendedResource(CommercialPiExtendedService commercialPiService, CommercialPiQueryService commercialPiQueryService) {
-        super(commercialPiService, commercialPiQueryService);
+    private final CommercialPiExtendedService commercialPiExtendedService;
+
+    public CommercialPiExtendedResource(CommercialPiExtendedService commercialPiExtendedService, CommercialPiQueryService commercialPiQueryService) {
+        super(commercialPiExtendedService, commercialPiQueryService);
+        this.commercialPiExtendedService = commercialPiExtendedService;
     }
 
-    /**
-     * POST  /commercial-pis : Create a new commercialPi.
-     *
-     * @param commercialPiDTO the commercialPiDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new commercialPiDTO, or with status 400 (Bad Request) if the commercialPi has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
     @PostMapping("/commercial-pis")
     public ResponseEntity<CommercialPiDTO> createCommercialPi(@Valid @RequestBody CommercialPiDTO commercialPiDTO) throws URISyntaxException {
         log.debug("REST request to save CommercialPi : {}", commercialPiDTO);
-        throw new BadRequestAlertException("Post operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        if (commercialPiDTO.getId() != null) {
+            throw new BadRequestAlertException("A new commercialPi cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        CommercialPiDTO result = commercialPiExtendedService.save(commercialPiDTO);
+        return ResponseEntity.created(new URI("/api/commercial-pis/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
-    /**
-     * DELETE  /commercial-pis/:id : delete the "id" commercialPi.
-     *
-     * @param id the id of the commercialPiDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
+    @PutMapping("/commercial-pis")
+    public ResponseEntity<CommercialPiDTO> updateCommercialPi(@Valid @RequestBody CommercialPiDTO commercialPiDTO) throws URISyntaxException {
+        log.debug("REST request to update CommercialPi : {}", commercialPiDTO);
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        if (commercialPiDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        CommercialPiDTO result = commercialPiExtendedService.save(commercialPiDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, commercialPiDTO.getId().toString()))
+            .body(result);
+    }
+
     @DeleteMapping("/commercial-pis/{id}")
     public ResponseEntity<Void> deleteCommercialPi(@PathVariable Long id) {
         log.debug("REST request to delete CommercialPi : {}", id);
-        throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        commercialPiExtendedService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

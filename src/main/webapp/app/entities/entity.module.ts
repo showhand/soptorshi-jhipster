@@ -963,6 +963,14 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'leave-application',
                 loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
+            },
+            {
+                path: 'commercial-payment-info',
+                loadChildren: './commercial-payment-info/commercial-payment-info.module#SoptorshiCommercialPaymentInfoModule'
+            },
+            {
+                path: 'commercial-budget',
+                loadChildren: './commercial-budget/commercial-budget.module#SoptorshiCommercialBudgetModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

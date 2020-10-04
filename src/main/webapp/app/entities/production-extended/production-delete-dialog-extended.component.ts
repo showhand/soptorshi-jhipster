@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,8 +24,30 @@ export class ProductionDeleteDialogExtendedComponent extends ProductionDeleteDia
     selector: 'jhi-production-delete-popup-extended',
     template: ''
 })
-export class ProductionDeletePopupExtendedComponent extends ProductionDeletePopupComponent {
+export class ProductionDeletePopupExtendedComponent extends ProductionDeletePopupComponent implements OnInit {
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
+    }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ production }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(ProductionDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.production = production;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/production', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/production', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
     }
 }

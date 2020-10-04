@@ -20,7 +20,7 @@ export const stockInProcessExtendedRoute: Routes = [
         path: '',
         component: StockInProcessExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'StockInProcesses'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const stockInProcessExtendedRoute: Routes = [
             stockInProcess: StockInProcessExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'StockInProcesses'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const stockInProcessExtendedRoute: Routes = [
             stockInProcess: StockInProcessExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'StockInProcesses'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const stockInProcessExtendedRoute: Routes = [
             stockInProcess: StockInProcessExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'StockInProcesses'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const stockInProcessPopupExtendedRoute: Routes = [
             stockInProcess: StockInProcessExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN'],
             pageTitle: 'StockInProcesses'
         },
         canActivate: [UserRouteAccessService],

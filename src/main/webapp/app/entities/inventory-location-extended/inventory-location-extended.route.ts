@@ -20,7 +20,7 @@ export const inventoryLocationExtendedRoute: Routes = [
         path: '',
         component: InventoryLocationExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'InventoryLocations'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const inventoryLocationExtendedRoute: Routes = [
             inventoryLocation: InventoryLocationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'InventoryLocations'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const inventoryLocationExtendedRoute: Routes = [
             inventoryLocation: InventoryLocationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'InventoryLocations'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const inventoryLocationExtendedRoute: Routes = [
             inventoryLocation: InventoryLocationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN', 'ROLE_INVENTORY_MANAGER'],
             pageTitle: 'InventoryLocations'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const inventoryLocationPopupExtendedRoute: Routes = [
             inventoryLocation: InventoryLocationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_INVENTORY_ADMIN'],
             pageTitle: 'InventoryLocations'
         },
         canActivate: [UserRouteAccessService],
