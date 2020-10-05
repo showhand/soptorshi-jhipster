@@ -188,6 +188,7 @@
                     <label class="form-control-label" for="field_budgetStatus">Budget Status</label>
                     <select class="form-control" name="budgetStatus" [(ngModel)]="commercialBudget.budgetStatus"
                             id="field_budgetStatus" readonly disabled>
+                        <option value="SAVE_AS_DRAFT">SAVE_AS_DRAFT</option>
                         <option value="WAITING_FOR_APPROVAL">WAITING_FOR_APPROVAL</option>
                         <option value="APPROVED">APPROVED</option>
                         <option value="REJECTED">REJECTED</option>
@@ -279,11 +280,10 @@
         </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-6">
         <div>
-            <button id="jh-create-entity" [hidden]="commercialBudget.budgetStatus=='APPROVED'"
+            <button id="jh-create-entity" [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
                     class="btn btn-primary jh-create-entity create-commercial-product-info"
                     [routerLink]="['/commercial-product-info/new']">
                 <fa-icon [icon]="'plus'"></fa-icon>
@@ -295,11 +295,15 @@
     </div>
     <div class="col-6">
         <div style="float: right">
-            <button type="button" id="reject-entity" [hidden]="commercialBudget.budgetStatus=='APPROVED'"
+            <button type="button" [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
+                    class="btn btn-danger" (click)="this.rejected=true;save();">
+                <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Save As Draft</span>
+            </button>
+            <button type="button" id="reject-entity" [hidden]="commercialBudget.budgetStatus=='' || 'SAVE_AS_DRAFT' || 'WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
                     class="btn btn-danger" (click)="this.rejected=true;save();">
                 <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Reject</span>
             </button>
-            <button type="button" id="approve-entity" [hidden]="commercialBudget.budgetStatus=='APPROVED'"
+            <button type="button" id="approve-entity" [hidden]="commercialBudget.budgetStatus=='' || 'SAVE_AS_DRAFT' || 'WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
                     class="btn btn-success" (click)="this.approved=true;save();">
                 <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Approve</span>
             </button>

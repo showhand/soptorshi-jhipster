@@ -34,6 +34,7 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ commercialBudget }) => {
             this.commercialBudget = commercialBudget;
+            this.commercialBudget.budgetStatus = CommercialBudgetStatus.SAVE_AS_DRAFT;
             this.createdOn = this.commercialBudget.createdOn != null ? this.commercialBudget.createdOn.format(DATE_TIME_FORMAT) : null;
             this.updatedOn = this.commercialBudget.updatedOn != null ? this.commercialBudget.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
