@@ -115,6 +115,12 @@ public final class AuthoritiesConstants {
 
     public static final String COMMERCIAL_MANAGER = "ROLE_COMMERCIAL_MANAGER";
 
+    /* -----------Supply Chain Roles------------- */
+
+    public static final String SUPPLY_CHAIN_ADMIN = "ROLE_SUPPLY_CHAIN_ADMIN";
+
+    public static final String SUPPLY_CHAIN_MANAGER = "ROLE_SUPPLY_CHAIN_MANAGER";
+
     private AuthoritiesConstants() {
     }
 }

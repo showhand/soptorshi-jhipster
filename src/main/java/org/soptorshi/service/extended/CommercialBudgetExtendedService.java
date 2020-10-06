@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialBudget;
 import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
+import org.soptorshi.domain.enumeration.CommercialOrderCategory;
 import org.soptorshi.domain.enumeration.PaymentType;
 import org.soptorshi.repository.extended.CommercialBudgetExtendedRepository;
 import org.soptorshi.repository.search.CommercialBudgetSearchRepository;
@@ -12,10 +13,13 @@ import org.soptorshi.service.CommercialBudgetService;
 import org.soptorshi.service.dto.CommercialBudgetDTO;
 import org.soptorshi.service.dto.CommercialPiDTO;
 import org.soptorshi.service.mapper.CommercialBudgetMapper;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,12 +47,6 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
         this.commercialPiExtendedService = commercialPiExtendedService;
     }
 
-    /**
-     * Save a commercialBudget.
-     *
-     * @param commercialBudgetDTO the entity to save
-     * @return the persisted entity
-     */
     @Transactional
     public CommercialBudgetDTO save(CommercialBudgetDTO commercialBudgetDTO) {
         log.debug("Request to save CommercialBudget : {}", commercialBudgetDTO);
@@ -58,7 +56,6 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
 
         if (commercialBudgetDTO.getId() == null) {
             if(!exists(commercialBudgetDTO.getBudgetNo())) {
-                commercialBudgetDTO.setBudgetStatus(CommercialBudgetStatus.WAITING_FOR_APPROVAL);
                 commercialBudgetDTO.setCreatedBy(currentUser);
                 commercialBudgetDTO.setCreatedOn(currentDateTime);
                 CommercialBudget commercialBudget = commercialBudgetMapper.toEntity(commercialBudgetDTO);
@@ -67,10 +64,13 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
                 commercialBudgetSearchRepository.save(commercialBudget);
                 return result;
             }
+            else {
+                throw new BadRequestAlertException("Budget Number Conflict", "commercialBudget", "idexists");
+            }
         } else {
             Optional<CommercialBudget> currentCommercialBudget = commercialBudgetExtendedRepository.findById(commercialBudgetDTO.getId());
             if (currentCommercialBudget.isPresent()) {
-                if (!currentCommercialBudget.get().getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
+                if (!currentCommercialBudget.get().getBudgetStatus().equals(CommercialBudgetStatus.APPROVED) && !currentCommercialBudget.get().getBudgetStatus().equals(CommercialBudgetStatus.REJECTED)) {
                     if (commercialBudgetDTO.getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
                         CommercialPiDTO commercialPiDTO = new CommercialPiDTO();
                         commercialPiDTO.setProformaNo(commercialBudgetDTO.getProformaNo());
@@ -88,6 +88,9 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
                     commercialBudgetSearchRepository.save(commercialBudget);
                     return result;
                 }
+                else {
+                    throw new BadRequestAlertException("Already Approved Budget", "commercialBudget", "invalidaccess");
+                }
             }
         }
         return null;
@@ -95,5 +98,25 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
 
     public boolean exists(String budgetNo) {
         return commercialBudgetExtendedRepository.existsByBudgetNo(budgetNo);
+    }
+
+    public Optional<CommercialBudget> getByBudgetNo(String budgetNo) {
+        return commercialBudgetExtendedRepository.getByBudgetNo(budgetNo);
+    }
+
+    public List<CommercialBudget> getAllByBudgetDateGreaterThanEqualAndBudgetDateLessThanEqual(LocalDate fromDate, LocalDate toDate) {
+        return commercialBudgetExtendedRepository.getAllByBudgetDateGreaterThanEqualAndBudgetDateLessThanEqual(fromDate, toDate);
+    }
+
+    List<CommercialBudget> getAllByTypeAndBudgetDateGreaterThanEqualAndBudgetDateLessThanEqual(CommercialOrderCategory commercialOrderCategory, LocalDate fromDate, LocalDate toDate) {
+        return commercialBudgetExtendedRepository.getAllByTypeAndBudgetDateGreaterThanEqualAndBudgetDateLessThanEqual(commercialOrderCategory, fromDate, toDate);
+    }
+
+    List<CommercialBudget> getAllByBudgetStatusAndBudgetDateGreaterThanEqualAndBudgetDateLessThanEqual(CommercialBudgetStatus commercialBudgetStatus, LocalDate fromDate, LocalDate toDate) {
+        return commercialBudgetExtendedRepository.getAllByBudgetStatusAndBudgetDateGreaterThanEqualAndBudgetDateLessThanEqual(commercialBudgetStatus, fromDate, toDate);
+    }
+
+    List<CommercialBudget> getAll() {
+        return commercialBudgetExtendedRepository.findAll();
     }
 }

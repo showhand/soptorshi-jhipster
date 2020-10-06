@@ -22,4 +22,8 @@ export class CommercialBudgetExtendedComponent extends CommercialBudgetComponent
     ) {
         super(commercialBudgetService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
+
+    generateReport() {
+        this.commercialBudgetService.generateReport();
+    }
 }

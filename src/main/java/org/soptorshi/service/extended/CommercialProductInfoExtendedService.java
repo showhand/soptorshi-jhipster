@@ -14,6 +14,7 @@ import org.soptorshi.service.dto.CommercialBudgetDTO;
 import org.soptorshi.service.dto.CommercialProductInfoCriteria;
 import org.soptorshi.service.dto.CommercialProductInfoDTO;
 import org.soptorshi.service.mapper.CommercialProductInfoMapper;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,19 +52,12 @@ public class CommercialProductInfoExtendedService extends CommercialProductInfoS
         this.commercialBudgetExtendedService = commercialBudgetExtendedService;
     }
 
-    /**
-     * Save a commercialProductInfo.
-     *
-     * @param commercialProductInfoDTO the entity to save
-     * @return the persisted entity
-     */
-
     @Transactional
     public CommercialProductInfoDTO save(CommercialProductInfoDTO commercialProductInfoDTO) {
         log.debug("Request to save CommercialProductInfo : {}", commercialProductInfoDTO);
         Optional<CommercialBudgetDTO> commercialBudgetDTO = commercialBudgetExtendedService.findOne(commercialProductInfoDTO.getCommercialBudgetId());
         if (commercialBudgetDTO.isPresent()) {
-            if (!commercialBudgetDTO.get().getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
+            if (!commercialBudgetDTO.get().getBudgetStatus().equals(CommercialBudgetStatus.WAITING_FOR_APPROVAL) && !commercialBudgetDTO.get().getBudgetStatus().equals(CommercialBudgetStatus.APPROVED) && !commercialBudgetDTO.get().getBudgetStatus().equals(CommercialBudgetStatus.REJECTED)) {
                 String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
                 Instant currentDateTime = Instant.now();
 
@@ -104,6 +98,9 @@ public class CommercialProductInfoExtendedService extends CommercialProductInfoS
                 commercialBudgetExtendedService.save(commercialBudgetDTO.get());
 
                 return result;
+            }
+            else {
+                throw new BadRequestAlertException("Budget is Waiting for approval or in Accepted/Rejected State", "commercialProductInfo", "invalidaccess");
             }
         }
         return null;

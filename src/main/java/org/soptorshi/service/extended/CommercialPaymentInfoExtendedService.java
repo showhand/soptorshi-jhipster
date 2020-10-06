@@ -44,12 +44,6 @@ public class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
         this.commercialPoExtendedService = commercialPoExtendedService;
     }
 
-    /**
-     * Save a commercialPaymentInfo.
-     *
-     * @param commercialPaymentInfoDTO the entity to save
-     * @return the persisted entity
-     */
     @Transactional
     public CommercialPaymentInfoDTO save(CommercialPaymentInfoDTO commercialPaymentInfoDTO) {
         log.debug("Request to save CommercialPaymentInfo : {}", commercialPaymentInfoDTO);

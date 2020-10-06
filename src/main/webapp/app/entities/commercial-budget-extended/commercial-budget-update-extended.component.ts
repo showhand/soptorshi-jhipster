@@ -19,6 +19,8 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
     commercialProductInfos: ICommercialProductInfo[];
     approved: boolean = false;
     rejected: boolean = false;
+    saveAsDraft: boolean = false;
+    waitingForApproval: boolean = false;
 
     constructor(
         protected commercialBudgetService: CommercialBudgetExtendedService,
@@ -97,10 +99,13 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
 
     save() {
         this.isSaving = true;
-        if (this.approved) {
+        if (this.saveAsDraft) {
+            this.commercialBudget.budgetStatus = CommercialBudgetStatus.SAVE_AS_DRAFT;
+        } else if (this.waitingForApproval) {
+            this.commercialBudget.budgetStatus = CommercialBudgetStatus.WAITING_FOR_APPROVAL;
+        } else if (this.approved) {
             this.commercialBudget.budgetStatus = CommercialBudgetStatus.APPROVED;
-        }
-        if (this.rejected) {
+        } else if (this.rejected) {
             this.commercialBudget.budgetStatus = CommercialBudgetStatus.REJECTED;
         }
         this.commercialBudget.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;

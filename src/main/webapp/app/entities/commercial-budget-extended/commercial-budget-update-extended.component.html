@@ -296,14 +296,18 @@
     <div class="col-6">
         <div style="float: right">
             <button type="button" [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
-                    class="btn btn-danger" (click)="this.rejected=true;save();">
+                    class="btn btn-danger" (click)="this.saveAsDraft=true;save();">
                 <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Save As Draft</span>
             </button>
-            <button type="button" id="reject-entity" [hidden]="commercialBudget.budgetStatus=='' || 'SAVE_AS_DRAFT' || 'WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
+            <button type="button" [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
+                    class="btn btn-danger" (click)="this.rejected=true;save();">
+                <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Send For Approval</span>
+            </button>
+            <button type="button" id="reject-entity" [hidden]="commercialBudget.budgetStatus=='APPROVED' || 'REJECTED'"
                     class="btn btn-danger" (click)="this.rejected=true;save();">
                 <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Reject</span>
             </button>
-            <button type="button" id="approve-entity" [hidden]="commercialBudget.budgetStatus=='' || 'SAVE_AS_DRAFT' || 'WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
+            <button type="button" id="approve-entity" [hidden]="commercialBudget.budgetStatus=='APPROVED' || 'REJECTED'"
                     class="btn btn-success" (click)="this.approved=true;save();">
                 <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Approve</span>
             </button>
