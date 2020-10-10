@@ -216,7 +216,7 @@
     </div>
 </div>
 
-<div class="row" *ngIf="commercialProductInfos">
+<div class="row" *ngIf="commercialProductInfos && commercialBudget.id">
     <div class="col-12">
         <div class="table-responsive">
             <table class="table table-striped">
@@ -266,7 +266,7 @@
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
-                            <button type="submit" [hidden]="commercialBudget.budgetStatus=='APPROVED'"
+                            <button type="submit" [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || commercialBudget.budgetStatus=='APPROVED' || commercialBudget.budgetStatus=='REJECTED'"
                                     [routerLink]="['/commercial-product-info', commercialProductInfo.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
@@ -283,9 +283,10 @@
 <div class="row">
     <div class="col-6">
         <div>
-            <button id="jh-create-entity" [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
+            <button id="jh-create-entity"
+                    [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || commercialBudget.budgetStatus=='APPROVED' || commercialBudget.budgetStatus=='REJECTED'"
                     class="btn btn-primary jh-create-entity create-commercial-product-info"
-                    [routerLink]="['/commercial-product-info/new']">
+                    [routerLink]="['/commercial-product-info', commercialBudget.id ,'new']">
                 <fa-icon [icon]="'plus'"></fa-icon>
                 <span class="hidden-sm-down">
              Add Products
@@ -295,22 +296,28 @@
     </div>
     <div class="col-6">
         <div style="float: right">
-            <button type="button" [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
-                    class="btn btn-danger" (click)="this.saveAsDraft=true;save();">
-                <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Save As Draft</span>
+            <button type="button"
+                    [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || commercialBudget.budgetStatus=='APPROVED' || commercialBudget.budgetStatus=='REJECTED'"
+                    class="btn btn-info" (click)="this.saveAsDraft=true;save();">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save As Draft</span>
             </button>
-            <button type="button" [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || 'APPROVED' || 'REJECTED'"
-                    class="btn btn-danger" (click)="this.rejected=true;save();">
-                <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Send For Approval</span>
+            <button type="button"
+                    [hidden]="commercialBudget.budgetStatus=='WAITING_FOR_APPROVAL' || commercialBudget.budgetStatus=='APPROVED' || commercialBudget.budgetStatus=='REJECTED'"
+                    class="btn btn-secondary" (click)="this.waitingForApproval=true;save();">
+                &nbsp;<span>Send For Approval</span>
             </button>
-            <button type="button" id="reject-entity" [hidden]="commercialBudget.budgetStatus=='APPROVED' || 'REJECTED'"
-                    class="btn btn-danger" (click)="this.rejected=true;save();">
-                <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Reject</span>
-            </button>
-            <button type="button" id="approve-entity" [hidden]="commercialBudget.budgetStatus=='APPROVED' || 'REJECTED'"
-                    class="btn btn-success" (click)="this.approved=true;save();">
-                <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Approve</span>
-            </button>
+            <div [hidden]="isAdmin==false">
+                <button type="button" id="reject-entity"
+                        [hidden]="commercialBudget.budgetStatus=='SAVE_AS_DRAFT' || commercialBudget.budgetStatus=='APPROVED' || commercialBudget.budgetStatus=='REJECTED'"
+                        class="btn btn-danger" (click)="this.rejected=true;save();">
+                    <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Reject</span>
+                </button>
+                <button type="button" id="approve-entity"
+                        [hidden]="commercialBudget.budgetStatus=='SAVE_AS_DRAFT' || commercialBudget.budgetStatus=='APPROVED' || commercialBudget.budgetStatus=='REJECTED'"
+                        class="btn btn-success" (click)="this.approved=true;save();">
+                    <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Approve</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

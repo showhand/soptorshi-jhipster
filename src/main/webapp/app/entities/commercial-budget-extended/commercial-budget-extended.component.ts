@@ -26,4 +26,19 @@ export class CommercialBudgetExtendedComponent extends CommercialBudgetComponent
     generateReport() {
         this.commercialBudgetService.generateReport();
     }
+
+    search(query) {
+        if (!query) {
+            return this.clear();
+        }
+        this.commercialBudgets = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = 'id';
+        this.reverse = false;
+        this.currentSearch = query;
+        this.loadAll();
+    }
 }

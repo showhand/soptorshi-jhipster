@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommercialBudgetExtendedService } from './commercial-budget-extended.service';
 import { CommercialBudgetUpdateComponent } from 'app/entities/commercial-budget';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { CommercialProductInfoExtendedService } from 'app/entities/commercial-product-info-extended';
 import { ICommercialPi } from 'app/shared/model/commercial-pi.model';
 import { CommercialPiExtendedService } from 'app/entities/commercial-pi-extended';
+import { AccountService } from 'app/core';
 
 @Component({
     selector: 'jhi-commercial-budget-update-extended',
@@ -22,11 +23,20 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
     saveAsDraft: boolean = false;
     waitingForApproval: boolean = false;
 
+    showSaveAsDraftBtn: boolean = false;
+    showWaitingForApprovalBtn: boolean = false;
+    showApproveBtn: boolean = false;
+    showRejectBtn: boolean = false;
+
+    isAdmin: boolean = false;
+
     constructor(
         protected commercialBudgetService: CommercialBudgetExtendedService,
         protected activatedRoute: ActivatedRoute,
         protected commercialProductInfoService: CommercialProductInfoExtendedService,
-        protected commercialPiService: CommercialPiExtendedService
+        protected commercialPiService: CommercialPiExtendedService,
+        protected router: Router,
+        protected accountService: AccountService
     ) {
         super(commercialBudgetService, activatedRoute);
         this.commercialProductInfos = [];
@@ -36,13 +46,17 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ commercialBudget }) => {
             this.commercialBudget = commercialBudget;
-            this.commercialBudget.budgetStatus = CommercialBudgetStatus.SAVE_AS_DRAFT;
+            if (!this.commercialBudget.id) {
+                this.commercialBudget.budgetStatus = CommercialBudgetStatus.SAVE_AS_DRAFT;
+            }
             this.createdOn = this.commercialBudget.createdOn != null ? this.commercialBudget.createdOn.format(DATE_TIME_FORMAT) : null;
             this.updatedOn = this.commercialBudget.updatedOn != null ? this.commercialBudget.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
         this.generateNewBudgetNumber();
         this.generateNewPiNumber();
         this.getProductInfo();
+
+        this.isAdmin = this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_COMMERCIAL_ADMIN']);
     }
 
     generateNewBudgetNumber() {
@@ -119,9 +133,7 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
 
     protected onSaveSuccess() {
         this.isSaving = true;
-        if (this.approved || this.rejected) {
-            this.previousState();
-        }
+        this.previousState();
     }
 
     getProductInfo() {

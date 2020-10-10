@@ -68,8 +68,10 @@ public class CommercialPiExtendedService extends CommercialPiService {
             return result;
         } else {
             Optional<CommercialPi> currentCommercialPi = commercialPiRepository.findById(commercialPiDTO.getId());
+
             if (currentCommercialPi.isPresent()) {
                 if (currentCommercialPi.get().getPiStatus().equals(CommercialPiStatus.WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER)) {
+
                     if (commercialPiDTO.getPiStatus().equals(CommercialPiStatus.PI_APPROVED_BY_THE_CUSTOMER)) {
                         if (commercialPiDTO.getPurchaseOrderNo().isEmpty()) {
                             throw new BadRequestAlertException("Purchase order number is empty", "commercialPi", "idnull");
@@ -82,7 +84,8 @@ public class CommercialPiExtendedService extends CommercialPiService {
                         commercialPaymentInfoDTO.setPaymentType(commercialPiDTO.getPaymentType());
                         commercialPaymentInfoDTO.setTotalAmountPaid(BigDecimal.ZERO);
                         commercialPaymentInfoDTO.setRemainingAmountToPay(BigDecimal.ZERO);
-                        commercialPaymentInfoDTO.setTotalAmountToPay(BigDecimal.ZERO);
+                        // Temporary Solution
+                        commercialPaymentInfoDTO.setTotalAmountToPay(BigDecimal.valueOf(Double.parseDouble(commercialPiDTO.getUpdatedBy())));
                         commercialPaymentInfoExtendedService.save(commercialPaymentInfoDTO);
                     }
                     commercialPiDTO.setUpdatedBy(currentUser);

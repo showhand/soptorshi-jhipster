@@ -138,6 +138,7 @@ public class CommercialReportService {
             pdfPCell = new PdfPCell(new Paragraph("Company Name: " + commercialBudget.getCompanyName(), TIME_ROMAN_11));
             pdfPCell.setRowspan(commercialProductInfoDTOs.size() + 3);
             pdfPCell.setColspan(5);
+            pdfPTable.addCell(pdfPCell);
 
             innerPdfPTable = new PdfPTable(9);
             innerPdfPTable.setWidthPercentage(100);
@@ -238,6 +239,9 @@ public class CommercialReportService {
                 innerPdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
                 innerPdfPTable.addCell(innerPdfPCell);
             }
+
+            pdfPCell = new PdfPCell(innerPdfPTable);
+            pdfPTable.addCell(pdfPCell);
         }
 
         document.add(pdfPTable);

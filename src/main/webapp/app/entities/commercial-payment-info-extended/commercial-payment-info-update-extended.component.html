@@ -2,9 +2,9 @@
     <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-commercial-payment-info-heading">Create or edit a Commercial Payment Info</h2>
+            <jhi-alert-error></jhi-alert-error>
             <div class="row">
                 <div class="col-3">
-                    <jhi-alert-error></jhi-alert-error>
                     <div class="form-group" [hidden]="!commercialPaymentInfo.id">
                         <label for="id">ID</label>
                         <input type="text" class="form-control" id="id" name="id"

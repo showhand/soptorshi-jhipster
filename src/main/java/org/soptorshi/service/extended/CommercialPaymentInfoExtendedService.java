@@ -16,6 +16,7 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -50,6 +51,27 @@ public class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
 
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
+
+        if(commercialPaymentInfoDTO.getTotalAmountToPay().compareTo(BigDecimal.ZERO) >= 0) {
+            if (commercialPaymentInfoDTO.getTotalAmountPaid() == null && commercialPaymentInfoDTO.getRemainingAmountToPay() == null) {
+
+            }
+            else {
+                if(commercialPaymentInfoDTO.getTotalAmountPaid().compareTo(BigDecimal.ZERO) == 0 && commercialPaymentInfoDTO.getRemainingAmountToPay().compareTo(BigDecimal.ZERO) == 0) {}
+                else {
+                    BigDecimal val1 = commercialPaymentInfoDTO.getTotalAmountPaid();
+                    BigDecimal val2 = commercialPaymentInfoDTO.getRemainingAmountToPay();
+                    BigDecimal sum = val1.add(val2);
+
+                    if (commercialPaymentInfoDTO.getTotalAmountToPay().compareTo(sum) != 0) {
+                        throw new BadRequestAlertException("Paid amount and remaining amount needs to be equal with total Payment", "CommercialPaymentInfo", "idnull");
+                    }
+                }
+            }
+        }
+        else {
+            throw new BadRequestAlertException("Total Amount Can not be Zero", "CommercialPaymentInfo", "idnull");
+        }
 
         if (commercialPaymentInfoDTO.getId() == null) {
             commercialPaymentInfoDTO.setPaymentStatus(CommercialPaymentStatus.WAITING_FOR_PAYMENT_CONFIRMATION);

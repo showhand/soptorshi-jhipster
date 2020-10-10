@@ -81,7 +81,7 @@ public class CommercialPi implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private CommercialBudget commercialBudget;
 

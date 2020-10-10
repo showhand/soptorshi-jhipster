@@ -78,6 +78,8 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
                         commercialPiDTO.setPaymentType(commercialBudgetDTO.getPaymentType() == null ? PaymentType.OTHERS : commercialBudgetDTO.getPaymentType());
                         commercialPiDTO.setCommercialBudgetId(commercialBudgetDTO.getId());
                         commercialPiDTO.setCommercialBudgetBudgetNo(commercialBudgetDTO.getBudgetNo());
+                        // Temporary Solution, Need to fix as soon as possible.
+                        commercialPiDTO.setUpdatedBy(commercialBudgetDTO.getTotalOfferedPrice().toString());
                         commercialPiExtendedService.save(commercialPiDTO);
                     }
                     commercialBudgetDTO.setUpdatedBy(currentUser);

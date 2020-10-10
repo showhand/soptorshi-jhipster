@@ -55,7 +55,8 @@ public class CommercialPiExtendedResource extends CommercialPiResource {
     public ResponseEntity<CommercialPiDTO> updateCommercialPi(@Valid @RequestBody CommercialPiDTO commercialPiDTO) throws URISyntaxException {
         log.debug("REST request to update CommercialPi : {}", commercialPiDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN)) {
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.COMMERCIAL_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
         if (commercialPiDTO.getId() == null) {
